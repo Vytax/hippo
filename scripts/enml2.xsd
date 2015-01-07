@@ -1,0 +1,4745 @@
+<schema
+  xmlns='http://www.w3.org/2000/10/XMLSchema'
+  targetNamespace='http://www.w3.org/namespace/'
+  xmlns:t='http://www.w3.org/namespace/'>
+
+ <element name='en-note'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='bgcolor' type='string' use='optional'/>
+   <attribute name='text' type='string' use='optional'/>
+   <attribute name='xmlns' type='string' use='fixed' value='http://xml.evernote.com/pub/enml2.dtd'/>
+  </complexType>
+ </element>
+
+ <element name='en-crypt'>
+  <complexType mixed='true'>
+   <attribute name='hint' type='string' use='optional'/>
+   <attribute name='cipher' type='string' use='default' value='RC2'/>
+   <attribute name='length' type='string' use='default' value='64'/>
+  </complexType>
+ </element>
+
+ <element name='en-todo'>
+  <complexType>
+   <attribute name='checked' use='default' value='false'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='true'/>
+      <enumeration value='false'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='en-media'>
+  <complexType>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='type' type='string' use='required'/>
+   <attribute name='hash' type='string' use='required'/>
+   <attribute name='height' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='usemap' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='border' type='string' use='optional'/>
+   <attribute name='hspace' type='string' use='optional'/>
+   <attribute name='vspace' type='string' use='optional'/>
+   <attribute name='longdesc' type='string' use='optional'/>
+   <attribute name='alt' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='a'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='accesskey' type='string' use='optional'/>
+   <attribute name='tabindex' type='string' use='optional'/>
+   <attribute name='charset' type='string' use='optional'/>
+   <attribute name='type' type='string' use='optional'/>
+   <attribute name='name' type='string' use='optional'/>
+   <attribute name='href' type='string' use='optional'/>
+   <attribute name='hreflang' type='string' use='optional'/>
+   <attribute name='rel' type='string' use='optional'/>
+   <attribute name='rev' type='string' use='optional'/>
+   <attribute name='shape' type='string' use='optional'/>
+   <attribute name='coords' type='string' use='optional'/>
+   <attribute name='target' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='abbr'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='acronym'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='address'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='area'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='accesskey' type='string' use='optional'/>
+   <attribute name='tabindex' type='string' use='optional'/>
+   <attribute name='shape' type='string' use='optional'/>
+   <attribute name='coords' type='string' use='optional'/>
+   <attribute name='href' type='string' use='optional'/>
+   <attribute name='nohref' type='string' use='optional'/>
+   <attribute name='alt' type='string' use='optional'/>
+   <attribute name='target' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='b'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='bdo'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='big'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='blockquote'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='cite' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='br'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='clear' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='caption'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='center'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='cite'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='code'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='col'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+   <attribute name='span' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='colgroup'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+   <attribute name='span' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='dd'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='del'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='cite' type='string' use='optional'/>
+   <attribute name='datetime' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='dfn'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='div'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='dl'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='compact' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='dt'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='em'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='font'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='size' type='string' use='optional'/>
+   <attribute name='color' type='string' use='optional'/>
+   <attribute name='face' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h1'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h2'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h3'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h4'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h5'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='h6'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='hr'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='noshade' type='string' use='optional'/>
+   <attribute name='size' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='i'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='img'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='src' type='string' use='optional'/>
+   <attribute name='alt' type='string' use='optional'/>
+   <attribute name='name' type='string' use='optional'/>
+   <attribute name='longdesc' type='string' use='optional'/>
+   <attribute name='height' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='usemap' type='string' use='optional'/>
+   <attribute name='ismap' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='border' type='string' use='optional'/>
+   <attribute name='hspace' type='string' use='optional'/>
+   <attribute name='vspace' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='ins'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='cite' type='string' use='optional'/>
+   <attribute name='datetime' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='kbd'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='li'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='type' type='string' use='optional'/>
+   <attribute name='value' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='map'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='name' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='ol'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='type' type='string' use='optional'/>
+   <attribute name='compact' type='string' use='optional'/>
+   <attribute name='start' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='p'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='pre'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='xml:space' use='fixed' value='preserve'/>
+  </complexType>
+ </element>
+
+ <element name='q'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='cite' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='s'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='samp'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='small'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='span'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='strike'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='strong'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='sub'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='sup'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='table'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='summary' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='border' type='string' use='optional'/>
+   <attribute name='cellspacing' type='string' use='optional'/>
+   <attribute name='cellpadding' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='bgcolor' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='tbody'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='td'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+   <attribute name='abbr' type='string' use='optional'/>
+   <attribute name='rowspan' type='string' use='optional'/>
+   <attribute name='colspan' type='string' use='optional'/>
+   <attribute name='nowrap' type='string' use='optional'/>
+   <attribute name='bgcolor' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='height' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='tfoot'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='th'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+   <attribute name='abbr' type='string' use='optional'/>
+   <attribute name='rowspan' type='string' use='optional'/>
+   <attribute name='colspan' type='string' use='optional'/>
+   <attribute name='nowrap' type='string' use='optional'/>
+   <attribute name='bgcolor' type='string' use='optional'/>
+   <attribute name='width' type='string' use='optional'/>
+   <attribute name='height' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='thead'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='tr'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='align' type='string' use='optional'/>
+   <attribute name='char' type='string' use='optional'/>
+   <attribute name='charoff' type='string' use='optional'/>
+   <attribute name='valign' type='string' use='optional'/>
+   <attribute name='bgcolor' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='tt'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='u'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='ul'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+   <attribute name='type' type='string' use='optional'/>
+   <attribute name='compact' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='var'>
+  <complexType mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:a'/>
+    <element ref='t:abbr'/>
+    <element ref='t:acronym'/>
+    <element ref='t:address'/>
+    <element ref='t:area'/>
+    <element ref='t:b'/>
+    <element ref='t:bdo'/>
+    <element ref='t:big'/>
+    <element ref='t:blockquote'/>
+    <element ref='t:br'/>
+    <element ref='t:caption'/>
+    <element ref='t:center'/>
+    <element ref='t:cite'/>
+    <element ref='t:code'/>
+    <element ref='t:col'/>
+    <element ref='t:colgroup'/>
+    <element ref='t:dd'/>
+    <element ref='t:del'/>
+    <element ref='t:dfn'/>
+    <element ref='t:div'/>
+    <element ref='t:dl'/>
+    <element ref='t:dt'/>
+    <element ref='t:em'/>
+    <element ref='t:en-crypt'/>
+    <element ref='t:en-media'/>
+    <element ref='t:en-todo'/>
+    <element ref='t:font'/>
+    <element ref='t:h1'/>
+    <element ref='t:h2'/>
+    <element ref='t:h3'/>
+    <element ref='t:h4'/>
+    <element ref='t:h5'/>
+    <element ref='t:h6'/>
+    <element ref='t:hr'/>
+    <element ref='t:i'/>
+    <element ref='t:img'/>
+    <element ref='t:ins'/>
+    <element ref='t:kbd'/>
+    <element ref='t:li'/>
+    <element ref='t:map'/>
+    <element ref='t:ol'/>
+    <element ref='t:p'/>
+    <element ref='t:pre'/>
+    <element ref='t:q'/>
+    <element ref='t:s'/>
+    <element ref='t:samp'/>
+    <element ref='t:small'/>
+    <element ref='t:span'/>
+    <element ref='t:strike'/>
+    <element ref='t:strong'/>
+    <element ref='t:sub'/>
+    <element ref='t:sup'/>
+    <element ref='t:table'/>
+    <element ref='t:tbody'/>
+    <element ref='t:td'/>
+    <element ref='t:tfoot'/>
+    <element ref='t:th'/>
+    <element ref='t:thead'/>
+    <element ref='t:tr'/>
+    <element ref='t:tt'/>
+    <element ref='t:u'/>
+    <element ref='t:ul'/>
+    <element ref='t:var'/>
+   </choice>
+   <attribute name='style' type='string' use='optional'/>
+   <attribute name='title' type='string' use='optional'/>
+   <attribute name='lang' type='string' use='optional'/>
+   <attribute name='xml:lang' type='string' use='optional'/>
+   <attribute name='dir' type='string' use='optional'/>
+  </complexType>
+ </element>
+</schema>

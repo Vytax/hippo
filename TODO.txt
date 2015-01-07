@@ -1,0 +1,6 @@
+Dingsta atidaryto note tagai po sinchronizacijos
+Backspace viską ištrina
+setStatusTip()
+išsaugoti naują turinį prieš FullSync
+supušinti pakeitimus prieš FullSync
+

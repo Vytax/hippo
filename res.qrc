@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/evernote64.png</file>
+        <file>img/encrypted_text_button.gif</file>
+        <file>img/application-pdf.png</file>
+        <file>html/prototype.js</file>
+        <file>img/loading.gif</file>
+        <file>img/zoom-in.png</file>
+        <file>img/zoom-out.png</file>
+        <file>img/go-next-view.png</file>
+        <file>img/go-previous-view.png</file>
+        <file>img/application-octet-stream.png</file>
+        <file>html/editor.js</file>
+        <file>html/style.css</file>
+        <file>html/pdfbrowser.js</file>
+        <file>img/dialog-close.png</file>
+        <file>html/noteajax.html</file>
+        <file>html/mainajax.html</file>
+        <file>scripts/enml2.xsd</file>
+        <file>img/tag.png</file>
+        <file>img/tag_add.png</file>
+        <file>img/sync.png</file>
+        <file>img/hippo.svg</file>
+        <file>img/hippo64.png</file>
+    </qresource>
+</RCC>
