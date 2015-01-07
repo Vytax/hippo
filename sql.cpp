@@ -1,9 +1,10 @@
 #include "sql.h"
 
-#include <QDebug>
 #include <QStringList>
 #include <QVariant>
 #include <QUuid>
+#include <QDir>
+#include <QDesktopServices>
 #include <QDebug>
 
 QString newGUID(QString table, QString column) {
@@ -47,10 +48,17 @@ void BindSQLArray(QSqlQuery &query, QStringList values)
 sql::sql(QObject *parent) :
     QObject(parent)
 {
+    QString dataDir = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+
+    QDir dir(dataDir);
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
     db = QSqlDatabase::addDatabase("QSQLITE");
     if (!db.isValid())
         qDebug() << "DB Klaida";
-    db.setDatabaseName("db.sql");
+    db.setDatabaseName(dataDir + QDir::separator() + "db.sql");
     db.open();
 }
 
