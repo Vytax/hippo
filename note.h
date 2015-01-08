@@ -174,6 +174,7 @@ public:
     static void editField(QString guid, int field);
     void removeField(int field);
     static void removeField(QString guid, int field);
+    static void writeConflict(QString id, QString hash, qint64 updatedT);
 
 
     QString getContent();

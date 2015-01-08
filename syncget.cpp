@@ -109,7 +109,7 @@ void SyncGet::GetSyncChunk(qint32 afterUSN, qint32 maxEntries)
                     QString contentHash = n[4].toByteArray().toHex();
 
                     if (contentHash.compare(note->getContentHash(), Qt::CaseInsensitive) != 0) {
-                        writeNoteConflict(note->getGuid(), note->getContentHash(),note->getUpdated().toMSecsSinceEpoch());
+                        Note::writeConflict(note->getGuid(), note->getContentHash(),note->getUpdated().toMSecsSinceEpoch());
                         qDebug() << "Content!";
                     }
                     n.remove(7); // Updated
@@ -386,15 +386,4 @@ int SyncGet::modificationsCount()
     return count;
 }
 
-void SyncGet::writeNoteConflict(QString guid, QString hash, qint64 updated) {
 
-    if (guid.isEmpty() || hash.isEmpty())
-        return;
-
-    QSqlQuery query;
-    query.prepare("REPLACE INTO conflictingNotes (guid, contentHash, updated) VALUES (:guid, :contentHash, :updated)");
-    query.bindValue(":guid", guid);
-    query.bindValue(":contentHash", hash);
-    query.bindValue(":updated", updated);
-    query.exec();
-}

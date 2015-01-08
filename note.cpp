@@ -734,3 +734,16 @@ void Note::updateAuthor(QString author) {
     editField(T_ATTRIBUTES);
     writeSQLAttributes();
 }
+
+void Note::writeConflict(QString id, QString hash, qint64 updatedT) {
+
+    if (id.isEmpty() || hash.isEmpty())
+        return;
+
+    QSqlQuery query;
+    query.prepare("REPLACE INTO conflictingNotes (guid, contentHash, updated) VALUES (:guid, :contentHash, :updated)");
+    query.bindValue(":guid", id);
+    query.bindValue(":contentHash", hash);
+    query.bindValue(":updated", updatedT);
+    query.exec();
+}
