@@ -15,20 +15,6 @@ SyncGet::SyncGet(QObject *parent):
     canceled = false;
 }
 
-QByteArray SyncGet::createGetSyncChunkPost(qint32 afterUSN, qint32 maxEntries, bool fullSyncOnly)
-{
-    TBinaryProtocol *bin = new TBinaryProtocol();
-    bin->writeMessageBegin("getSyncChunk", T_CALL, 0);
-    bin->writeString(EdamProtocol::GetInstance()->getAuthenticationToken(), 1);
-    bin->writeI32(afterUSN, 2);
-    bin->writeI32(maxEntries, 3);
-    bin->writeBool(fullSyncOnly, 4);
-    bin->writeFieldStop();
-    QByteArray result = bin->getData();
-    delete bin;
-    return result;
-}
-
 QByteArray SyncGet::createGetFilteredSyncChunkPost(qint32 afterUSN, qint32 maxEntries)
 {
     TBinaryProtocol *bin = new TBinaryProtocol();

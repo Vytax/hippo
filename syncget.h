@@ -20,7 +20,6 @@ private:
     qint64 firstUSN;
     bool canceled;
 
-    QByteArray createGetSyncChunkPost(qint32 afterUSN, qint32 maxEntries, bool fullSyncOnly = false);
     QByteArray createGetFilteredSyncChunkPost(qint32 afterUSN, qint32 maxEntries);
     QByteArray createGetSyncStatePost();
     void GetSyncChunk(qint32 afterUSN, qint32 maxEntries);
