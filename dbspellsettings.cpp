@@ -1,15 +1,19 @@
 #include "dbspellsettings.h"
 #include "sql.h"
 
+#include <QWebFrame>
 #include <QDebug>
 
-DBSpellSettings::DBSpellSettings(QObject *parent) : SpellSettings(parent)
+DBSpellSettings::DBSpellSettings(QObject *parent, QWebView *editor) : SpellSettings(parent), m_editor(editor)
 {
 }
 
 bool DBSpellSettings::isEnabled() {
 
-    qDebug() << "DBSpellSettings::isEnabled()";
+    if (m_editor)
+        if (!m_editor->page()->mainFrame()->evaluateJavaScript("editMode").toBool())
+            return false;
+
     return sql::readSyncStatus("spellingEnabled", true).toBool();
 }
 

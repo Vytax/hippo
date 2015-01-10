@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     edam->setCNAM(nm);
     ui->editor->page()->setNetworkAccessManager(nm);
 
-    Speller::setSettings(new DBSpellSettings(this));
+    Speller::setSettings(new DBSpellSettings(this, ui->editor));
 
     ui->editor->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->editor->load(QUrl("qrc:///html/noteajax.html"));
