@@ -36,6 +36,10 @@
 #include <QPrinter>
 #include <QPrintDialog>
 
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
+
 #include <QDebug>
 
 
@@ -1265,7 +1269,11 @@ void MainWindow::exportNote() {
     dialog.setNameFilters(filters);
     dialog.setWindowTitle("Save File As");
     dialog.setNameFilterDetailsVisible(true);
+#if QT_VERSION >= 0x050000
+    dialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0) + QDir::separator());
+#else
     dialog.setDirectory(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator());
+#endif
     dialog.selectFile(JS("title").toString());
     dialog.setDefaultSuffix("pdf");
 
@@ -1278,7 +1286,7 @@ void MainWindow::exportNote() {
 
     QString dir = dialog.directory().absolutePath();
 
-    QString filter = dialog.selectedFilter();
+    QString filter = dialog.selectedNameFilter();
     int idx = filters.indexOf(filter);
 
     if (idx == 0) {

@@ -4,8 +4,13 @@
 #include <QVariant>
 #include <QUuid>
 #include <QDir>
-#include <QDesktopServices>
 #include <QDebug>
+
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
 
 QString newGUID(QString table, QString column) {
     qDebug() << "newGUID()";
@@ -48,7 +53,11 @@ void BindSQLArray(QSqlQuery &query, QStringList values)
 sql::sql(QObject *parent) :
     QObject(parent)
 {
+#if QT_VERSION >= 0x050000
+    QString dataDir = QStandardPaths::standardLocations(QStandardPaths::DataLocation).at(0);
+#else
     QString dataDir = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#endif
 
     QDir dir(dataDir);
     if (!dir.exists()) {
