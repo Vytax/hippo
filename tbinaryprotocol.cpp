@@ -230,6 +230,9 @@ QVariant TBinaryProtocol::readVariant(TType fieldType)
     else if (fieldType == T_DOUBLE) {
         return QVariant(readDouble());
     }
+    else if (fieldType == T_SET) {
+        return QVariant(readList());
+    }
     else {
         qDebug() << "Unknown Tag:" << fieldType;
         return QVariant();
