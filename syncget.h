@@ -22,7 +22,7 @@ private:
 
     QByteArray createGetFilteredSyncChunkPost(qint32 afterUSN, qint32 maxEntries);
     QByteArray createGetSyncStatePost();
-    void GetSyncChunk(qint32 afterUSN, qint32 maxEntries);
+    void GetSyncChunk(qint32 &afterUSN, bool &lastChunk);
     void GetSyncState(qint64 &currentTime, qint64 &fullSyncBefore, qint32 &updateCount, qint64 &uploaded);
     int modificationsCount();    
 

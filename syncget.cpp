@@ -43,9 +43,11 @@ QByteArray SyncGet::createGetFilteredSyncChunkPost(qint32 afterUSN, qint32 maxEn
     return result;
 }
 
-void SyncGet::GetSyncChunk(qint32 afterUSN, qint32 maxEntries)
+void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 {
     qDebug() << "GetSyncChunk "  << afterUSN;
+
+    qint32 maxEntries = 500;
     QByteArray postData = createGetFilteredSyncChunkPost(afterUSN, maxEntries);
 
     bool ok;
@@ -72,9 +74,17 @@ void SyncGet::GetSyncChunk(qint32 afterUSN, qint32 maxEntries)
     hash SyncChunk = data[0].value<hash>();
     qDebug() << SyncChunk.keys();
 
+    qint32 updateCount;
+    qint32 chunkHighUSN;
+
     //currentTime = SyncChunk[1].toLongLong();
-    //currentUSN = SyncChunk[2].toInt();
-    qint32 updateCount = SyncChunk[3].toInt();
+    if (SyncChunk.contains(2))
+        chunkHighUSN = SyncChunk[2].toInt();
+    if (SyncChunk.contains(3))
+        updateCount = SyncChunk[3].toInt();
+
+    lastChunk = (chunkHighUSN >= updateCount) || (chunkHighUSN == 0) || (updateCount == 0);
+    afterUSN = chunkHighUSN;
 
     qDebug() <<  SyncChunk[2].toInt();
     qDebug() << EdamProtocol::GetInstance()->getSyncEngine()->getUSN() << updateCount;
@@ -310,12 +320,13 @@ void SyncGet::sync()
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     qint64 fullSyncBefore = 0;
-    qint32 updateCount = 0;
+    qint32 lastUpdateCount = 0;
     qint64 uploaded;
 
-    GetSyncState(currentTime, fullSyncBefore, updateCount, uploaded);
+    GetSyncState(currentTime, fullSyncBefore, lastUpdateCount, uploaded);
+    qDebug() << "SyncState" << lastUpdateCount;
 
-    if (updateCount == 0) {
+    if (lastUpdateCount == 0) {
         emit syncFinished();
         return;
     }
@@ -323,29 +334,30 @@ void SyncGet::sync()
     sql::updateSyncStatus("uploaded", uploaded);
 
     bool fullSync = false;
-    if ((modificationsCount() == 0) && ((fullSyncBefore > LastFullSyncDate) || (EdamProtocol::GetInstance()->getSyncEngine()->getUSN() > updateCount))) {
+    if ((modificationsCount() == 0) && ((fullSyncBefore > LastFullSyncDate) || (EdamProtocol::GetInstance()->getSyncEngine()->getUSN() > lastUpdateCount))) {
         LastFullSyncDate = currentTime;
         EdamProtocol::GetInstance()->getSyncEngine()->resetUSN();
         EdamProtocol::GetInstance()->getDB()->dropTables();
         fullSync = true;
     }
 
-    if ((EdamProtocol::GetInstance()->getSyncEngine()->getUSN() >= updateCount)){
+    if ((EdamProtocol::GetInstance()->getSyncEngine()->getUSN() >= lastUpdateCount)){
         emit syncFinished();
         return;
     }
 
     firstUSN = EdamProtocol::GetInstance()->getSyncEngine()->getUSN();
 
-    emit syncStarted(updateCount - EdamProtocol::GetInstance()->getSyncEngine()->getUSN());
+    emit syncStarted(lastUpdateCount - EdamProtocol::GetInstance()->getSyncEngine()->getUSN());
 
-    qint32 chunkSize = 500;
-    for (qint32 usn = EdamProtocol::GetInstance()->getSyncEngine()->getUSN(); usn < updateCount; usn += chunkSize) {
+    qint32 usn = firstUSN;
+    bool lastChunk = false;
+
+    while (!lastChunk) {
+        GetSyncChunk(usn, lastChunk);
 
         if (canceled)
             break;
-
-        GetSyncChunk(usn, chunkSize);
     }
 
     if (fullSync)
