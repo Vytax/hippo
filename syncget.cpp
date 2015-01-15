@@ -211,15 +211,14 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
     }
     if (SyncChunk.contains(8)){
         list l = SyncChunk[8].toList();
+        QSqlDatabase::database().transaction();
         for (int i = 0; i< l.size(); i++){
             hash n = l.at(i).value<hash>();
             Resource *res = new Resource(this, n);
-       //     if (!res->hasData()) {
-       //         res->getContent();
-       //     }
             delete res;
             updateProgress();
         }
+        QSqlDatabase::database().commit();
     }
     if (SyncChunk.contains(9)){
         list l = SyncChunk[9].toList();

@@ -61,11 +61,13 @@ void Note::loadFromData(hash data)
     if (data.contains(13)) {
         list l = data[13].toList();
         qDebug() << "RECOURCE" << l.size();
+        QSqlDatabase::database().transaction();
         for (int i=0; i<l.size(); i++){
             hash res = l.at(i).value<hash>();
             Resource *r = new Resource(this, res);
             delete r;
         }
+        QSqlDatabase::database().commit();
     }
     if (data.contains(14)) {
         qDebug() << "Atributes";
