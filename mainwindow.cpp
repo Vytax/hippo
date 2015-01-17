@@ -81,10 +81,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QIcon appIcon(":img/hippo64.png");
 
-    trayIcon = new QSystemTrayIcon(appIcon, this);
-    trayIcon->setToolTip("Hippo Notes - A Note Taking tool");
-    trayIcon->setContextMenu(trayMenu);
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
+    trayIcon = NULL;
+
+    if (QSystemTrayIcon::isSystemTrayAvailable()) {
+        trayIcon = new QSystemTrayIcon(appIcon, this);
+        trayIcon->setToolTip("Hippo Notes - A Note Taking tool");
+        trayIcon->setContextMenu(trayMenu);
+        connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
+    }
     connect(edam, SIGNAL(AuthenticateFailed()), this, SLOT(authentificationFailed()));
     connect(edam, SIGNAL(syncFinished()), this, SLOT(syncFinished()));
     connect(edam, SIGNAL(syncStarted(int)), this, SLOT(syncStarted(int)));
@@ -403,7 +407,8 @@ void MainWindow::showWindow()
     show();
     qApp->setQuitOnLastWindowClosed(true);    
 
-    trayIcon->show();
+    if (trayIcon)
+        trayIcon->show();
 }
 
 void MainWindow::switchNotebook()
@@ -459,10 +464,12 @@ void MainWindow::loadAboutInfo()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (trayIcon->isVisible()) {
+    if (trayIcon && trayIcon->isVisible())
         this->hide();
-        event->ignore();
-    }
+    else
+        closeWindow();
+
+     event->ignore();
 }
 
 void MainWindow::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
