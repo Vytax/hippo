@@ -76,8 +76,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>191</width>
-             <height>483</height>
+             <width>83</width>
+             <height>76</height>
             </rect>
            </property>
            <property name="headerHidden">
@@ -235,7 +235,6 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_Abaut"/>
-    <addaction name="actionTest"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -366,7 +365,9 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="document-print"/>
+    <iconset theme="document-print">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>&amp;Print</string>

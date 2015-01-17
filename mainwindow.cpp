@@ -141,7 +141,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(this, SIGNAL(titleChanged(QString,QString)), jsB, SIGNAL(titleChanged(QString,QString)));
 
-    connect(ui->actionTest, SIGNAL(triggered()), this, SLOT(test()));
 
     setWindowIcon(appIcon);
     setWindowTitle("Hippo Notes");
@@ -1106,15 +1105,6 @@ QStringList MainWindow::allClasses(QWebElement element) {
     return result;
 }
 
-void MainWindow::test() {
-    qDebug() << ui->editor->page()->mainFrame()->toHtml();
-  //  JS("jsB.debug(jsB.u().rytas + ' ' + jsB.u().labas);");
-  //  QtJson::JsonObject result = QtJson::parse(jsB->encrypt("<div>asdasdasd</div><div>asdasdasd</div>")).toMap();
-  //  qDebug() << jsB->decrypt(result["data"].toString(), "test");
-   // JS("console.log(blabbla);");
-
-
-}
 void MainWindow::updateTagsToolBar(QString noteGuid) {
 
     if (noteGuid.isEmpty())

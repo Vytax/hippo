@@ -98,8 +98,6 @@ private slots:
     void exportNote();
     void print();
 
-    void test();
-
 signals:
     void editButtonsStateChanged(bool enabled);
     void selectionButtonsStateChanged(bool enabled);
