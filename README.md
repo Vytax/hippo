@@ -4,8 +4,8 @@ An open source client for Evernote. Evernote is a suite of software and services
 The application currently support:
 * Synchronization with Evernote servers
 * Local data caching
-* Local-only and synchronized notebooks supported
 * Embbeded PDF documents prieview with poppler
+* Note printing and export to PDF, html or text file. 
 
 #Requirements 
 For Qt4 builds: 
