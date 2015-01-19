@@ -10,6 +10,7 @@
 
 #include <QObject>
 #include <QDateTime>
+#include <QTimer>
 
 static const qint16 EDAM_VERSION_MAJOR = 1;
 static const qint16 EDAM_VERSION_MINOR = 17;
@@ -62,6 +63,7 @@ private:
     sql *database;
     Sync *s;
     CustomNetworkAccessManager* cnam;
+    QTimer *timer;
 
     QByteArray createVersionCheckPost();
 

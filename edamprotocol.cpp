@@ -24,6 +24,8 @@ EdamProtocol::EdamProtocol(QObject *parent):
 
     database = new sql(this);
     database->checkTables();
+    timer = new QTimer(this);
+    timer->setInterval(1000 * 60 * 10); //10 min;
 
     s = new Sync(this);
     connect(s, SIGNAL(syncStarted(int)), this, SIGNAL(syncStarted(int)));
@@ -31,6 +33,9 @@ EdamProtocol::EdamProtocol(QObject *parent):
     connect(s, SIGNAL(syncFinished()), this, SIGNAL(syncFinished()));
     connect(s, SIGNAL(syncRangeChange(int)), this, SIGNAL(syncRangeChange(int)));
     connect(s, SIGNAL(noteGuidChanged(QString,QString)), this, SIGNAL(noteGuidChanged(QString,QString)));
+    connect(s, SIGNAL(syncStarted(int)), timer, SLOT(stop()));
+    connect(s, SIGNAL(syncFinished()), timer, SLOT(start()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(sync()));
 }
 
 EdamProtocol* EdamProtocol::GetInstance()
