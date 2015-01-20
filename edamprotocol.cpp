@@ -25,7 +25,7 @@ EdamProtocol::EdamProtocol(QObject *parent):
     database = new sql(this);
     database->checkTables();
     timer = new QTimer(this);
-    timer->setInterval(1000 * 60 * 10); //10 min;
+    setSyncInterval(sql::readSyncStatus("SyncInterval", 10).toInt());
 
     s = new Sync(this);
     connect(s, SIGNAL(syncStarted(int)), this, SIGNAL(syncStarted(int)));
@@ -209,4 +209,9 @@ bool EdamProtocol::authenticated()
         return false;
 
     return (QDateTime::currentDateTime() < expiration);
+}
+
+void EdamProtocol::setSyncInterval(int min)
+{
+    timer->setInterval(min * 60 * 1000);
 }

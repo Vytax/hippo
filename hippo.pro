@@ -64,7 +64,8 @@ SOURCES += main.cpp \
     renamedialog.cpp \
     customwebview.cpp \
     mime.cpp \
-    noteinfodialog.cpp
+    noteinfodialog.cpp \
+    optionsdialog.cpp
 HEADERS += tbinaryprotocol.h \
     edamprotocol.h \
     notebook.h \
@@ -100,7 +101,8 @@ HEADERS += tbinaryprotocol.h \
     renamedialog.h \
     customwebview.h \
     mime.h \
-    noteinfodialog.h
+    noteinfodialog.h \
+    optionsdialog.h
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
@@ -109,7 +111,8 @@ UI_DIR = tmp
 FORMS += \
     mainwindow.ui \
     userinfo.ui \
-    insertimage.ui
+    insertimage.ui \
+    optionsdialog.ui
 
 RESOURCES += \
     res.qrc

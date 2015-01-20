@@ -41,6 +41,7 @@ public:
     Sync *getSyncEngine();
     CustomNetworkAccessManager *getCNAM();
     bool authenticated();
+    void setSyncInterval(int min);
 
     static const QString consumerKey;
     static const QString consumerSecret;

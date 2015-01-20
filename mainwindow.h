@@ -48,6 +48,7 @@ private:
     enml2 *enmlWritter;
     bool editingEnabled;
     TagLabel *newTag;
+    QIcon appIcon;
 
 private slots:
     void closeWindow();
@@ -97,6 +98,8 @@ private slots:
     void showNoteInfo();
     void exportNote();
     void print();
+    void showOptions();
+    void enableSystemTrayIcon(bool state);
 
 signals:
     void editButtonsStateChanged(bool enabled);

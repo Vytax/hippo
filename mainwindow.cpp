@@ -14,6 +14,7 @@
 #include "tag.h"
 #include "noteinfodialog.h"
 #include "resource.h"
+#include "optionsdialog.h"
 
 #include <QMessageBox>
 #include <QtSingleApplication>
@@ -71,24 +72,21 @@ MainWindow::MainWindow(QWidget *parent) :
     loaded = false;
     editingEnabled = false;
 
-    QMenu *trayMenu = new QMenu(this);
-    trayMenu->addAction(ui->actionClose);
 
     tagsActions = new QActionGroup(this);
     newTag = new TagLabel(this);
     newTag->hide();
     ui->tagsBar->addWidget(newTag);
 
-    QIcon appIcon(":img/hippo64.png");
+    appIcon = QIcon(":img/hippo64.png");
 
     trayIcon = NULL;
 
-    if (QSystemTrayIcon::isSystemTrayAvailable()) {
-        trayIcon = new QSystemTrayIcon(appIcon, this);
-        trayIcon->setToolTip("Hippo Notes - A Note Taking tool");
-        trayIcon->setContextMenu(trayMenu);
-        connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
-    }
+    bool sysTrayEnabled = sql::readSyncStatus("systemTray", true).toBool();
+
+    if (QSystemTrayIcon::isSystemTrayAvailable() && sysTrayEnabled)
+        enableSystemTrayIcon(true);
+
     connect(edam, SIGNAL(AuthenticateFailed()), this, SLOT(authentificationFailed()));
     connect(edam, SIGNAL(syncFinished()), this, SLOT(syncFinished()));
     connect(edam, SIGNAL(syncStarted(int)), this, SLOT(syncStarted(int)));
@@ -319,7 +317,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(encryptIco, SIGNAL(triggered()), jsB, SIGNAL(encryptText()));
     ui->menu_Edit->addAction(encryptIco);
 
-    ui->actionNew_Note->setStatusTip("Create a New Note");
+    ui->menu_Edit->addSeparator();
+
+    QAction *options = new QAction("&Options...", this);
+    options->setIcon(QIcon::fromTheme("preferences-other"));
+    connect(options, SIGNAL(triggered()), this, SLOT(showOptions()));
+    ui->menu_Edit->addAction(options);
+
 
     clearConflictBar();
     connect(jsB, SIGNAL(showConflict()), ui->conflictBar, SLOT(show()));
@@ -406,8 +410,6 @@ void MainWindow::showWindow()
     show();
     qApp->setQuitOnLastWindowClosed(true);    
 
-    if (trayIcon)
-        trayIcon->show();
 }
 
 void MainWindow::switchNotebook()
@@ -1350,4 +1352,38 @@ void MainWindow::print() {
         return;
 
     ui->editor->print(&printer);
+}
+
+void MainWindow::showOptions() {
+    OptionsDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        QVariantMap settings = dialog.getSettings();
+
+        enableSystemTrayIcon(settings["systemTray"].toBool());
+        EdamProtocol::GetInstance()->setSyncInterval(settings["SyncInterval"].toInt());
+    }
+}
+
+void MainWindow::enableSystemTrayIcon(bool state) {
+    bool currState = (trayIcon != NULL) && trayIcon->isVisible();
+
+    if (currState == state)
+        return;
+
+    if (state) {
+        QMenu *trayMenu = new QMenu(this);
+        trayMenu->addAction(ui->actionClose);
+
+        trayIcon = new QSystemTrayIcon(appIcon, this);
+        trayIcon->setToolTip("Hippo Notes - A Note Taking tool");
+        trayIcon->setContextMenu(trayMenu);
+        connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
+        trayIcon->show();
+    } else {
+        disconnect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconClicked(QSystemTrayIcon::ActivationReason)));
+        trayIcon->hide();
+        trayIcon->deleteLater();
+        trayIcon = NULL;
+    }
+
 }
