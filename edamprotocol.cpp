@@ -1,6 +1,7 @@
 #include "edamprotocol.h"
 #include "oauth.h"
 #include "qblowfish.h"
+#include "networkproxyfactory.h"
 #include <QEventLoop>
 #include <QDebug>
 
@@ -18,12 +19,15 @@ EdamProtocol::EdamProtocol(QObject *parent):
     QObject(parent)
 {    
     syncDisabled = false;
-    nm = new NetManager(this);
 
     userStoreUri = QUrl(QString("https://%1/edam/user").arg(evernoteHost));
 
     database = new sql(this);
     database->checkTables();
+
+    NetworkProxyFactory::GetInstance()->loadSettings();
+    nm = new NetManager(this);
+
     timer = new QTimer(this);
     setSyncInterval(sql::readSyncStatus("SyncInterval", 10).toInt());
 

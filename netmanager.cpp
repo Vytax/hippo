@@ -1,4 +1,5 @@
 #include "netmanager.h"
+#include "networkproxyfactory.h"
 #include <QStringList>
 #include <QFileDialog>
 #include <QtSingleApplication>
@@ -9,6 +10,7 @@ NetManager::NetManager(QObject *parent):
         QObject(parent)
 {
     nm = new QNetworkAccessManager(this);
+    nm->setProxyFactory(NetworkProxyFactory::GetInstance());
     connect(nm, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorHandler(QNetworkReply*,QList<QSslError>)));
 }
 

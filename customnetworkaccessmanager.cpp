@@ -1,6 +1,7 @@
 #include "customnetworkaccessmanager.h"
 #include "recourcereply.h"
 #include "pdfreply.h"
+#include "networkproxyfactory.h"
 
 #include <QNetworkProxy>
 
@@ -11,8 +12,8 @@ CustomNetworkAccessManager::CustomNetworkAccessManager(QNetworkAccessManager *ma
 {
     setCache(manager->cache());
     setCookieJar(manager->cookieJar());
-    setProxy(manager->proxy());
-    setProxyFactory(manager->proxyFactory());
+
+    setProxyFactory(NetworkProxyFactory::GetInstance());
 }
 
 QNetworkReply* CustomNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op, const QNetworkRequest &req, QIODevice *device)

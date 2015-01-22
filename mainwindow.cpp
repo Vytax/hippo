@@ -15,6 +15,7 @@
 #include "noteinfodialog.h"
 #include "resource.h"
 #include "optionsdialog.h"
+#include "networkproxyfactory.h"
 
 #include <QMessageBox>
 #include <QtSingleApplication>
@@ -351,6 +352,7 @@ MainWindow::~MainWindow()
     delete ui;
     EdamProtocol::deleteInstance();
     Speller::deleteInstance();
+    NetworkProxyFactory::deleteInstance();
 }
 
 void MainWindow::authentificationFailed()
@@ -1361,6 +1363,7 @@ void MainWindow::showOptions() {
 
         enableSystemTrayIcon(settings["systemTray"].toBool());
         EdamProtocol::GetInstance()->setSyncInterval(settings["SyncInterval"].toInt());
+        NetworkProxyFactory::GetInstance()->loadSettings();
     }
 }
 

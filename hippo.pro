@@ -65,7 +65,8 @@ SOURCES += main.cpp \
     customwebview.cpp \
     mime.cpp \
     noteinfodialog.cpp \
-    optionsdialog.cpp
+    optionsdialog.cpp \
+    networkproxyfactory.cpp
 HEADERS += tbinaryprotocol.h \
     edamprotocol.h \
     notebook.h \
@@ -102,7 +103,8 @@ HEADERS += tbinaryprotocol.h \
     customwebview.h \
     mime.h \
     noteinfodialog.h \
-    optionsdialog.h
+    optionsdialog.h \
+    networkproxyfactory.h
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QVariant>
+#include <QButtonGroup>
 
 namespace Ui {
 class OptionsDialog;
@@ -21,6 +22,8 @@ public:
 private:
     Ui::OptionsDialog *ui;
     QVariantMap settings;
+
+    QButtonGroup *proxyPreference;
 
 private slots:
     void acceptConfig();
