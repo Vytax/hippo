@@ -61,11 +61,6 @@ void EdamProtocol::init()
 {
     qDebug() << "init()";
 
-    checkVersion();
-
-    if (!vesionAccepted)
-        return;
-
     QBlowfish bf(secret.toLatin1());
     bf.setPaddingEnabled(true);
 
@@ -81,56 +76,6 @@ void EdamProtocol::init()
         emit syncFinished();
     else
         sync();
-}
-
-QByteArray EdamProtocol::createVersionCheckPost()
-{
-    TBinaryProtocol *bin = new TBinaryProtocol();
-    bin->writeMessageBegin("checkVersion", T_CALL, 0);
-    bin->writeString("Pythogsss", 1);
-    bin->writeI16(EDAM_VERSION_MAJOR, 2);
-    bin->writeI16(EDAM_VERSION_MINOR, 3);
-    bin->writeFieldStop();
-    QByteArray result = bin->getData();
-    delete bin;
-    return result;
-}
-
-void EdamProtocol::checkVersion()
-{    
-    vesionAccepted = false;
-
-    bool ok;
-    QByteArray result = EdamProtocol::GetInstance()->getNetworkManager()->postData(EdamProtocol::GetInstance()->getUserStoreUri(), createVersionCheckPost(), ok);
-
-    if (!ok) {
-       QNetworkReply::NetworkError error = EdamProtocol::GetInstance()->getNetworkManager()->getLastError();
-        if (error == QNetworkReply::HostNotFoundError) {
-            syncDisabled = true;
-            vesionAccepted = true;
-        }
-
-        qDebug() << "NET ERROR";
-        return;
-    }
-
-    TBinaryProtocol *bin = new TBinaryProtocol(result);
-
-    QString name;
-    TMessageType messageType;
-    qint32 seqid;
-    bin->readMessageBegin(name, messageType, seqid);
-    if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "checkVersion failed: unknown result";
-    }
-
-    hash data = bin->readField();
-    delete bin;
-
-    if (data.contains(0) && data[0].toBool()){
-        qDebug() << "vesionAccepted";
-        vesionAccepted = true;
-    }
 }
 
 void EdamProtocol::authenticate()

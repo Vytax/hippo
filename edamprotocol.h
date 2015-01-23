@@ -29,7 +29,6 @@ public:
     static void deleteInstance();
 
     void init();
-    void checkVersion();
     void authenticate();
     void setCNAM(CustomNetworkAccessManager* n);
 
@@ -57,7 +56,6 @@ private:
     QUrl noteStoreUri;
     QString authenticationToken;
     QDateTime expiration;
-    bool vesionAccepted;
     bool syncDisabled;
 
     NetManager *nm;
@@ -65,8 +63,6 @@ private:
     Sync *s;
     CustomNetworkAccessManager* cnam;
     QTimer *timer;
-
-    QByteArray createVersionCheckPost();
 
 signals:
     void AuthenticateFailed();
