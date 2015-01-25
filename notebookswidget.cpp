@@ -120,8 +120,6 @@ void NotebooksWidget::selectNotebookWithName(QString name)
 
 void NotebooksWidget::reload()
 {
-    qDebug() << "reloadNotebooks()";
-
     clear();
     defaultNotebookItem = NULL;
 

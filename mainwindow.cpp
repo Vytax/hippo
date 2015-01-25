@@ -1114,8 +1114,6 @@ void MainWindow::updateTagsToolBar(QString noteGuid) {
     if (noteGuid.isEmpty())
         noteGuid = getCurrentNoteGuid();
 
-    qDebug() << "updateTagsToolBar()" << noteGuid;
-
     ui->tagsBar->clear();
 
     if (noteGuid.isEmpty())
@@ -1126,14 +1124,10 @@ void MainWindow::updateTagsToolBar(QString noteGuid) {
     result.bindValue(":noteGuid", noteGuid);
     result.exec();
 
-    qDebug() << result.lastError().text();
-
-
     while (result.next()) {
         QAction *action = ui->tagsBar->addAction(QIcon::fromTheme("edit-delete"), result.value(1).toString());
         action->setData(result.value(0));
         action->setActionGroup(tagsActions);
-        qDebug() << "tag" << result.value(1).toString();
     }
     QAction *action = ui->tagsBar->addWidget(newTag);
     action->setVisible(ui->editButton->isChecked());

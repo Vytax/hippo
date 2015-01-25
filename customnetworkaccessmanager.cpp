@@ -18,8 +18,6 @@ CustomNetworkAccessManager::CustomNetworkAccessManager(QNetworkAccessManager *ma
 
 QNetworkReply* CustomNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op, const QNetworkRequest &req, QIODevice *device)
 {
-    qDebug() << "createRequest()" << req.url().toString();
-
     if (req.url().scheme() == "resource")
         return new RecourceReply(this, req);
 

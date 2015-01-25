@@ -40,7 +40,6 @@ void TagsWidget::selectTagWithGUID(QString name)
 
 void TagsWidget::reload()
 {
-    qDebug() << "reloadTags()";
     clear();
     signalsDisabled = true;
 
@@ -102,7 +101,6 @@ int TagsWidget::notesCountWithTag(QStringList id)
 }
 
 void TagsWidget::updateCounts() {
-    qDebug() << "updateCounts()";
 
     QTreeWidgetItemIterator it(this);
     while (*it) {
