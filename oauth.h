@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QUrl>
-#include <QNetworkAccessManager>
 
 typedef QHash<QString, QString> Arr;
 
@@ -13,7 +12,6 @@ class oauth : public QDialog
 public:
     explicit oauth(QWidget *parent = 0);
 
-    bool prepare();
     QString getParam(QString key);
     
 signals:
@@ -24,7 +22,6 @@ public slots:
 
 private:
     Arr parseReply(QString data);
-    QNetworkAccessManager *manager;
     QString queryUrl;
     Arr data;
 

@@ -88,7 +88,7 @@ bool insertImage::validateURLEnding(QString link) {
 void insertImage::urlAccept() {
     if (ui->saveImage->isChecked()) {
 
-        QString tmpl = EdamProtocol::GetInstance()->getNetworkManager()->getURL(ui->URLImage->text());
+        QString tmpl = EdamProtocol::GetInstance()->getNetworkManager()->getURLtoFile(ui->URLImage->text());
 
         if (tmpl.isEmpty())
             return;        

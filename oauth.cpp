@@ -1,11 +1,13 @@
 #include "oauth.h"
 #include "edamprotocol.h"
+#include "networkproxyfactory.h"
 
 #include <QWebView>
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QEventLoop>
 #include <QWebFrame>
+#include <QTimer>
 
 #if QT_VERSION >= 0x050000
 #include <QUrlQuery>
@@ -24,45 +26,30 @@ oauth::oauth(QWidget *parent) :
     web->setZoomFactor(0.9);
     web->page()->mainFrame()->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
 
-
     qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch();
     QString nounce = QString::number(qrand());
-
-    manager = new QNetworkAccessManager(this);
 
     queryUrl = "https://" + EdamProtocol::evernoteHost + "/oauth?oauth_consumer_key=" + EdamProtocol::consumerKey
             + "&oauth_signature=" + EdamProtocol::consumerSecret + "%26&oauth_signature_method=PLAINTEXT&oauth_timestamp="
             + QString::number(time) + "&oauth_nonce=" + nounce;
 
-    qDebug() << queryUrl;
-
-    QEventLoop loop;
-    connect(manager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
-
-    QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(queryUrl + "&oauth_callback=confirm_client")));
-
-    loop.exec();
-
-    QString tmpreply = QString::fromLatin1(reply->readAll());
+    QString tmpreply = QString::fromLatin1(EdamProtocol::GetInstance()->getNetworkManager()->getURL(QUrl(queryUrl + "&oauth_callback=confirm_client")));
 
     Arr d = parseReply(tmpreply);
     if (d.isEmpty() && !d.contains("oauth_token")) {
         qDebug() << "Klaida!" << d;
         web->setHtml(tmpreply);
+        QTimer::singleShot(100, this, SLOT(reject()));
         return;
     }
-    qDebug() << d;
 
     connect(web, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChange(QUrl)));
     connect(this, SIGNAL(verifierRetrieved(QString,QString)), this, SLOT(getCredentials(QString,QString)));
 
+    web->page()->networkAccessManager()->setProxyFactory(NetworkProxyFactory::GetInstance());
     web->load(QUrl("https://" + EdamProtocol::evernoteHost + "/OAuth.action?oauth_token=" + d["oauth_token"]));
 
     setLayout(layout);
-}
-
-bool oauth::prepare() {
-    return false;
 }
 
 Arr oauth::parseReply(QString data) {
@@ -82,7 +69,6 @@ Arr oauth::parseReply(QString data) {
 }
 
 void oauth::urlChange(QUrl url) {
-    qDebug() << url;
     if (url.path() != "/confirm_client")
         return;
 
@@ -101,16 +87,8 @@ void oauth::urlChange(QUrl url) {
 }
 
 void oauth::getCredentials(QString token, QString verifier) {
-    qDebug() << "getCredentials" << token << verifier;
 
-    QEventLoop loop;
-    connect(manager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
-
-    QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(queryUrl + "&oauth_token=" + token + "&oauth_verifier=" + verifier)));
-
-    loop.exec();
-
-    QString tmpreply = QString::fromLatin1(reply->readAll());
+    QString tmpreply = QString::fromLatin1(EdamProtocol::GetInstance()->getNetworkManager()->getURL(QUrl(queryUrl + "&oauth_token=" + token + "&oauth_verifier=" + verifier)));
     data = parseReply(tmpreply);
 
      qDebug() << data;

@@ -81,3 +81,12 @@ void OptionsDialog::acceptConfig() {
 QVariantMap OptionsDialog::getSettings() {
     return settings;
 }
+
+void OptionsDialog::selectTabByName(QString name) {
+    for (int i=0; i < ui->tabWidget->count(); i++) {
+        if (ui->tabWidget->widget(i)->objectName() == name) {
+            ui->tabWidget->setCurrentIndex(i);
+            return;
+        }
+    }
+}

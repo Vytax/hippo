@@ -338,7 +338,7 @@ QVariantMap jsBridge::saveImageLocally(QString url, QString noteGuid) {
     QVariantMap resJson;
     resJson["ok"] = false;
 
-    QString tmpl = EdamProtocol::GetInstance()->getNetworkManager()->getURL(url);
+    QString tmpl = EdamProtocol::GetInstance()->getNetworkManager()->getURLtoFile(url);
 
     if (!tmpl.isEmpty()){
         Resource res;

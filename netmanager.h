@@ -13,18 +13,17 @@ class NetManager : public QObject
 public:
     NetManager(QObject *parent = 0);
     void downloadReply(const QNetworkRequest & request);
-    QString getURL(QUrl url);
+    QByteArray getURL(QUrl url);
+    QString getURLtoFile(QUrl url);
     QByteArray postData(QUrl url, QByteArray data, bool &ok);
-    QNetworkReply::NetworkError getLastError();
 
 private:
     QNetworkAccessManager *nm;
     void saveFile(QNetworkReply *Reply);
 
-    QNetworkReply::NetworkError lastError;
 private slots:
     void sslErrorHandler(QNetworkReply* qnr, const QList<QSslError> & sslErrors);
-    void replyError( QNetworkReply::NetworkError code );
+    void replyError(QNetworkReply *reply );
 };
 
 #endif // NETMANAGER_H

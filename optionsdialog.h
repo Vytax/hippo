@@ -18,6 +18,7 @@ public:
     ~OptionsDialog();
 
     QVariantMap getSettings();
+    void selectTabByName(QString name);
 
 private:
     Ui::OptionsDialog *ui;

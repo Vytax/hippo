@@ -1,5 +1,6 @@
 #include "netmanager.h"
 #include "networkproxyfactory.h"
+#include "optionsdialog.h"
 #include <QStringList>
 #include <QFileDialog>
 #include <QtSingleApplication>
@@ -28,11 +29,9 @@ QByteArray NetManager::postData(QUrl url, QByteArray data, bool &ok) {
 
     loop.exec();
 
-    lastError = reply->error();
-
-    if (lastError != QNetworkReply::NoError) {
+    if (reply->error() != QNetworkReply::NoError) {
         ok = false;
-        qDebug() << "NETWORK ERROR:" << reply->error() << reply->errorString();
+        replyError(reply);
         return QByteArray();
     }
 
@@ -52,20 +51,27 @@ void NetManager::downloadReply(const QNetworkRequest & request) {
     if (reply->error() == QNetworkReply::NoError)
         saveFile(reply);
 }
-
-QString NetManager::getURL(QUrl url) {
-
+QByteArray NetManager::getURL(QUrl url) {
 
     QNetworkReply *reply= nm->get(QNetworkRequest(url));
     QEventLoop loop;
     connect(reply, SIGNAL(finished()),&loop, SLOT(quit()));
     loop.exec();
 
-    if (reply->error() != QNetworkReply::NoError)
+    if (reply->error() != QNetworkReply::NoError) {
+        replyError(reply);
         return "";
+    }
 
     if (reply->size() > 5000000)
         return "";
+
+    return reply->readAll();
+}
+
+QString NetManager::getURLtoFile(QUrl url) {
+
+    QByteArray data = getURL(url);
 
     QString tmpl = QDir::tempPath() + QDir::separator() + "qEvernote" + QDir::separator() + "tmp.dat";
 
@@ -74,7 +80,7 @@ QString NetManager::getURL(QUrl url) {
     if (!f.open(QIODevice::WriteOnly))
         return "";
 
-    f.write(reply->readAll());
+    f.write(data);
     f.close();
 
     return tmpl;
@@ -114,12 +120,23 @@ void NetManager::sslErrorHandler(QNetworkReply* qnr, const QList<QSslError> & ss
     qnr->ignoreSslErrors(sslErrors);
 }
 
-void NetManager::replyError( QNetworkReply::NetworkError code )
+void NetManager::replyError(QNetworkReply *reply)
 {
-    qDebug() << "NetworkError: " << code;
-}
+    qDebug() << "NetworkError: " << reply->error() << reply->errorString();
 
-QNetworkReply::NetworkError NetManager::getLastError()
-{
-    return lastError;
+    QMessageBox msgBox;
+    msgBox.setText(reply->errorString());
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setWindowTitle("Network Error...");
+    QAbstractButton * netSettingsB = (QAbstractButton *)msgBox.addButton("Network Settings", QMessageBox::ActionRole);
+    msgBox.addButton(QMessageBox::Ok);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == netSettingsB) {
+        OptionsDialog dialog(&msgBox);
+        dialog.selectTabByName("network");
+        dialog.exec();
+    }
+
+    return;
 }
