@@ -323,12 +323,9 @@ void SyncGet::sync()
     qint64 uploaded;
 
     GetSyncState(currentTime, fullSyncBefore, lastUpdateCount, uploaded);
-    qDebug() << "SyncState" << lastUpdateCount;
 
-    if (lastUpdateCount == 0) {
-        emit syncFinished();
+    if (lastUpdateCount == 0)
         return;
-    }
 
     sql::updateSyncStatus("uploaded", uploaded);
 
@@ -340,14 +337,12 @@ void SyncGet::sync()
         fullSync = true;
     }
 
-    if ((EdamProtocol::GetInstance()->getSyncEngine()->getUSN() >= lastUpdateCount)){
-        emit syncFinished();
+    if ((EdamProtocol::GetInstance()->getSyncEngine()->getUSN() >= lastUpdateCount))
         return;
-    }
 
     firstUSN = EdamProtocol::GetInstance()->getSyncEngine()->getUSN();
 
-    emit syncStarted(lastUpdateCount - EdamProtocol::GetInstance()->getSyncEngine()->getUSN());
+    updatesCount = lastUpdateCount - firstUSN;
 
     qint32 usn = firstUSN;
     bool lastChunk = false;
@@ -361,8 +356,6 @@ void SyncGet::sync()
 
     if (fullSync)
         sql::updateSyncStatus("LastFullSyncDate", LastFullSyncDate);
-
-    emit syncFinished();
 }
 
 void SyncGet::cancelSync()
@@ -372,7 +365,12 @@ void SyncGet::cancelSync()
 
 void SyncGet::updateProgress()
 {
-    emit syncProgress(EdamProtocol::GetInstance()->getSyncEngine()->getUSN() - firstUSN);
+    if (updatesCount == 0)
+        return;
+
+    qint64 usn = EdamProtocol::GetInstance()->getSyncEngine()->getUSN();
+    int progress = (int)(((double)(usn - firstUSN) / updatesCount) * 1000);
+    EdamProtocol::GetInstance()->getSyncEngine()->updateProgress(progress, 1);
 }
 
 int SyncGet::modificationsCount()

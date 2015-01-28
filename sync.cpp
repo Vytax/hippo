@@ -14,16 +14,7 @@ Sync::Sync(QObject *parent) :
     get = new SyncGet(this);
     post = new SyncPost(this);
 
-    connect(get, SIGNAL(syncStarted(int)), this, SIGNAL(syncStarted(int)));
-    connect(get, SIGNAL(syncProgress(int)), this, SIGNAL(syncProgress(int)));
-    connect(get, SIGNAL(syncFinished()), post, SLOT(sync()));
-    connect(post, SIGNAL(syncFinished()), this, SIGNAL(syncFinished()));
-    connect(post, SIGNAL(syncRangeChange(int)), this, SIGNAL(syncRangeChange(int)));
-    connect(post, SIGNAL(syncProgress(int)), this, SIGNAL(syncProgress(int)));
-    connect(post, SIGNAL(syncRangeChange(int)), this, SIGNAL(syncStarted(int)));
     connect(this, SIGNAL(syncFinished()), this, SLOT(getUser()));
-    connect(post, SIGNAL(noteGuidChanged(QString,QString)), this, SIGNAL(noteGuidChanged(QString,QString)));
-    connect(post, SIGNAL(syncFinished()), this, SLOT(finished()));
 }
 
 void Sync::sync()
@@ -33,7 +24,21 @@ void Sync::sync()
         return;
 
     started = true;
+    emit syncStarted(2000);
     get->sync();
+    post->sync();
+    emit syncFinished();
+}
+
+void Sync::updateProgress(int prog, int step) {
+
+    if ((prog <= 0) ||(prog >= 1000))
+        return;
+
+    if (step == 1)
+        emit syncProgress(prog);
+    else if (step == 2)
+        emit syncProgress(1000 + prog);
 }
 
 void Sync::cancelSync()

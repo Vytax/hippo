@@ -18,6 +18,7 @@ public:
     qint64 getUSN();
     void updateUSN(qint64 usn);
     void resetUSN();
+    void updateProgress(int prog, int step);
 signals:
     void syncFinished();
     void syncStarted(int count);

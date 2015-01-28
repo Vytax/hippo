@@ -14,9 +14,6 @@ public:
     explicit SyncPost(QObject *parent = 0);
     
 signals:
-    void syncFinished();
-    void syncRangeChange(int max);
-    void syncProgress(int value);
     void noteGuidChanged(QString oldGuid, QString newGuid);
     
 public slots:
@@ -25,9 +22,6 @@ public slots:
 
 private:
     bool canceled;
-
-    int unsyncNotes;
-    int Progress;
     qint64 currentUSN;
 
     t_updates readUpdates();

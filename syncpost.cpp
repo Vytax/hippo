@@ -3,6 +3,7 @@
 #include "tag.h"
 #include "notebook.h"
 #include "resource.h"
+#include "edamprotocol.h"
 
 #include <QEventLoop>
 #include <QDebug>
@@ -12,7 +13,6 @@ SyncPost::SyncPost(QObject *parent) :
     QObject(parent)
 {
     canceled = false;
-    unsyncNotes = 0;
 }
 
 SyncPost::t_updates SyncPost::readUpdates() {
@@ -128,17 +128,12 @@ void SyncPost::sync() {
 
     t_updates updates = readUpdates();
 
-    unsyncNotes = updates.size();
+    int unsyncNotes = updates.size();
 
-    if (unsyncNotes == 0) {
-        emit syncFinished();
+    if (unsyncNotes == 0)
         return;
-    }
 
-    Progress = 0;
-
-    emit syncRangeChange(unsyncNotes);
-    emit syncProgress(Progress);
+    int progress = 0;
 
     while (!updates.isEmpty()) {
         t_update update = updates.dequeue();
@@ -156,9 +151,9 @@ void SyncPost::sync() {
         else if (type == "notesContent")
             getNoteContent(update["guid"]);
 
-        emit syncProgress(++Progress);
+        int p = (int)(((double)(++progress)/unsyncNotes)*1000);
+        EdamProtocol::GetInstance()->getSyncEngine()->updateProgress(p, 2);
     }
-    emit syncFinished();
 }
 
 void SyncPost::cancelSync()
