@@ -7,6 +7,7 @@
 #include "sql.h"
 #include "sync.h"
 #include "customnetworkaccessmanager.h"
+#include "oauth.h"
 
 #include <QObject>
 #include <QDateTime>
@@ -28,8 +29,7 @@ public:
     static EdamProtocol* GetInstance();
     static void deleteInstance();
 
-    void init();
-    void authenticate();
+    void init();    
     void setCNAM(CustomNetworkAccessManager* n);
 
     QString getAuthenticationToken();
@@ -51,6 +51,11 @@ public slots:
     void cancelSync();
     void sync();
 
+private slots:
+    void readLoginData();
+    void start_authenticate();
+    void writeLoginData();
+
 private:
     QUrl userStoreUri;
     QUrl noteStoreUri;
@@ -63,6 +68,7 @@ private:
     Sync *s;
     CustomNetworkAccessManager* cnam;
     QTimer *timer;
+    oauth *login;
 
 signals:
     void AuthenticateFailed();
@@ -71,6 +77,11 @@ signals:
     void syncFinished();
     void syncRangeChange(int max);
     void noteGuidChanged(QString oldGuid, QString newGuid);
+
+    void p_need_login();
+    void p_logged_in();
+    void p_authentificate_started();
+    void p_authentificated();
 
 };
 

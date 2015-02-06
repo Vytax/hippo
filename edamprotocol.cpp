@@ -1,8 +1,10 @@
 #include "edamprotocol.h"
-#include "oauth.h"
 #include "qblowfish.h"
 #include "networkproxyfactory.h"
 #include <QEventLoop>
+#include <QState>
+#include <QFinalState>
+#include <QStateMachine>
 #include <QDebug>
 
 EdamProtocol* EdamProtocol::m_Instance = NULL;
@@ -17,7 +19,8 @@ const QString EdamProtocol::secret = QString("7e00dc7d49772ca771a844b4561b26a1")
 
 EdamProtocol::EdamProtocol(QObject *parent):
     QObject(parent)
-{    
+{
+    login = NULL;
     syncDisabled = false;
 
     userStoreUri = QUrl(QString("https://%1/edam/user").arg(evernoteHost));
@@ -53,7 +56,7 @@ EdamProtocol* EdamProtocol::GetInstance()
 void EdamProtocol::deleteInstance()
 {
     if ( m_Instance != NULL )
-        delete m_Instance;
+        m_Instance->deleteLater();
     m_Instance = NULL;
 }
 
@@ -61,6 +64,36 @@ void EdamProtocol::init()
 {
     qDebug() << "init()";
 
+    QState *s1 = new QState();
+    QState *s2 = new QState();
+    QState *s3 = new QState();
+    QState *s4 = new QState();
+    QFinalState *s5 = new QFinalState();
+
+    s1->addTransition(this, SIGNAL(p_logged_in()), s2);
+    s1->addTransition(this, SIGNAL(p_need_login()), s3);
+    s3->addTransition(this, SIGNAL(p_authentificated()), s4);
+    s4->addTransition(this, SIGNAL(p_logged_in()), s2);
+    s2->addTransition(this, SIGNAL(syncFinished()), s5);
+
+    connect(s1, SIGNAL(entered()), this, SLOT(readLoginData()));
+    connect(s2, SIGNAL(entered()), this, SLOT(sync()));
+    connect(s3, SIGNAL(entered()), this, SLOT(start_authenticate()));
+    connect(s4, SIGNAL(entered()), this, SLOT(writeLoginData()));
+
+    QStateMachine *machine = new QStateMachine(this);
+    machine->addState(s1);
+    machine->addState(s2);
+    machine->addState(s3);
+    machine->addState(s4);
+    machine->addState(s5);
+
+    machine->setInitialState(s1);
+    machine->start();
+
+}
+
+void EdamProtocol::readLoginData() {
     QBlowfish bf(secret.toLatin1());
     bf.setPaddingEnabled(true);
 
@@ -69,24 +102,29 @@ void EdamProtocol::init()
     noteStoreUri = sql::readSyncStatus("edam_noteStoreUrl").toUrl();
     expiration = QDateTime::fromMSecsSinceEpoch(sql::readSyncStatus("edam_expires").toLongLong());
 
-    if (!authenticated())
-        authenticate();
-
-    if (syncDisabled)
-        emit syncFinished();
+    if (authenticated())
+        emit p_logged_in();
     else
-        sync();
+        emit p_need_login();
 }
 
-void EdamProtocol::authenticate()
+void EdamProtocol::start_authenticate()
 {
-    oauth login;
+    login = new oauth();
+    connect(login, SIGNAL(finished(int)), this, SIGNAL(p_authentificated()));
+    login->show();
+}
 
-    if( login.exec() == QDialog::Accepted ) {
-        authenticationToken = login.getParam("oauth_token");
-        noteStoreUri = QUrl(login.getParam("edam_noteStoreUrl"));
+void EdamProtocol::writeLoginData()
+{
+    if (login == NULL)
+        return;
 
-        qlonglong edam_expires = login.getParam("edam_expires").toLongLong();
+    if( login->result() == QDialog::Accepted ) {
+        authenticationToken = login->getParam("oauth_token");
+        noteStoreUri = QUrl(login->getParam("edam_noteStoreUrl"));
+
+        qlonglong edam_expires = login->getParam("edam_expires").toLongLong();
         expiration = QDateTime::fromMSecsSinceEpoch(edam_expires);
 
         QBlowfish bf(secret.toLatin1());
@@ -96,13 +134,23 @@ void EdamProtocol::authenticate()
         sql::updateSyncStatus("edam_noteStoreUrl", noteStoreUri);
         sql::updateSyncStatus("edam_expires", edam_expires);
 
+        emit p_logged_in();
+
     } else {
         emit AuthenticateFailed();
     }
+
+    login->deleteLater();
+    login = NULL;
 }
 
 void EdamProtocol::sync()
 {
+    if (syncDisabled) {
+        emit syncFinished();
+        return;
+    }
+
     if (authenticated())
         s->sync();
 }

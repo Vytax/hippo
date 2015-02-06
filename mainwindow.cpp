@@ -352,7 +352,6 @@ MainWindow::~MainWindow()
     delete ui;
     EdamProtocol::deleteInstance();
     Speller::deleteInstance();
-    NetworkProxyFactory::deleteInstance();
 }
 
 void MainWindow::authentificationFailed()

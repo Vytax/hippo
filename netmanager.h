@@ -17,13 +17,17 @@ public:
     QString getURLtoFile(QUrl url);
     QByteArray postData(QUrl url, QByteArray data, bool &ok);
 
+    QNetworkReply* get(QUrl url);
+    QNetworkReply* post(QUrl url, QByteArray data);
+
 private:
     QNetworkAccessManager *nm;
     void saveFile(QNetworkReply *Reply);
 
 private slots:
     void sslErrorHandler(QNetworkReply* qnr, const QList<QSslError> & sslErrors);
-    void replyError(QNetworkReply *reply );
+    void replyError(QNetworkReply *reply);
+    void checkReply(QNetworkReply *reply);
 };
 
 #endif // NETMANAGER_H

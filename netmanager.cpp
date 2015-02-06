@@ -13,6 +13,25 @@ NetManager::NetManager(QObject *parent):
     nm = new QNetworkAccessManager(this);
     nm->setProxyFactory(NetworkProxyFactory::GetInstance());
     connect(nm, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), this, SLOT(sslErrorHandler(QNetworkReply*,QList<QSslError>)));
+    connect(nm, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkReply(QNetworkReply*)));
+}
+
+QNetworkReply* NetManager::get(QUrl url) {
+    return nm->get(QNetworkRequest(url));
+}
+
+QNetworkReply* NetManager::post(QUrl url, QByteArray data) {
+    QNetworkRequest header;
+    header.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/x-thrift") );
+    header.setHeader(QNetworkRequest::ContentLengthHeader, QString::number(data.size()));
+    header.setUrl(url);
+
+    return nm->post(header, data);
+}
+
+void NetManager::checkReply(QNetworkReply *reply) {
+    if (reply->error() != QNetworkReply::NoError)
+        replyError(reply);
 }
 
 QByteArray NetManager::postData(QUrl url, QByteArray data, bool &ok) {
@@ -31,7 +50,7 @@ QByteArray NetManager::postData(QUrl url, QByteArray data, bool &ok) {
 
     if (reply->error() != QNetworkReply::NoError) {
         ok = false;
-        replyError(reply);
+    //    replyError(reply);
         return QByteArray();
     }
 
@@ -59,7 +78,7 @@ QByteArray NetManager::getURL(QUrl url) {
     loop.exec();
 
     if (reply->error() != QNetworkReply::NoError) {
-        replyError(reply);
+ //       replyError(reply);
         return "";
     }
 

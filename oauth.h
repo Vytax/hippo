@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QUrl>
+#include <QWebView>
 
 typedef QHash<QString, QString> Arr;
 
@@ -16,16 +17,25 @@ public:
     
 signals:
     void verifierRetrieved(QString token, QString verifier);
-public slots:
-    void urlChange(QUrl url);
-    void getCredentials(QString token, QString verifier);
+
+    void p_oauth_token_init_finished();
+    void p_oauth_token_finished();
+    void p_oauth_verifier_received();
+    void p_finished();
 
 private:
-    Arr parseReply(QString data);
+    void parseReply(QString str);
     QString queryUrl;
     Arr data;
 
-    
+    QNetworkReply *tmpReply1, *tmpReply2;
+    QWebView *web;
+
+private slots:
+    void get_oauth_token();
+    void parse_outh_token();
+    void parse_credentials();
+    void urlChange(QUrl url);
 };
 
 #endif // OAUTH_H
