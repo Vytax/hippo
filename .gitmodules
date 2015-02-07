@@ -1,0 +1,3 @@
+[submodule "3rdparty/Cutelogger"]
+	path = 3rdparty/Cutelogger
+	url = https://github.com/cyberbobs/CuteLogger

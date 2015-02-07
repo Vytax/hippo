@@ -28,6 +28,7 @@ include(3rdparty/rc2.pri)
 include(3rdparty/QFreeDesktopMime.pri)
 include(3rdparty/qblowfish.pri)
 include(3rdparty/spellcheck.pri)
+include(3rdparty/CuteLogger.pri)
 SOURCES += main.cpp \
     tbinaryprotocol.cpp \
     edamprotocol.cpp \
