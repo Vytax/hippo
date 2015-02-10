@@ -110,15 +110,19 @@ void oauth::urlChange(QUrl url) {
         data["oauth_token"] = urlQuery.queryItemValue("oauth_token");
         data["oauth_verifier"] = urlQuery.queryItemValue("oauth_verifier");
     }
-    else
+    else {
         reject();
+        return;
+    }
 #else
     if ((url.hasQueryItem("oauth_token")) && (url.hasQueryItem("oauth_verifier"))) {
         data["oauth_token"] = url.queryItemValue("oauth_token");
         data["oauth_verifier"] = url.queryItemValue("oauth_verifier");
     }
-    else
+    else {
         reject();
+        return;
+    }
 #endif
 
     get_credentials_state->get(QUrl(data["queryUrl"] + "&oauth_token=" + data["oauth_token"] + "&oauth_verifier=" + data["oauth_verifier"]));

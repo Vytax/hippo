@@ -139,9 +139,6 @@ void EdamProtocol::writeLoginData()
     } else {
         emit AuthenticateFailed();
     }
-
-    login->deleteLater();
-    login = NULL;
 }
 
 void EdamProtocol::sync()
