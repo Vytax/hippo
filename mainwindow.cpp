@@ -479,6 +479,9 @@ void MainWindow::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
     if (reason != QSystemTrayIcon::Trigger)
         return;
 
+    if (!loaded)
+        return;
+
     if (this->isHidden())
         this->show();
     else
