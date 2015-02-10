@@ -1,11 +1,69 @@
 #include "netmanager.h"
 #include "networkproxyfactory.h"
 #include "optionsdialog.h"
+#include "edamprotocol.h"
 #include <QStringList>
 #include <QFileDialog>
 #include <QtSingleApplication>
 #include <QMessageBox>
 #include <QDebug>
+
+NetDownloadState::NetDownloadState(QState *parent)
+    : QState(parent), reply(NULL)
+{
+    requestState = new QState(this);
+    replyState = new QFinalState(this);
+
+    QObject::connect(requestState, SIGNAL(entered()), this, SLOT(request()));
+
+    setInitialState(requestState);
+}
+
+void NetDownloadState::request()
+{
+    qDebug() << "NetDownloadState::request()";
+
+    QNetworkAccessManager *nm = EdamProtocol::GetInstance()->getNetworkManager()->nam();
+
+    if (nm == NULL)
+        return;
+
+    if (m_data.isEmpty())
+        reply = nm->get(header);
+    else
+        reply = nm->post(header, m_data);
+
+    requestState->addTransition(reply, SIGNAL(finished()), replyState);
+}
+
+void NetDownloadState::get(QUrl url)
+{
+    header = QNetworkRequest(url);
+}
+
+void NetDownloadState::post(QUrl url, QByteArray data)
+{
+    m_data = data;
+    header.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/x-thrift") );
+    header.setHeader(QNetworkRequest::ContentLengthHeader, QString::number(m_data.size()));
+    header.setUrl(url);
+}
+
+QByteArray NetDownloadState::data()
+{
+    if ((reply == NULL) && (!reply->isFinished()))
+        return QByteArray();
+
+    return reply->readAll();
+}
+
+QNetworkReply::NetworkError NetDownloadState::error()
+{
+    if ((reply == NULL) && (!reply->isFinished()))
+        return QNetworkReply::ProtocolUnknownError;
+
+    return reply->error();
+}
 
 NetManager::NetManager(QObject *parent):
         QObject(parent)
@@ -16,17 +74,8 @@ NetManager::NetManager(QObject *parent):
     connect(nm, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkReply(QNetworkReply*)));
 }
 
-QNetworkReply* NetManager::get(QUrl url) {
-    return nm->get(QNetworkRequest(url));
-}
-
-QNetworkReply* NetManager::post(QUrl url, QByteArray data) {
-    QNetworkRequest header;
-    header.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/x-thrift") );
-    header.setHeader(QNetworkRequest::ContentLengthHeader, QString::number(data.size()));
-    header.setUrl(url);
-
-    return nm->post(header, data);
+QNetworkAccessManager *NetManager::nam() {
+    return nm;
 }
 
 void NetManager::checkReply(QNetworkReply *reply) {

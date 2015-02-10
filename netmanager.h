@@ -6,6 +6,32 @@
 #include <QNetworkReply>
 #include <QSslError>
 #include <QUrl>
+#include <QState>
+#include <QFinalState>
+
+class NetDownloadState : public QState
+{
+    Q_OBJECT
+public:
+    NetDownloadState(QState *parent = 0);
+    void get(QUrl url);
+    void post(QUrl url, QByteArray data);
+
+    QByteArray data();
+    QNetworkReply::NetworkError error();
+
+private slots:
+    void request();
+
+private:
+    QState *requestState;
+    QFinalState *replyState;
+
+    QNetworkReply *reply;
+
+    QNetworkRequest header;
+    QByteArray m_data;
+};
 
 class NetManager : public QObject
 {
@@ -17,8 +43,7 @@ public:
     QString getURLtoFile(QUrl url);
     QByteArray postData(QUrl url, QByteArray data, bool &ok);
 
-    QNetworkReply* get(QUrl url);
-    QNetworkReply* post(QUrl url, QByteArray data);
+    QNetworkAccessManager *nam();
 
 private:
     QNetworkAccessManager *nm;

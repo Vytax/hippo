@@ -1,6 +1,7 @@
 #include "oauth.h"
 #include "edamprotocol.h"
 #include "networkproxyfactory.h"
+#include <Logger.h>
 
 #include <QVBoxLayout>
 #include <QDebug>
@@ -10,7 +11,6 @@
 #include <QState>
 #include <QFinalState>
 #include <QStateMachine>
-#include <QDebug>
 
 #if QT_VERSION >= 0x050000
 #include <QUrlQuery>
@@ -19,7 +19,7 @@
 oauth::oauth(QWidget *parent) :
     QDialog(parent)
 {
-    qDebug() << "oauth::oauth";
+    LOG_INFO("Authentificate started");
 
     setWindowIcon(QIcon(":/img/evernote64.png"));
     setWindowTitle("Please Grant EverClient Access");
@@ -38,43 +38,44 @@ oauth::oauth(QWidget *parent) :
             + "&oauth_signature=" + EdamProtocol::consumerSecret + "%26&oauth_signature_method=PLAINTEXT&oauth_timestamp="
             + QString::number(time) + "&oauth_nonce=" + nounce;
 
-     QState *s1 = new QState();
-     QState *s2 = new QState();
-     QState *s3 = new QState();
-     QFinalState *s4 = new QFinalState();
+    get_oauth_token_state = new NetDownloadState();
+    get_oauth_token_state->get(QUrl(data["queryUrl"] + "&oauth_callback=confirm_client"));
 
-     s1->addTransition(this, SIGNAL(p_oauth_token_init_finished()), s2);
-     s2->addTransition(this, SIGNAL(p_oauth_verifier_received()), s3);
-     s3->addTransition(this, SIGNAL(p_finished()), s4);
+    get_credentials_state = new NetDownloadState();
 
-     connect(s1, SIGNAL(entered()), this, SLOT(get_oauth_token()));
-     connect(s2, SIGNAL(entered()), this, SLOT(parse_outh_token()));
-     connect(s3, SIGNAL(entered()), this, SLOT(parse_credentials()));
+    QState *s2 = new QState();
+    QState *s3 = new QState();
+    QFinalState *s4 = new QFinalState();
 
-     QStateMachine *machine = new QStateMachine(this);
-     machine->addState(s1);
-     machine->addState(s2);
-     machine->addState(s3);
-     machine->addState(s4);
+    get_oauth_token_state->addTransition(get_oauth_token_state, SIGNAL(finished()), s2);
+    s2->addTransition(this, SIGNAL(p_oauth_verifier_received()), get_credentials_state);
+    get_credentials_state->addTransition(get_credentials_state, SIGNAL(finished()), s3);
+    s3->addTransition(this, SIGNAL(p_finished()), s4);
 
-     connect(machine, SIGNAL(finished()), this, SLOT(accept()));
-     machine->setInitialState(s1);
-     machine->start();
+    connect(s2, SIGNAL(entered()), this, SLOT(parse_outh_token()));
+    connect(s3, SIGNAL(entered()), this, SLOT(parse_credentials()));
 
-}
+    QStateMachine *machine = new QStateMachine(this);
+    machine->addState(get_oauth_token_state);
+    machine->addState(s2);
+    machine->addState(get_credentials_state);
+    machine->addState(s3);
+    machine->addState(s4);
 
-void oauth::get_oauth_token() {
-    tmpReply1 = EdamProtocol::GetInstance()->getNetworkManager()->get(QUrl(data["queryUrl"] + "&oauth_callback=confirm_client"));
-    connect(tmpReply1, SIGNAL(finished()), this, SIGNAL(p_oauth_token_init_finished()));
+    connect(machine, SIGNAL(finished()), this, SLOT(accept()));
+    machine->setInitialState(get_oauth_token_state);
+    machine->start();
+
 }
 
 void oauth::parse_outh_token() {
-    if (tmpReply1->error() != QNetworkReply::NoError) {
+
+    if (get_oauth_token_state->error() != QNetworkReply::NoError) {
         reject();
         return;
     }
 
-    QString d = QString::fromLatin1(tmpReply1->readAll());
+    QString d = QString::fromLatin1(get_oauth_token_state->data());
     parseReply(d);
     if (data.isEmpty() && !data.contains("oauth_token")) {
         web->setHtml(d);
@@ -120,22 +121,26 @@ void oauth::urlChange(QUrl url) {
         reject();
 #endif
 
-    tmpReply2 = EdamProtocol::GetInstance()->getNetworkManager()->get(QUrl(data["queryUrl"] + "&oauth_token=" + data["oauth_token"] + "&oauth_verifier=" + data["oauth_verifier"]));
-    connect(tmpReply2, SIGNAL(finished()), this, SIGNAL(p_oauth_verifier_received()));
+    get_credentials_state->get(QUrl(data["queryUrl"] + "&oauth_token=" + data["oauth_token"] + "&oauth_verifier=" + data["oauth_verifier"]));
+
+    emit p_oauth_verifier_received();
+
 }
 
 void oauth::parse_credentials() {
 
-    if (tmpReply2->error() != QNetworkReply::NoError) {
+    if (get_credentials_state->error() != QNetworkReply::NoError) {
         reject();
         return;
     }
 
-    QString d = QString::fromLatin1(tmpReply2->readAll());
+    QString d = QString::fromLatin1(get_credentials_state->data());
     parseReply(d);
 
-    if (!data.isEmpty())
+    if (data.contains("edam_noteStoreUrl")) {
+        LOG_INFO("Success");
         emit p_finished();
+    }
     else
         reject();
 }

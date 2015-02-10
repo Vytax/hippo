@@ -1,6 +1,8 @@
 #ifndef OAUTH_H
 #define OAUTH_H
 
+#include "netmanager.h"
+
 #include <QDialog>
 #include <QUrl>
 #include <QWebView>
@@ -16,23 +18,18 @@ public:
     QString getParam(QString key);
     
 signals:
-    void verifierRetrieved(QString token, QString verifier);
-
-    void p_oauth_token_init_finished();
-    void p_oauth_token_finished();
     void p_oauth_verifier_received();
     void p_finished();
 
 private:
     void parseReply(QString str);
-    QString queryUrl;
     Arr data;
 
-    QNetworkReply *tmpReply1, *tmpReply2;
+    NetDownloadState *get_oauth_token_state;
+    NetDownloadState *get_credentials_state;
     QWebView *web;
 
 private slots:
-    void get_oauth_token();
     void parse_outh_token();
     void parse_credentials();
     void urlChange(QUrl url);
