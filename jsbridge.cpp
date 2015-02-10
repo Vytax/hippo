@@ -5,6 +5,7 @@
 #include "sql.h"
 #include "edamprotocol.h"
 #include "resource.h"
+#include <Logger.h>
 #include <rc2.h>
 #include <zlib.h>
 
@@ -17,8 +18,6 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QApplication>
-
-#include <QDebug>
 
 jsBridge::jsBridge(QObject *parent, pdfCache * pdfc) :
     QObject(parent), pdf(pdfc), webview(NULL)
@@ -240,7 +239,7 @@ int jsBridge::requestPDFpageNumber(int max, int current)
 }
 
 void jsBridge::debug(QString d) {
-    qDebug() << "JS: " << d;
+    LOG_INFO( d );
 }
 
 QString jsBridge::getResourceFileName(QString hash)
@@ -257,7 +256,7 @@ QString jsBridge::getResourceFileName(QString hash)
 
 void jsBridge::deleteResource(QString hash, QString note)
 {
-    qDebug() << "deleteResource()" << hash << note;
+    LOG_INFO("hash: '"+ hash + "' note: '" + note + "'");
 
     QSqlQuery result;
     result.prepare("DELETE FROM resources WHERE bodyHash=:bodyHash AND noteGuid=:noteGuid");
@@ -284,14 +283,14 @@ QString jsBridge::newNoteGuid()
 
 bool jsBridge::updateNote(QVariantMap json)
 {
-    qDebug() << "updateNote() ";
-
     if (json.isEmpty())
         return false;
 
     QString guid = json["guid"].toString();
     if (guid.isEmpty())
         return false;
+
+    LOG_INFO(guid);
 
     Note::NoteUpdates updates;
 
@@ -366,7 +365,7 @@ QString jsBridge::selectedHtml() {
 
 QVariantMap jsBridge::loadNote(QString guid) {
 
-    qDebug() << "NoteReply::load()" << guid;
+    LOG_INFO(guid);
 
     QVariantMap noteJson;
     noteJson["ok"] = false;

@@ -283,7 +283,6 @@ function loadAboutInfo() {
     });
 }
 function loadNote(note_id, editable) {
-    jsB.debug('loadNote() ' + note_id + ' ' + editable);
 
     checkModified();
     jsB.noteSelectionChanged(false);
