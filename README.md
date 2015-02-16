@@ -20,7 +20,7 @@ For Qt5 builds:
 
 #Build
 <pre>
-$ git clone https://github.com/Vytax/hippo.git 
+$ git clone --recursive https://github.com/Vytax/hippo.git 
 $ cd hippo 
 $ qmake
 $ make</pre>
