@@ -100,9 +100,9 @@ QStringList SearchIndex::search(QString query) {
 void SearchIndex::clearIndex() {
     QSqlQuery sql;
 
-    if (!sql.exec("DELETE * FROM noteIndexGUIDs"))
+    if (!sql.exec("DELETE FROM noteIndexGUIDs"))
         LOG_ERROR("SQL: " + sql.lastError().text());
 
-    if (!sql.exec("DELETE * FROM noteIndex"))
+    if (!sql.exec("DELETE FROM noteIndex"))
         LOG_ERROR("SQL: " + sql.lastError().text());
 }
