@@ -67,7 +67,8 @@ SOURCES += main.cpp \
     mime.cpp \
     noteinfodialog.cpp \
     optionsdialog.cpp \
-    networkproxyfactory.cpp
+    networkproxyfactory.cpp \
+    searchindex.cpp
 HEADERS += tbinaryprotocol.h \
     edamprotocol.h \
     notebook.h \
@@ -105,7 +106,8 @@ HEADERS += tbinaryprotocol.h \
     mime.h \
     noteinfodialog.h \
     optionsdialog.h \
-    networkproxyfactory.h
+    networkproxyfactory.h \
+    searchindex.h
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp

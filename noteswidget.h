@@ -21,6 +21,7 @@ public:
     ListItem *getNoteWithGuid(QString guid);
     void switchNotebook(TreeItem::noteListType type, QStringList id, QString currentNote);
     void switchTag(QStringList id, QString currentNote);
+    void switchSearch(QStringList guids, QString currentNote);
     void clearSelection();
     void insertNewNote(QString guid, QString noteBook, QString title);
     

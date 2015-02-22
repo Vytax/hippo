@@ -333,6 +333,10 @@ MainWindow::MainWindow(QWidget *parent) :
     conflictsGroup = new QActionGroup(this);
     connect(conflictsGroup, SIGNAL(triggered(QAction*)), this, SLOT(changeNoteVersion(QAction*)));
 
+    searchIndex = new SearchIndex(this);
+    connect(ui->buildIndex, SIGNAL(clicked()), searchIndex, SLOT(buildSearchIndex()));
+    connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(search()));
+
     //showWindow();
     edam->init();
 }
@@ -710,6 +714,7 @@ void MainWindow::loadSelectionState(bool selectNote) {
     QList<QString> array;
     array.append("selNotebook");
     array.append("selTag");
+    array.append("selSearch");
     array.move(tab, array.size()-1);
 
     for (int i = 0; i< array.size(); i++) {
@@ -1385,4 +1390,16 @@ void MainWindow::enableSystemTrayIcon(bool state) {
         trayIcon = NULL;
     }
 
+}
+
+void MainWindow::search() {
+
+    QString query = ui->searchInput->text();
+
+    if (query.isEmpty())
+        return;
+
+    QStringList guids = searchIndex->search(query);
+
+    ui->NotesList->switchSearch(guids, getCurrentNoteGuid());
 }

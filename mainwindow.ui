@@ -49,8 +49,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>191</width>
-             <height>483</height>
+             <width>76</width>
+             <height>441</height>
             </rect>
            </property>
            <property name="dragEnabled">
@@ -91,6 +91,51 @@
              <string notr="true">1</string>
             </property>
            </column>
+          </widget>
+          <widget class="QWidget" name="search">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>87</width>
+             <height>441</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Search</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QPushButton" name="buildIndex">
+              <property name="text">
+               <string>Build Index</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="searchInput"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="searchButton">
+              <property name="text">
+               <string>Search</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

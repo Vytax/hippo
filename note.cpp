@@ -370,8 +370,6 @@ QByteArray Note::createPushContentPost()
 
 QString Note::getContent()
 {
-    qDebug() << "getContent()" << contentHash;
-
     QSqlQuery noteq;
     noteq.prepare("SELECT content FROM notesContent WHERE hash=:hash");
     noteq.bindValue(":hash", contentHash);
@@ -381,6 +379,36 @@ QString Note::getContent()
         return "";
 
     return noteq.value(0).toString();
+}
+
+QString Note::nodeToText(QDomNode node)
+{
+    QString result;
+
+    QDomNode n = node.firstChild();
+    while(!n.isNull()) {
+        if(n.isText()) {
+            result += n.nodeValue();
+        } else if (n.hasChildNodes()) {
+            result += nodeToText(n);
+        }
+
+        n = n.nextSibling();
+    }
+
+    return result;
+}
+
+QString Note::getContentTxt()
+{
+    QString xmldata = getContent();
+    if (xmldata.isEmpty())
+        return "";
+
+    QDomDocument doc;
+    doc.setContent(xmldata);
+
+    return nodeToText(doc.documentElement());
 }
 
 QString Note::getContentHash()

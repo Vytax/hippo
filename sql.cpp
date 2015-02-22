@@ -1,10 +1,11 @@
 #include "sql.h"
+#include "Logger.h"
 
 #include <QStringList>
 #include <QVariant>
 #include <QUuid>
 #include <QDir>
-#include <QDebug>
+#include <QSqlError>
 
 #if QT_VERSION >= 0x050000
 #include <QStandardPaths>
@@ -13,7 +14,7 @@
 #endif
 
 QString newGUID(QString table, QString column) {
-    qDebug() << "newGUID()";
+
     if (table.isEmpty() || column.isEmpty())
         return QUuid::createUuid().toString().mid(1,36);
 
@@ -65,10 +66,13 @@ sql::sql(QObject *parent) :
     }
 
     db = QSqlDatabase::addDatabase("QSQLITE");
-    if (!db.isValid())
-        qDebug() << "DB Klaida";
+    if (!db.isValid()) {
+        LOG_ERROR("DB driver load failed.");
+        return;
+    }
     db.setDatabaseName(dataDir + QDir::separator() + "db.sql");
-    db.open();
+    if (!db.open())
+        LOG_ERROR("DB load failed.");
 }
 
 sql::~sql()
@@ -231,4 +235,15 @@ void sql::checkTables()
     if (!db.tables().contains("notebookUpdates")) {
         db.exec(notebookUpdates);
     }
+
+    QString noteIndex("CREATE VIRTUAL TABLE noteIndex USING fts3(title, content);");
+    if (!db.tables().contains("noteIndex")) {
+        db.exec(noteIndex);
+    }
+
+    QString noteIndexGUIDs("CREATE TABLE noteIndexGUIDs (docid INTEGER PRIMARY KEY, guid VARCHAR(36) NOT NULL);");
+    if (!db.tables().contains("noteIndexGUIDs")) {
+        db.exec(noteIndexGUIDs);
+    }
+
 }

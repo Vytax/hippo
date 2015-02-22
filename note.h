@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QStringList>
 #include <QList>
+#include <QDomNode>
 
 /*
 Represents a single note in the user's account.
@@ -178,6 +179,7 @@ public:
 
 
     QString getContent();
+    QString getContentTxt();
     QString getContentHash();
     QString getTitle();
     bool getActive();
@@ -246,6 +248,7 @@ private:
 
     QByteArray createGetContentPost();
     QByteArray createPushContentPost();
+    QString nodeToText(QDomNode node);
 
 
 };

@@ -13,6 +13,8 @@
 #include "jsbridge.h"
 #include "enml2.h"
 #include "taglabel.h"
+#include "searchindex.h"
+
 
 namespace Ui {
     class MainWindow;
@@ -49,6 +51,7 @@ private:
     bool editingEnabled;
     TagLabel *newTag;
     QIcon appIcon;
+    SearchIndex *searchIndex;
 
 private slots:
     void closeWindow();
@@ -100,6 +103,7 @@ private slots:
     void print();
     void showOptions();
     void enableSystemTrayIcon(bool state);
+    void search();
 
 signals:
     void editButtonsStateChanged(bool enabled);

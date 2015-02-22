@@ -1,10 +1,10 @@
 #include "noteswidget.h"
 #include "sql.h"
+#include "Logger.h"
 #include <QMimeData>
 #include <QMenu>
 #include <QSqlQuery>
-
-#include <QDebug>
+#include <QSqlError>
 
 NotesWidget::NotesWidget(QWidget *parent) :
     QListWidget(parent)
@@ -84,7 +84,7 @@ ListItem* NotesWidget::getNoteWithGuid(QString guid)
 
 void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
 {
-    qDebug() << "contextMenuEvent";
+
     ListItem* item = reinterpret_cast<ListItem*>(this->itemAt(event->pos()));
 
     QMenu menu(this);
@@ -152,8 +152,6 @@ void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
     else if (ret->objectName() == "sortByModified")
         setNoteSortType(byModified);
 
-    qDebug() << "dd" << ret->objectName();
-
     event->accept();
 }
 
@@ -180,7 +178,8 @@ void NotesWidget::switchNotebook(TreeItem::noteListType type, QStringList id, QS
     } else if (type == TreeItem::conflict) {
         result.prepare("SELECT notes.title, conflictingNotes.guid, notes.notebookGuid, notes.created, conflictingNotes.updated FROM conflictingNotes LEFT JOIN notes ON notes.guid = conflictingNotes.guid");
     }
-    result.exec();
+    if (!result.exec())
+        LOG_ERROR("SQL: " + result.lastError().text());
 
     while (result.next()) {
         ListItem* item = new ListItem(this);
@@ -227,7 +226,8 @@ void NotesWidget::switchTag(QStringList id, QString currentNote)
     BindSQLArray(result, id);
 
     result.bindValue(":active", true);
-    result.exec();
+    if (!result.exec())
+        LOG_ERROR("SQL: " + result.lastError().text());
 
     while (result.next()) {
         ListItem* item = new ListItem(this);
@@ -246,6 +246,43 @@ void NotesWidget::switchTag(QStringList id, QString currentNote)
 
     signalsDisabled = false;
     emit reloaded();
+}
+
+void NotesWidget::switchSearch(QStringList guids, QString currentNote)
+{
+    signalsDisabled = true;
+    clear();
+
+    if (guids.isEmpty()) {
+        signalsDisabled = false;
+        return;
+    }
+
+    QSqlQuery result;
+    result.prepare(QString("SELECT title, guid, created, updated FROM notes WHERE guid IN (%1)").arg(AddSQLArray(guids.count())));
+    BindSQLArray(result, guids);
+
+    if (!result.exec())
+        LOG_ERROR("SQL: " + result.lastError().text());
+
+    while (result.next()) {
+        ListItem* item = new ListItem(this);
+        item->setText(result.value(0).toString());
+        item->setGUID(result.value(1).toString());
+        item->setCreated(result.value(2).toLongLong());
+        item->setModified(result.value(3).toLongLong());
+        item->setIcon(QIcon::fromTheme("basket"));
+        item->setSortType(sortType);
+    }
+
+    if (!currentNote.isEmpty())
+        selectNoteWithGuid(currentNote);
+
+    sortItems();
+
+    signalsDisabled = false;
+    emit reloaded();
+
 }
 
 void NotesWidget::setNoteSortType(qint8 type)
