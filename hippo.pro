@@ -13,7 +13,8 @@ lessThan(QT_MAJOR_VERSION, 5) {
 
 } else {
     QT += webkitwidgets \
-          concurrent
+          concurrent \
+          printsupport
 
     INCLUDEPATH  += /usr/include/poppler/qt5
     LIBS         += -lpoppler-qt5
