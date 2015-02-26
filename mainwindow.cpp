@@ -334,12 +334,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(conflictsGroup, SIGNAL(triggered(QAction*)), this, SLOT(changeNoteVersion(QAction*)));
 
     searchIndex = new SearchIndex(this);
-    connect(ui->buildIndex, SIGNAL(clicked()), searchIndex, SLOT(buildSearchIndex()));
     connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(search()));
     connect(edam, SIGNAL(syncFinished()), searchIndex, SLOT(buildSearchIndex()));
     connect(jsB, SIGNAL(noteUpdated(QString)), searchIndex, SLOT(updateNoteIndex(QString)));
     connect(edam, SIGNAL(noteUpdated(QString)), searchIndex, SLOT(dropNoteIndex(QString)));
-
+    connect(ui->searchInput, SIGNAL(returnPressed()), this, SLOT(search()));
 
     //showWindow();
     edam->init();
