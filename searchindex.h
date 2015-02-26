@@ -11,17 +11,21 @@ public:
     explicit SearchIndex(QObject *parent = 0);
 
     QStringList search(QString query);
+    void dropIndex();
+
 
 signals:
 
 public slots:
     void buildSearchIndex();
+    void updateNoteIndex(QString guid);
+    void dropNoteIndex(QString guid);
 
 private:
-    QStringList getNotesList();
+    QStringList getUnindexedNotesList();
 
     void writeNoteIndex(QString guid, QString title, QString content);
-    void clearIndex();
+
 
 };
 

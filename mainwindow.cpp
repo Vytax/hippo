@@ -336,6 +336,10 @@ MainWindow::MainWindow(QWidget *parent) :
     searchIndex = new SearchIndex(this);
     connect(ui->buildIndex, SIGNAL(clicked()), searchIndex, SLOT(buildSearchIndex()));
     connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(search()));
+    connect(edam, SIGNAL(syncFinished()), searchIndex, SLOT(buildSearchIndex()));
+    connect(jsB, SIGNAL(noteUpdated(QString)), searchIndex, SLOT(updateNoteIndex(QString)));
+    connect(edam, SIGNAL(noteUpdated(QString)), searchIndex, SLOT(dropNoteIndex(QString)));
+
 
     //showWindow();
     edam->init();

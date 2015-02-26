@@ -25,13 +25,13 @@ signals:
     void syncProgress(int value);
     void syncRangeChange(int max);
     void noteGuidChanged(QString oldGuid, QString newGuid);
+    void noteUpdated(QString guid);
     
 public slots:
     void cancelSync();
 
 private slots:
     void getUser();
-    void finished();
 
 private:
     bool canceled;

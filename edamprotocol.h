@@ -77,6 +77,7 @@ signals:
     void syncFinished();
     void syncRangeChange(int max);
     void noteGuidChanged(QString oldGuid, QString newGuid);
+    void noteUpdated(QString guid);
 
     void p_need_login();
     void p_logged_in();

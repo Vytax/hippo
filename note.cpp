@@ -388,15 +388,15 @@ QString Note::nodeToText(QDomNode node)
     QDomNode n = node.firstChild();
     while(!n.isNull()) {
         if(n.isText()) {
-            result += n.nodeValue();
+            result = result + " " + n.nodeValue().trimmed();
         } else if (n.hasChildNodes()) {
-            result += nodeToText(n);
+            result = result + " " + nodeToText(n);
         }
 
         n = n.nextSibling();
     }
 
-    return result;
+    return result.trimmed();
 }
 
 QString Note::getContentTxt()

@@ -1,9 +1,8 @@
 #include "sync.h"
 #include "sql.h"
 #include "edamprotocol.h"
+#include "Logger.h"
 #include <QSqlQuery>
-
-#include <QDebug>
 
 Sync::Sync(QObject *parent) :
     QObject(parent)
@@ -15,18 +14,25 @@ Sync::Sync(QObject *parent) :
     post = new SyncPost(this);
 
     connect(this, SIGNAL(syncFinished()), this, SLOT(getUser()));
+    connect(get, SIGNAL(noteUpdated(QString)), this, SIGNAL(noteUpdated(QString)));
 }
 
 void Sync::sync()
 {
-    qDebug() << "Sync::sync()" << started;
-    if (started)
+    LOG_INFO("Sync started.");
+    if (started) {
+        LOG_WARNING("Sync is already in progress");
         return;
+    }
 
     started = true;
     emit syncStarted(2000);
     get->sync();
     post->sync();
+
+    started = false;
+    LOG_INFO("Sync finished.");
+
     emit syncFinished();
 }
 
@@ -58,7 +64,6 @@ void Sync::updateUSN(qint64 usn)
     if (usn <= currentUSN)
         return;
 
-    qDebug() << "USN change:" << currentUSN << usn;
     currentUSN = usn;
     writeUSN();
 }
@@ -87,8 +92,6 @@ QByteArray Sync::createGetUserPost()
 
 void Sync::getUser()
 {
-    qDebug() << "getUser";
-
     qint64 uploadLimitEnd = sql::readSyncStatus("user.accounting.uploadLimitEnd").toLongLong();
 
     if (uploadLimitEnd > QDateTime::currentMSecsSinceEpoch())
@@ -108,10 +111,9 @@ void Sync::getUser()
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "Authentification failed: unknown result";
+        LOG_ERROR("EDAM: 'getUser' response failure.");
         return;
     }
-    qDebug() << name << messageType << seqid;
 
     hash data = bin->readField();
     delete bin;
@@ -151,12 +153,4 @@ void Sync::getUser()
         if (accounting.contains(3))
             sql::updateSyncStatus("user.accounting.uploadLimitNextMonth", accounting[3].toLongLong());
     }
-
-    qDebug() << user.keys() << QString::fromUtf8(user[2].toByteArray());
-}
-
-void Sync::finished() {
-    started = false;
-
-    qDebug() << "Sync::finished()";
 }

@@ -312,6 +312,8 @@ bool jsBridge::updateNote(QVariantMap json)
     note->update(updates);
     delete note;
 
+    emit noteUpdated(guid);
+
     return true;
 }
 

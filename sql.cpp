@@ -87,6 +87,9 @@ void sql::dropTables()
     db.exec("DROP TABLE notebooks");
     db.exec("DROP TABLE tags");
     db.exec("DROP TABLE resources");
+    db.exec("DROP TABLE noteAttributes");
+    db.exec("DROP TABLE noteIndex");
+    db.exec("DROP TABLE noteIndexGUIDs");
     checkTables();
 }
 

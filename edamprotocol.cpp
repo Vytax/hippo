@@ -43,6 +43,7 @@ EdamProtocol::EdamProtocol(QObject *parent):
     connect(s, SIGNAL(syncStarted(int)), timer, SLOT(stop()));
     connect(s, SIGNAL(syncFinished()), timer, SLOT(start()));
     connect(timer, SIGNAL(timeout()), this, SLOT(sync()));
+    connect(s, SIGNAL(noteUpdated(QString)), this, SIGNAL(noteUpdated(QString)));
 }
 
 EdamProtocol* EdamProtocol::GetInstance()

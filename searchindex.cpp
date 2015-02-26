@@ -15,9 +15,7 @@ void SearchIndex::buildSearchIndex() {
 
     LOG_DEBUG("buildSearchIndex()");
 
-    clearIndex();
-
-    QStringList notes = getNotesList();
+    QStringList notes = getUnindexedNotesList();
 
     if (notes.isEmpty())
         return;
@@ -37,19 +35,25 @@ void SearchIndex::buildSearchIndex() {
 
 }
 
-QStringList SearchIndex::getNotesList() {
+QStringList SearchIndex::getUnindexedNotesList() {
 
     QStringList result;
     QSqlQuery query;
 
-    query.exec("SELECT guid FROM notes WHERE active='true'");
+    if (!query.exec("SELECT notes.guid FROM notes LEFT JOIN noteIndexGUIDs ON notes.guid = noteIndexGUIDs.guid WHERE notes.active='true' AND (noteIndexGUIDs.docid IS NULL OR noteIndexGUIDs.docid=0)"))
+        LOG_ERROR("SQL: " + query.lastError().text());
+
     while (query.next())
         result.append(query.value(0).toString());
+
+    LOG_DEBUG(QString("%1 without index").arg(result.count()));
 
     return result;
 }
 
 void SearchIndex::writeNoteIndex(QString guid, QString title, QString content) {
+
+    LOG_DEBUG(content);
 
     QSqlQuery query;
 
@@ -97,12 +101,52 @@ QStringList SearchIndex::search(QString query) {
     return guids;
 }
 
-void SearchIndex::clearIndex() {
+void SearchIndex::dropIndex() {
     QSqlQuery sql;
 
-    if (!sql.exec("DELETE FROM noteIndexGUIDs"))
+    if (!sql.exec("DELETE FROM noteIndexGUIDs;"))
         LOG_ERROR("SQL: " + sql.lastError().text());
 
-    if (!sql.exec("DELETE FROM noteIndex"))
+    if (!sql.exec("DELETE FROM noteIndex;"))
         LOG_ERROR("SQL: " + sql.lastError().text());
+}
+
+void SearchIndex::dropNoteIndex(QString guid) {
+
+    if (guid.isEmpty())
+        return;
+
+    QSqlQuery sql;
+
+    sql.prepare("SELECT docid FROM noteIndexGUIDs WHERE guid=:guid");
+    sql.bindValue(":guid", guid);
+
+    if (!sql.exec()) {
+        LOG_ERROR("SQL: " + sql.lastError().text());
+        return;
+    }
+
+    if (!sql.next())
+        return;
+
+    int docid = sql.value(0).toInt();
+
+    sql.prepare("DELETE FROM noteIndexGUIDs WHERE guid=:guid");
+    sql.bindValue(":guid", guid);
+
+    if (!sql.exec())
+        LOG_ERROR("SQL: " + sql.lastError().text());
+
+    sql.prepare("DELETE FROM noteIndex WHERE docid=:docid");
+    sql.bindValue(":docid", docid);
+
+    if (!sql.exec())
+        LOG_ERROR("SQL: " + sql.lastError().text());
+
+}
+
+void SearchIndex::updateNoteIndex(QString guid) {
+
+    dropNoteIndex(guid);
+    buildSearchIndex();
 }

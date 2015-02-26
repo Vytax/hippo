@@ -101,6 +101,8 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
             if (n.contains(1)) {
                 QString guid = QString::fromUtf8(n[1].toByteArray());
                 note->loadFromSQL(guid);
+
+                emit noteUpdated(guid);
             }            
 
             QList<int> modifiedFields = note->modifiedFields();

@@ -39,6 +39,7 @@ public slots:
 signals:
     void hintMessage (const QString & message, int timeout);
     void noteChanged(QString guid);
+    void noteUpdated(QString guid);
     void editingStarted(bool started);
     void noteSelectionChanged(bool selected);
     void activeNoteSelectionChanged(bool selected);

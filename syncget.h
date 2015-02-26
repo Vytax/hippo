@@ -28,6 +28,9 @@ private:
     int modificationsCount();
     void updateProgress();
 
+signals:
+    void noteUpdated(QString guid);
+
 public slots:
     void cancelSync();
 };
