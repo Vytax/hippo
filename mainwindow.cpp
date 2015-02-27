@@ -662,6 +662,8 @@ void MainWindow::deleteNote(QString note) {
     ui->notebooks->reload();
     ui->tags->reload();
     loadSelectionState();
+
+    searchIndex->dropNoteIndex(note);
 }
 
 void MainWindow::saveSelectionState(QString notebook) {
@@ -841,6 +843,7 @@ void MainWindow::restoreNote(QString note, QString notebook) {
 
     ui->notebooks->reload();
     loadSelectionState(true);
+    searchIndex->buildSearchIndex();
 }
 
 void MainWindow::updateTag(QString guid, bool checked) {    
