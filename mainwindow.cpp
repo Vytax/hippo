@@ -42,7 +42,7 @@
 #include <QStandardPaths>
 #endif
 
-#include <QDebug>
+#include "Logger.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -373,8 +373,6 @@ void MainWindow::authentificationFailed()
 
 void MainWindow::syncStarted(int count)
 {
-    qDebug() << "syncStarted()" << count;
-
     ui->actionSync->setEnabled(false);
     if (loaded)
         return;    
@@ -394,8 +392,6 @@ void MainWindow::syncStarted(int count)
 
 void MainWindow::syncFinished()
 {
-    qDebug() << "syncFinished()";
-
     ui->actionSync->setEnabled(true);
     ui->notebooks->reload();
     ui->tags->reload();
@@ -432,8 +428,6 @@ void MainWindow::switchNotebook()
 
 void MainWindow::switchTag()
 {
-    qDebug() << "switchTag()";
-
     if (ui->toolBox->currentIndex() != 1)
         return;
 
@@ -446,7 +440,6 @@ void MainWindow::switchTag()
 
 void MainWindow::switchNote()
 {
-    qDebug() << "switchNote()";
     ListItem* l = reinterpret_cast<ListItem*>(ui->NotesList->currentItem());
     QString id = l->getGUID();
 
@@ -562,7 +555,8 @@ void MainWindow::moveNote(QString note, QString notebook) {
     query.prepare("UPDATE notes SET notebookGuid=:notebookGuid WHERE guid=:guid");
     query.bindValue(":notebookGuid", notebook);
     query.bindValue(":guid", note);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     Note::editField(note, Note::T_NOTEBOOK_GUID);
 
@@ -577,7 +571,7 @@ void MainWindow::openURL(QUrl url) {
 
 void MainWindow::setEditable(bool enabled) {
 
-    qDebug() << "setEditable() "<< enabled;
+    LOG_DEBUG(QVariant(enabled).toString());
 
     QString guid = getCurrentNoteGuid();
     if (enabled && guid.isEmpty())
@@ -625,7 +619,6 @@ void MainWindow::insertUrl() {
 }
 
 void MainWindow::deleteNote(QString note) {
-    qDebug() << "deleteNote()";
 
     if (note.isEmpty())
         note = getCurrentNoteGuid();
@@ -649,8 +642,6 @@ void MainWindow::deleteNote(QString note) {
     if(msgBox.result() != QMessageBox::Yes)
         return;
 
-    qDebug() << note;
-
     saveSelectionState();
 
     Note::NoteUpdates updates;
@@ -667,10 +658,10 @@ void MainWindow::deleteNote(QString note) {
 }
 
 void MainWindow::saveSelectionState(QString notebook) {
-    qDebug() << "saveSelectionState()";
 
     QSqlQuery query;
-    query.exec("DELETE FROM syncStatus WHERE option IN ('selNotebook', 'selTab', 'selNote', 'selTag')");
+    if (!query.exec("DELETE FROM syncStatus WHERE option IN ('selNotebook', 'selTab', 'selNote', 'selTag')"))
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     sql::updateSyncStatus("selTab", ui->toolBox->currentIndex());
 
@@ -690,15 +681,13 @@ void MainWindow::saveSelectionState(QString notebook) {
 
     ListItem* l = reinterpret_cast<ListItem*>(ui->NotesList->currentItem());
     sql::updateSyncStatus("selNote", l->getGUID());
-
-    qDebug() << l->getGUID();
 }
 
 void MainWindow::loadSelectionState(bool selectNote) {
-    qDebug() << "loadSelectionState()";
 
     QSqlQuery query;
-    query.exec("SELECT option, value FROM syncStatus WHERE option IN ('selNotebook', 'selTab', 'selNote', 'selTag')");
+    if (!query.exec("SELECT option, value FROM syncStatus WHERE option IN ('selNotebook', 'selTab', 'selNote', 'selTag')"))
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     QHash<QString, QString> status;    
 
@@ -707,8 +696,6 @@ void MainWindow::loadSelectionState(bool selectNote) {
 
     if (!status.contains("selTab"))
         return;
-
-    qDebug() << status;
 
     int tab = status["selTab"].toInt();
 
@@ -813,7 +800,7 @@ void MainWindow::showUserInfo() {
 }
 
 void MainWindow::downloadRequested( const QNetworkRequest & request) {
-    qDebug() << "downloadRequested()" << request.url();
+    LOG_DEBUG(request.url().toString());
 
     if (request.url().scheme() == "resource") {
         QString guid = request.url().host();
@@ -851,7 +838,6 @@ void MainWindow::updateTag(QString guid, bool checked) {
 }
 
 void MainWindow::updateTag(QString noteGuid, QString guid, bool checked) {
-    qDebug() << "updateTag" << noteGuid << guid << checked;
 
     if (noteGuid.isEmpty())
         return;
@@ -865,9 +851,8 @@ void MainWindow::updateTag(QString noteGuid, QString guid, bool checked) {
 
     query.bindValue(":noteGuid", noteGuid);
     query.bindValue(":guid", guid);
-    query.exec();
-
-    qDebug() << query.lastError().text();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     Note::editField(noteGuid, Note::T_TAG_GUIDS);
 
@@ -887,8 +872,6 @@ void MainWindow::editorContextMenuRequested ( const QPoint & pos ) {
     if (guid == "main")
         return;
 
-    qDebug() << "editorContextMenuRequested" << pos;
-
     QWebHitTestResult element = ui->editor->page()->mainFrame()->hitTestContent(pos);
 
     if (element.isNull())
@@ -897,8 +880,6 @@ void MainWindow::editorContextMenuRequested ( const QPoint & pos ) {
     QStringList classes = allClasses(element.element());
     if (classes.contains("pdfarea"))
         return;
-
-    qDebug() << classes;
 
     QMenu * menu = new QMenu(ui->editor);
 
@@ -1075,7 +1056,6 @@ void MainWindow::editorContextMenuRequested ( const QPoint & pos ) {
 }
 
 void MainWindow::insertFile() {
-    qDebug() << "insertFile()";
 
     QStringList filetypes;
 
@@ -1135,7 +1115,8 @@ void MainWindow::updateTagsToolBar(QString noteGuid) {
     QSqlQuery result;
     result.prepare("SELECT notesTags.guid, tags.name FROM notesTags LEFT JOIN tags ON notesTags.guid = tags.guid WHERE notesTags.noteGuid=:noteGuid ORDER BY tags.name COLLATE NOCASE ASC");
     result.bindValue(":noteGuid", noteGuid);
-    result.exec();
+    if (!result.exec())
+        LOG_ERROR("SQL: " + result.lastError().text());
 
     while (result.next()) {
         QAction *action = ui->tagsBar->addAction(QIcon::fromTheme("edit-delete"), result.value(1).toString());
@@ -1162,12 +1143,12 @@ void MainWindow::tagClicked(QAction * action) {
 }
 
 void MainWindow::createTag(QString tag) {
-    qDebug() << "createTag" << tag;
 
     QSqlQuery query;
     query.prepare("SELECT guid FROM tags WHERE name=:name");
     query.bindValue(":name", tag);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     QString tagGuid;
 
@@ -1222,7 +1203,6 @@ void MainWindow::addConflict(qint64 date, QString hash, bool enabled) {
 }
 
 void MainWindow::changeNoteVersion(QAction * action) {
-    qDebug() << "changeNoteVersion()" << action->data().toString();
 
     if (action == NULL || action->data().toString().isEmpty())
         return;
@@ -1231,7 +1211,6 @@ void MainWindow::changeNoteVersion(QAction * action) {
 }
 
 void MainWindow::keepThisVersion() {
-    qDebug() << "keepThisVersion()";
 
     QAction* action = conflictsGroup->checkedAction();
     if (action == NULL)
