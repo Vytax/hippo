@@ -1387,4 +1387,5 @@ void MainWindow::search() {
     QStringList guids = searchIndex->search(query);
 
     ui->NotesList->switchSearch(guids, getCurrentNoteGuid());
+    ui->statusbar->showMessage(QString("%1 results found").arg(guids.count()), 5000);
 }
