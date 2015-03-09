@@ -69,7 +69,8 @@ SOURCES += main.cpp \
     noteinfodialog.cpp \
     optionsdialog.cpp \
     networkproxyfactory.cpp \
-    searchindex.cpp
+    searchindex.cpp \
+    searchqueryparser.cpp
 HEADERS += tbinaryprotocol.h \
     edamprotocol.h \
     notebook.h \
@@ -108,7 +109,8 @@ HEADERS += tbinaryprotocol.h \
     noteinfodialog.h \
     optionsdialog.h \
     networkproxyfactory.h \
-    searchindex.h
+    searchindex.h \
+    searchqueryparser.h
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp

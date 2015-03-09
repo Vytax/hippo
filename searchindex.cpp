@@ -1,6 +1,7 @@
 #include "searchindex.h"
 #include "note.h"
 #include "Logger.h"
+#include "searchqueryparser.h"
 
 #include <QSqlQuery>
 #include <QSqlError>
@@ -82,20 +83,11 @@ void SearchIndex::writeNoteIndex(QString guid, QString title, QString content) {
 
 QStringList SearchIndex::search(QString query) {
 
-    LOG_DEBUG(query);
+    SearchQueryParser* queryParser = new SearchQueryParser(query);
 
-    QSqlQuery sql;
-
-    sql.prepare("SELECT noteIndexGUIDs.guid FROM noteIndex LEFT JOIN noteIndexGUIDs ON noteIndexGUIDs.docid = noteIndex.docid WHERE noteIndex MATCH :query");
-    sql.bindValue(":query", query);
-    if (!sql.exec())
-        LOG_ERROR("SQL: " + sql.lastError().text());
-
-    QStringList guids;
-
-    while (sql.next())
-        guids.append(sql.value(0).toString());
-
+    QStringList guids = queryParser->getSQLQuery();
+    delete queryParser;
+  
     LOG_DEBUG(QString("found %1 notes").arg(guids.count()));
 
     return guids;
@@ -150,3 +142,5 @@ void SearchIndex::updateNoteIndex(QString guid) {
     dropNoteIndex(guid);
     buildSearchIndex();
 }
+
+

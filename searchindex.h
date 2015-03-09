@@ -25,8 +25,6 @@ private:
     QStringList getUnindexedNotesList();
 
     void writeNoteIndex(QString guid, QString title, QString content);
-
-
 };
 
 #endif // SEARCHINDEX_H
