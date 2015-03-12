@@ -28,6 +28,8 @@ public slots:
 private:
     QSqlDatabase db;
 
+    void migrate();
+
 };
 
 #endif // SQL_H

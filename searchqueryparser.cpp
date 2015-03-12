@@ -147,6 +147,12 @@ QStringList SearchQueryParser::createSimpleQuery() {
         if (key["keyType"].toString() == "intitle")
             k = "title:" + k;
 
+        if (key["keyType"].toString() == "notebook")
+            k = "notebook:" + k;
+
+        if (key["keyType"].toString() == "tag")
+            k = "tags:" + k;
+
         if (key["keyNOT"].toBool())
             k = "-" + k;
 
@@ -199,6 +205,16 @@ QStringList SearchQueryParser::createComplexQuery() {
                 notGuids = mergeLists(notGuids, getNoteIndexQuery("title", key));
             else
                 guids = joinLists(guids, getNoteIndexQuery("title", key), intersect);
+        } else if (type == "notebook") {
+            if (keyNot)
+                notGuids = mergeLists(notGuids, getNoteIndexQuery("notebook", key));
+            else
+                guids = joinLists(guids, getNoteIndexQuery("notebook", key), intersect);
+        } else if (type == "tag") {
+            if (keyNot)
+                notGuids = mergeLists(notGuids, getNoteIndexQuery("tags", key));
+            else
+                guids = joinLists(guids, getNoteIndexQuery("tags", key), intersect);
         } else {
             if (keyNot)
                 notGuids = mergeLists(notGuids, getNoteIndexQuery("noteIndex", key));

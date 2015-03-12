@@ -116,6 +116,8 @@ QVariant sql::readSyncStatus(QString key, QVariant defaultValue)
 
 void sql::checkTables()
 {
+    migrate();
+
     QString notesTable("CREATE TABLE notes ( ");
     notesTable +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
     notesTable +="title TEXT, ";
@@ -239,7 +241,7 @@ void sql::checkTables()
         db.exec(notebookUpdates);
     }
 
-    QString noteIndex("CREATE VIRTUAL TABLE noteIndex USING fts3(title, content);");
+    QString noteIndex("CREATE VIRTUAL TABLE noteIndex USING fts3(title, content, tags, notebook);");
     if (!db.tables().contains("noteIndex")) {
         db.exec(noteIndex);
     }
@@ -249,4 +251,19 @@ void sql::checkTables()
         db.exec(noteIndexGUIDs);
     }
 
+}
+
+void sql::migrate() {
+    QSqlQuery query;
+    query.exec("PRAGMA table_info(noteIndex);");
+
+    int colCount = 0;
+
+    while (query.next())
+        colCount++;
+
+    if (colCount < 4) {
+        db.exec("DROP TABLE noteIndex");
+        db.exec("DROP TABLE noteIndexGUIDs");
+    }
 }

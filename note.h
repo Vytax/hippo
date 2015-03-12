@@ -187,7 +187,10 @@ public:
     QDateTime getUpdated();
     bool checkContentHash();
     QString getNotebookGuid();
+    QString getNotebookName();
     QString getGuid();
+    QList<QVariantMap> getTags();
+    QStringList getTagNames();
     QVariantMap conflict();
     qint32 getUSN();
     int getSize();

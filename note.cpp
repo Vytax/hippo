@@ -1,9 +1,11 @@
 #include "note.h"
 #include "resource.h"
 #include "edamprotocol.h"
+#include "Logger.h"
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QFile>
 #include <QSqlError>
 #include <QEventLoop>
@@ -381,6 +383,39 @@ QString Note::getContent()
     return noteq.value(0).toString();
 }
 
+QList<QVariantMap> Note::getTags()
+{
+    QSqlQuery query;
+    query.prepare("SELECT notesTags.guid, tags.name FROM notesTags LEFT JOIN tags ON notesTags.guid = tags.guid WHERE notesTags.noteGuid=:noteGuid ORDER BY tags.name COLLATE NOCASE ASC");
+    query.bindValue(":noteGuid", guid);
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
+
+    QList<QVariantMap> result;
+
+    while (query.next()) {
+        QVariantMap tag;
+        tag["guid"] = query.value(0).toString();
+        tag["name"] = query.value(1).toString();
+        result.append(tag);
+    }
+    return result;
+}
+
+QStringList Note::getTagNames()
+{
+    QList<QVariantMap> tags = getTags();
+
+    QStringList tagNames;
+    QVariantMap tag;
+
+    foreach(tag, tags) {
+        tagNames.append(tag["name"].toString());
+    }
+
+    return tagNames;
+}
+
 QString Note::nodeToText(QDomNode node)
 {
     QString result;
@@ -663,6 +698,19 @@ void Note::expungeNote(QString id) {
 
 QString Note::getNotebookGuid() {
     return notebookGuid;
+}
+
+QString Note::getNotebookName() {
+    QSqlQuery query;
+    query.prepare("SELECT name FROM notebooks WHERE guid=:guid");
+    query.bindValue(":guid", notebookGuid);
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
+
+    if (query.next())
+        return query.value(0).toString();
+
+    return "";
 }
 
 QString Note::getGuid() {

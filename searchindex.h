@@ -24,7 +24,7 @@ public slots:
 private:
     QStringList getUnindexedNotesList();
 
-    void writeNoteIndex(QString guid, QString title, QString content);
+    void writeNoteIndex(QString guid, QString title, QString content, QString tags, QString notebook);
 };
 
 #endif // SEARCHINDEX_H

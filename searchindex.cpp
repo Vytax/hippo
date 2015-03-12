@@ -29,7 +29,7 @@ void SearchIndex::buildSearchIndex() {
         if (n == NULL)
             continue;
 
-        writeNoteIndex(guid, n->getTitle(), n->getContentTxt());
+        writeNoteIndex(guid, n->getTitle(), n->getContentTxt(), n->getTagNames().join(" "),  n->getNotebookName());
 
         delete n;
     }
@@ -52,15 +52,15 @@ QStringList SearchIndex::getUnindexedNotesList() {
     return result;
 }
 
-void SearchIndex::writeNoteIndex(QString guid, QString title, QString content) {
-
-    LOG_DEBUG(content);
+void SearchIndex::writeNoteIndex(QString guid, QString title, QString content, QString tags, QString notebook) {
 
     QSqlQuery query;
 
-    query.prepare("INSERT INTO noteIndex(title, content) VALUES (:title, :content);");
+    query.prepare("INSERT INTO noteIndex(title, content, tags, notebook) VALUES (:title, :content, :tags, :notebook);");
     query.bindValue(":title", title);
     query.bindValue(":content", content);
+    query.bindValue(":tags", tags);
+    query.bindValue(":notebook", notebook);
 
     if (!query.exec()) {
         LOG_ERROR("SQL: " + query.lastError().text());
