@@ -5,6 +5,8 @@
 #include <QRegExp>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QDateTime>
+#include <QRegExp>
 
 SearchQueryParser::SearchQueryParser(QString query, QObject *parent) :
     QObject(parent)
@@ -12,6 +14,8 @@ SearchQueryParser::SearchQueryParser(QString query, QObject *parent) :
     m_noteindex_query = QString("SELECT noteIndexGUIDs.guid FROM noteIndex LEFT JOIN noteIndexGUIDs ON noteIndexGUIDs.docid = noteIndex.docid WHERE ");
 
     m_query = query;
+    complexTypes.append("created");
+    complexTypes.append("updated");
 
     LOG_DEBUG(m_query);
 
@@ -94,7 +98,6 @@ void SearchQueryParser::parseKey(QString key) {
     result["keyQuoted"] = keyQuoted;
 
     keys.append(result);
-    LOG_DEBUG("keyNOT: " + QVariant(keyNOT).toString() + " type: " + keyType + " key: " + key);
 }
 
 QStringList SearchQueryParser::getSQLQuery() {
@@ -125,6 +128,9 @@ bool SearchQueryParser::isQueryComplex() {
             return true;
 
         if (key["keyQuoted"].toBool() && !key["keyType"].toString().isEmpty())
+            return true;
+
+        if (complexTypes.contains(key["keyType"].toString()))
             return true;
 
         hasKeyNot = hasKeyNot && key["keyNOT"].toBool();
@@ -215,6 +221,14 @@ QStringList SearchQueryParser::createComplexQuery() {
                 notGuids = mergeLists(notGuids, getNoteIndexQuery("tags", key));
             else
                 guids = joinLists(guids, getNoteIndexQuery("tags", key), intersect);
+        } else if ((type == "updated") || (type == "created")) {
+            QPair<QDateTime, QDateTime> interval = parseDate(key);
+            if (interval.first.isValid()) {
+                if (keyNot)
+                    notGuids = mergeLists(notGuids, getNotesByDate(interval, type));
+                else
+                    guids = joinLists(guids, getNotesByDate(interval, type), intersect);
+            }
         } else {
             if (keyNot)
                 notGuids = mergeLists(notGuids, getNoteIndexQuery("noteIndex", key));
@@ -288,6 +302,87 @@ QStringList SearchQueryParser::getNoteIndexQuery(QString field, QString key) {
     QSqlQuery sql;
     sql.prepare(m_noteindex_query + field + " MATCH :key;");
     sql.bindValue(":key", key);
+    if (!sql.exec())
+        LOG_ERROR("SQL: " + sql.lastError().text());
+
+    while (sql.next())
+        guids.append(sql.value(0).toString());
+
+    return guids;
+}
+
+QPair<QDateTime, QDateTime> SearchQueryParser::parseDate(QString str) {
+
+    QDateTime dateTime;
+    QPair<QDateTime, QDateTime> result;
+
+    dateTime = QDateTime::fromString(str, "yyyyMMdd");
+    if (dateTime.isValid()) {
+        result.first = dateTime;
+        result.second = dateTime.addDays(1);
+        return result;
+    }
+    dateTime = QDateTime::fromString(str, "yyyyMMdd'T'HHmmss");
+    if (dateTime.isValid()) {
+        result.first = dateTime.addSecs(-30);
+        result.second = dateTime.addSecs(30);
+        return result;
+    }
+    dateTime = QDateTime::fromString(str, "yyyyMMdd'T'HHmmss'Z'");
+    if (dateTime.isValid()) {
+        dateTime = dateTime.toTimeSpec(Qt::UTC);
+        result.first = dateTime.addSecs(-30);
+        result.second = dateTime.addSecs(30);
+        return result;
+    }
+    QRegExp rx("^(day|week|month|year)(-(\\d+)|)$");
+    int pos = rx.indexIn(str.toLower());
+    if (pos > -1) {
+        QString type = rx.cap(1);
+        QString num = rx.cap(3);
+
+        int count = 0;
+        if (!num.isEmpty())
+            count = num.toInt();
+
+        QDate date = QDate::currentDate();
+        if (type == "day") {
+            date = date.addDays(-count);
+
+        } else if (type == "week") {
+            if (count)
+                date = date.addDays( -7 * count);
+            else
+                date = date.addDays(1 - date.dayOfWeek());
+
+        } else if (type == "month") {
+            if (count)
+                date = date.addMonths(-count);
+            else
+                date = date.addDays(1 - date.day());
+
+        } else if (type == "year") {
+            if (count)
+                date = date.addYears(-count);
+            else
+                date = date.addDays(1 - date.dayOfYear());
+        }
+        result.first = QDateTime(date);
+        result.second = QDateTime::currentDateTime();
+        return result;
+    }
+    return result;
+}
+
+QStringList SearchQueryParser::getNotesByDate(QPair<QDateTime, QDateTime> interval, QString column) {
+    QStringList guids;
+
+    QSqlQuery sql;
+    sql.prepare("SELECT guid FROM notes WHERE active=:active AND " + column + " BETWEEN :a AND :b;");
+    sql.bindValue(":active", true);
+    sql.bindValue(":a", interval.first.toMSecsSinceEpoch());
+    sql.bindValue(":b", interval.second.toMSecsSinceEpoch());
+
     if (!sql.exec())
         LOG_ERROR("SQL: " + sql.lastError().text());
 

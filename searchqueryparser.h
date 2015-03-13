@@ -3,18 +3,8 @@
 
 #include <QObject>
 #include <QVariantMap>
-
-class SearchQueryKey
-{
-public:
-    explicit SearchQueryKey(QString key);
-};
-
-class SearchQueryKey_Simple: public SearchQueryKey
-{
-public:
-   // void SearchQueryKey_Simple(QString key) { };
-};
+#include <QStringList>
+#include <QPair>
 
 class SearchQueryParser : public QObject
 {
@@ -42,10 +32,13 @@ private:
     QStringList mergeLists(QStringList a, QStringList b);
     QStringList subtractLists(QStringList a, QStringList b);
     QStringList joinLists(QStringList a, QStringList b, bool intersect);
+    QPair<QDateTime, QDateTime> parseDate(QString str);
+    QStringList getNotesByDate(QPair<QDateTime, QDateTime> interval, QString column);
 
     QList<QVariantMap> keys;
 
     QString m_noteindex_query;
+    QStringList complexTypes;
     bool any;
 
 };
