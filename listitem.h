@@ -6,7 +6,10 @@
 enum noteSortType {
     byTitle = 1,
     byModified = 2,
-    byCreated = 3
+    byCreated = 3,
+    byTitleDesc = 4,
+    byModifiedDesc = 5,
+    byCreatedDesc = 6
 };
 
 class ListItem : public QListWidgetItem

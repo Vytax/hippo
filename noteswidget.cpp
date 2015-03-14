@@ -100,6 +100,13 @@ void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
     sortMenu->addAction(sortByTitle);
     sortActions->addAction(sortByTitle);
 
+    QAction *sortByTitleDesc = new QAction("Title Desc...", this);
+    sortByTitleDesc->setObjectName("sortByTitleDesc");
+    sortByTitleDesc->setCheckable(true);
+    sortByTitleDesc->setChecked(sortType == byTitleDesc);
+    sortMenu->addAction(sortByTitleDesc);
+    sortActions->addAction(sortByTitleDesc);
+
     QAction *sortByCreated = new QAction("Created Date", this);
     sortByCreated->setObjectName("sortByCreated");
     sortByCreated->setCheckable(true);
@@ -107,12 +114,26 @@ void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
     sortMenu->addAction(sortByCreated);
     sortActions->addAction(sortByCreated);
 
+    QAction *sortByCreatedDesc = new QAction("Created Date Desc...", this);
+    sortByCreatedDesc->setObjectName("sortByCreatedDesc");
+    sortByCreatedDesc->setCheckable(true);
+    sortByCreatedDesc->setChecked(sortType == byCreatedDesc);
+    sortMenu->addAction(sortByCreatedDesc);
+    sortActions->addAction(sortByCreatedDesc);
+
     QAction *sortByModified = new QAction("Modified Date", this);
     sortByModified->setObjectName("sortByModified");
     sortByModified->setCheckable(true);
     sortByModified->setChecked(sortType == byModified);
     sortMenu->addAction(sortByModified);
     sortActions->addAction(sortByModified);
+
+    QAction *sortByModifiedDesc = new QAction("Modified Date Desc...", this);
+    sortByModifiedDesc->setObjectName("sortByModified");
+    sortByModifiedDesc->setCheckable(true);
+    sortByModifiedDesc->setChecked(sortType == byModifiedDesc);
+    sortMenu->addAction(sortByModifiedDesc);
+    sortActions->addAction(sortByModifiedDesc);
 
 
     if (item == NULL) {
@@ -151,6 +172,12 @@ void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
         setNoteSortType(byCreated);
     else if (ret->objectName() == "sortByModified")
         setNoteSortType(byModified);
+    else if (ret->objectName() == "sortByTitleDesc")
+        setNoteSortType(byTitleDesc);
+    else if (ret->objectName() == "sortByCreatedDesc")
+        setNoteSortType(byCreatedDesc);
+    else if (ret->objectName() == "sortByModifiedDesc")
+        setNoteSortType(byModifiedDesc);
 
     event->accept();
 }

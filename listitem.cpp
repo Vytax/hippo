@@ -44,13 +44,24 @@ bool ListItem::isActive()
 bool ListItem::operator< ( const QListWidgetItem & other ) const
 {
     ListItem &o = (ListItem &)other;
-    if (sortType == byTitle) {
-        return text() < o.text();
-    } else if (sortType == byCreated) {
+
+    switch (sortType) {
+    case byTitle:
+        return text().compare(o.text(), Qt::CaseInsensitive) < 0;
+    case byCreated:
         return created < o.getCreated();
-    } else if (sortType == byModified) {
+    case byModified:
         return modified < o.getModified();
+    case byTitleDesc:
+        return text().compare(o.text(), Qt::CaseInsensitive) > 0;
+    case byCreatedDesc:
+        return created > o.getCreated();
+    case byModifiedDesc:
+        return modified > o.getModified();
+    default:
+        return true;
     }
+
     return true;
 }
 
