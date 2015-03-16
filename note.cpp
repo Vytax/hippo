@@ -29,8 +29,6 @@ Note* Note::fromGUID(QString id) {
 
 void Note::loadFromData(hash data)
 {
-    qDebug() << "loadFromData" << data.keys();
-
     if (data.contains(1))
         guid = QString::fromUtf8(data[1].toByteArray());
     if (data.contains(2))
@@ -62,7 +60,6 @@ void Note::loadFromData(hash data)
     }
     if (data.contains(13)) {
         list l = data[13].toList();
-        qDebug() << "RECOURCE" << l.size();
         QSqlDatabase::database().transaction();
         for (int i=0; i<l.size(); i++){
             hash res = l.at(i).value<hash>();
@@ -72,13 +69,9 @@ void Note::loadFromData(hash data)
         QSqlDatabase::database().commit();
     }
     if (data.contains(14)) {
-        qDebug() << "Atributes";
-
         hash attr = data[14].value<hash>();
         readAttributes(attr);
-        qDebug() << attr.keys();
     }
-    qDebug() << title << active;
 }
 
 void Note::readAttributes(hash data)
@@ -97,7 +90,8 @@ bool Note::loadFromSQL(QString id)
     QSqlQuery noteq;
     noteq.prepare("SELECT title, notebookGuid, active, created, updated, deleted, contentHash, updateSequenceNum FROM notes WHERE guid=:guid");
     noteq.bindValue(":guid", id);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     if (!noteq.next())
          return false;
@@ -120,7 +114,8 @@ void Note::loadTagsSQL()
     QSqlQuery noteq;
     noteq.prepare("SELECT guid FROM notesTags WHERE noteGuid=:noteGuid");
     noteq.bindValue(":noteGuid", guid);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     while (noteq.next())
         tagGuids.append(noteq.value(0).toString());
@@ -131,7 +126,8 @@ void Note::loadAttributesSQL()
     QSqlQuery noteq;
     noteq.prepare("SELECT field, value FROM noteAttributes WHERE noteGuid=:noteGuid");
     noteq.bindValue(":noteGuid", guid);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     while (noteq.next())
         attributes[noteq.value(0).toString()] = noteq.value(1);
@@ -151,13 +147,11 @@ QByteArray Note::createGetContentPost()
 
 void Note::fetchContent()
 {    
-    qDebug() << "fetchContent()";
-
     bool ok;
     QByteArray result = EdamProtocol::GetInstance()->getNetworkManager()->postData(EdamProtocol::GetInstance()->getNoteStoreUri(), createGetContentPost(), ok);
 
     if (!ok) {
-        qDebug() << "NET ERROR";
+        LOG_ERROR("NET ERROR");
         return;
     }
 
@@ -168,14 +162,12 @@ void Note::fetchContent()
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "fetchContent failed: unknown result";
+        LOG_ERROR("EDAM: fetchContent failed: unknown result");
         return;
     }    
 
     hash data = bin->readField();
     content = QString::fromUtf8(data[0].toByteArray());
-
-    qDebug() << "content .. " << content.size();
 
     delete bin;
 
@@ -184,8 +176,6 @@ void Note::fetchContent()
 
 void Note::writeSQL()
 {
-    qDebug() <<  "writeSQL()";
-
     QString q("REPLACE INTO notes (guid, title, contentHash, created, updated, deleted, active, updateSequenceNum, notebookGuid)");
     q+= "VALUES (:guid, :title, :contentHash, :created, :updated, :deleted, :active, :updateSequenceNum, :notebookGuid)";
     QSqlQuery query;
@@ -199,7 +189,8 @@ void Note::writeSQL()
     query.bindValue(":active", active);
     query.bindValue(":updateSequenceNum", updateSequenceNum);
     query.bindValue(":notebookGuid", notebookGuid);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (updateSequenceNum > 0)
         EdamProtocol::GetInstance()->getSyncEngine()->updateUSN(updateSequenceNum);
@@ -208,13 +199,15 @@ void Note::writeSQLtags() {
     QSqlQuery query;
     query.prepare("DELETE FROM notesTags WHERE noteGuid=:noteGuid");
     query.bindValue(":noteGuid", guid);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     for (int i=0; i<tagGuids.size(); i++){
         query.prepare("INSERT INTO notesTags (noteGuid, guid) VALUES (:noteGuid, :guid)");
         query.bindValue(":noteGuid", guid);
         query.bindValue(":guid", tagGuids.at(i));
-        query.exec();
+        if (!query.exec())
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 }
 
@@ -230,7 +223,8 @@ void Note::writeSQLdata() {
     query.bindValue(":hash", contentHash);
     query.bindValue(":content", content);
     query.bindValue(":length", contentLength);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 }
 
 void Note::writeSQLAttributes() {
@@ -238,14 +232,16 @@ void Note::writeSQLAttributes() {
     QSqlQuery query;
     query.prepare("DELETE FROM noteAttributes WHERE noteGuid=:noteGuid");
     query.bindValue(":noteGuid", guid);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     foreach (const QString &str, attributes.keys()) {
         query.prepare("INSERT INTO noteAttributes (noteGuid, field, value) VALUES (:noteGuid, :field, :value)");
         query.bindValue(":noteGuid", guid);
         query.bindValue(":field", str);
         query.bindValue(":value", attributes[str]);
-        query.exec();
+        if (!query.exec())
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 }
 
@@ -256,7 +252,8 @@ QList<int> Note::modifiedFields()
     QSqlQuery noteq;
     noteq.prepare("SELECT field FROM noteUpdates WHERE guid=:guid");
     noteq.bindValue(":guid", guid);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     while (noteq.next())
         result.append(noteq.value(0).toInt());
@@ -274,7 +271,6 @@ QByteArray Note::createPushContentPost()
     else
         action = "updateNote";
 
-    qDebug() << "createPushContentPost()" << modifications << action << active;
     qint64 created_ = created.toMSecsSinceEpoch();
     qint64 updated_ = updated.toMSecsSinceEpoch();
     qint64 deleted_ = deleted.toMSecsSinceEpoch();
@@ -311,6 +307,8 @@ QByteArray Note::createPushContentPost()
         noteq.prepare("SELECT COUNT(*) FROM resources WHERE noteGuid=:guid");
         noteq.bindValue(":guid", guid);
         noteq.exec();
+        if (!noteq.exec())
+            LOG_ERROR("SQL: " + noteq.lastError().text());
 
         int count = 0;
         if (noteq.next())
@@ -321,7 +319,8 @@ QByteArray Note::createPushContentPost()
             q += " FROM resources LEFT JOIN resourcesData ON resources.bodyHash = resourcesData.hash WHERE resources.noteGuid=:guid";
             noteq.prepare(q);
             noteq.bindValue(":guid", guid);
-            noteq.exec();
+            if (!noteq.exec())
+                LOG_ERROR("SQL: " + noteq.lastError().text());
 
             bin->writeListBegin(13, TBinaryProtocol::T_STRUCT, count);
             while (noteq.next()) {                              
@@ -375,7 +374,8 @@ QString Note::getContent()
     QSqlQuery noteq;
     noteq.prepare("SELECT content FROM notesContent WHERE hash=:hash");
     noteq.bindValue(":hash", contentHash);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     if (!noteq.next())
         return "";
@@ -473,8 +473,6 @@ QDateTime Note::getUpdated()
 
 void Note::sync()
 {
-    qDebug() << "Note::sync()";
-
     bool ok;
     QByteArray result = EdamProtocol::GetInstance()->getNetworkManager()->postData(EdamProtocol::GetInstance()->getNoteStoreUri(), createPushContentPost(), ok);
 
@@ -488,17 +486,14 @@ void Note::sync()
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "checkVersion failed: unknown result";
+        LOG_ERROR("EDAM: " + name + " failed: unknown result");
         return;
     }
-    qDebug() << name << messageType << seqid;
 
     hash data = bin->readField();
     delete bin;
 
     if (!data.contains(0)) {
-        qDebug() << "KLAIDA!" << data.keys();
-
         if (data.contains(1)) {
             data = data[1].value<hash>();
             qDebug() << QString::fromUtf8(data[1].toByteArray()) << QString::fromUtf8(data[2].toByteArray());
@@ -525,13 +520,15 @@ void Note::sync()
         QSqlQuery noteq;
         noteq.prepare("DELETE FROM notes WHERE guid=:guid");
         noteq.bindValue(":guid", oldGuid);
-        noteq.exec();
+        if (!noteq.exec())
+            LOG_ERROR("SQL: " + noteq.lastError().text());
 
         noteq.prepare("UPDATE syncStatus SET value=:value WHERE option=:option AND value=:oldvalue");
         noteq.bindValue(":value", guid);
         noteq.bindValue(":option", "selNote");
         noteq.bindValue(":oldvalue", oldGuid);
-        noteq.exec();
+        if (!noteq.exec())
+            LOG_ERROR("SQL: " + noteq.lastError().text());
 
         emit noteGuidChanged(oldGuid, guid);
     }
@@ -539,11 +536,13 @@ void Note::sync()
     QSqlQuery noteq;
     noteq.prepare("DELETE FROM noteUpdates WHERE guid=:guid");
     noteq.bindValue(":guid", oldGuid);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     noteq.prepare("DELETE FROM notesTags WHERE noteGuid=:noteGuid");
     noteq.bindValue(":noteGuid", oldGuid);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 
     writeSQL();
     writeSQLtags();
@@ -561,7 +560,8 @@ void Note::editField(QString guid, int field) {
     noteq.prepare("INSERT INTO noteUpdates (guid, field) VALUES (:guid, :field)");
     noteq.bindValue(":guid", guid);
     noteq.bindValue(":field", field);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 }
 
 void Note::removeField(int field) {
@@ -576,12 +576,11 @@ void Note::removeField(QString guid, int field) {
     noteq.prepare("DELETE FROM noteUpdates WHERE guid=:guid AND field=:field");
     noteq.bindValue(":guid", guid);
     noteq.bindValue(":field", field);
-    noteq.exec();
+    if (!noteq.exec())
+        LOG_ERROR("SQL: " + noteq.lastError().text());
 }
 
 void Note::update(NoteUpdates updates) {
-    qDebug() << "Note::update()";
-
     if (guid.isEmpty()) {
         guid = updates[T_GUID].toString();
         editField(T_NEW);
@@ -677,22 +676,26 @@ void Note::expungeNote(QString id) {
     QSqlQuery query;
     query.prepare("DELETE FROM notes WHERE guid=:guid");
     query.bindValue(":guid", id);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
     query.clear();
 
     query.prepare("DELETE FROM notesTags WHERE noteGuid=:noteGuid");
     query.bindValue(":noteGuid", id);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
     query.clear();
 
     query.prepare("DELETE FROM resources WHERE noteGuid=:noteGuid");
     query.bindValue(":noteGuid", id);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
     query.clear();
 
     query.prepare("DELETE FROM noteUpdates WHERE guid=:guid");
     query.bindValue(":guid", id);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
     query.clear();
 }
 
@@ -722,7 +725,8 @@ bool Note::hasData()
     QSqlQuery query;
     query.prepare("SELECT COUNT(*) FROM notesContent WHERE hash=:hash");
     query.bindValue(":hash", contentHash);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (query.next())
         return query.value(0).toInt() > 0;
@@ -736,7 +740,8 @@ QVariantMap Note::conflict() {
     QSqlQuery query;
     query.prepare("SELECT conflictingNotes.contentHash, conflictingNotes.updated, notesContent.content FROM conflictingNotes LEFT JOIN notesContent ON conflictingNotes.contentHash = notesContent.hash WHERE conflictingNotes.guid=:guid");
     query.bindValue(":guid", guid);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (query.next()) {
         result["contentHash"] = query.value(0);
@@ -751,7 +756,8 @@ void Note::dropConflict() {
     QSqlQuery query;
     query.prepare("DELETE FROM conflictingNotes WHERE guid=:guid");
     query.bindValue(":guid", guid);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 }
 
 qint32 Note::getUSN() {
@@ -823,5 +829,6 @@ void Note::writeConflict(QString id, QString hash, qint64 updatedT) {
     query.bindValue(":guid", id);
     query.bindValue(":contentHash", hash);
     query.bindValue(":updated", updatedT);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 }

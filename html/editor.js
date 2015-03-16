@@ -25,7 +25,7 @@ function isOnEditableArea() {
 
     var range, sel, container, node;
     if (window.getSelection) {
-        jsB.debug('isOnEditableArea()');
+
         sel = window.getSelection();
         if (sel.rangeCount > 0) {
             range = sel.getRangeAt(0);
@@ -45,7 +45,6 @@ function input(event) {
     if (!editMode)
         return;
     contentModified = true;
-    jsB.debug("input");
 }
 function setEndOfContenteditable()
 {
@@ -59,7 +58,6 @@ function setEndOfContenteditable()
 }
 function setEditable(editable)
 {
-    jsB.debug('setEditable() '+ editable)
     editMode = editable;
     $('body').setAttribute('contenteditable', editable);
     if (editable)
@@ -236,8 +234,6 @@ function stopObserving(element) {
     });
 }
 function loadImage(item) {
-    jsB.debug('loadImage()');
-
     id = item.readAttribute('hash');
     item.update();
 
@@ -283,7 +279,6 @@ function loadAboutInfo() {
     });
 }
 function loadNote(note_id, editable) {
-
     checkModified();
     jsB.noteSelectionChanged(false);
 
@@ -469,8 +464,6 @@ function replaceSpellWord(word) {
     contentModified = true;
 }
 function getENML() {
-    jsB.debug("getENML()");
-
     enmlWritter.createDoc();
 
     var body = $('body');
@@ -484,7 +477,6 @@ function getENML() {
     enmlWritter.cleanEmptyTags();
 
     var str = enmlWritter.toString();
-    jsB.debug(str);
     return str;
 }
 function parseHTML(node) {
@@ -575,8 +567,6 @@ function loadEnCrypt(item, content) {
         var hint = encrypt.readAttribute('hint');
         var data = encrypt.down('.data').innerHTML;
 
-        jsB.debug('OO '+ data);
-
         var html = jsB.decrypt(data, hint);
         if (!html.empty()) {
             this.hide();
@@ -612,7 +602,6 @@ function loadEnCrypt(item, content) {
             });
             menu2.appendChild(remove);
         }
-
 
     });
 }
