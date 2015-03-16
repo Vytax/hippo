@@ -129,7 +129,7 @@ void NotesWidget::contextMenuEvent (QContextMenuEvent * event)
     sortActions->addAction(sortByModified);
 
     QAction *sortByModifiedDesc = new QAction("Modified Date Desc...", this);
-    sortByModifiedDesc->setObjectName("sortByModified");
+    sortByModifiedDesc->setObjectName("sortByModifiedDesc");
     sortByModifiedDesc->setCheckable(true);
     sortByModifiedDesc->setChecked(sortType == byModifiedDesc);
     sortMenu->addAction(sortByModifiedDesc);
