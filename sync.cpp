@@ -2,6 +2,7 @@
 #include "sql.h"
 #include "edamprotocol.h"
 #include "Logger.h"
+#include "error.h"
 #include <QSqlQuery>
 
 Sync::Sync(QObject *parent) :
@@ -118,8 +119,10 @@ void Sync::getUser()
     hash data = bin->readField();
     delete bin;
 
-    if (!data.contains(0))
+    if (!data.contains(0)) {
+        Error::readExceptions(data);
         return;
+    }
 
     hash user = data[0].value<hash>();
 

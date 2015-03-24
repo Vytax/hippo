@@ -5,8 +5,6 @@
 #include "resource.h"
 #include "edamprotocol.h"
 
-#include <QEventLoop>
-#include <QDebug>
 #include <QSqlQuery>
 
 SyncPost::SyncPost(QObject *parent) :
@@ -124,7 +122,6 @@ void SyncPost::updateNoteBook(QString guid) {
 }
 
 void SyncPost::sync() {
-    qDebug() << "SyncPost::sync()";
 
     t_updates updates = readUpdates();
 

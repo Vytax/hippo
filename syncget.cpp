@@ -3,11 +3,10 @@
 #include "tag.h"
 #include "resource.h"
 #include "edamprotocol.h"
+#include "Logger.h"
+#include "error.h"
 
 #include <QSqlQuery>
-#include <QEventLoop>
-
-#include <QDebug>
 
 SyncGet::SyncGet(QObject *parent):
         QObject(parent)
@@ -45,7 +44,7 @@ QByteArray SyncGet::createGetFilteredSyncChunkPost(qint32 afterUSN, qint32 maxEn
 
 void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 {
-    qDebug() << "GetSyncChunk "  << afterUSN;
+    LOG_DEBUG(QString("afterUSN: %1").arg(afterUSN));
 
     qint32 maxEntries = 500;
     QByteArray postData = createGetFilteredSyncChunkPost(afterUSN, maxEntries);
@@ -64,15 +63,19 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "checkVersion failed: unknown result";
+        LOG_ERROR("EDAM: getFilteredSyncChunk response failure.");
         return;
     }
-    qDebug() << name << messageType << seqid;
 
     hash data = bin->readField();
     delete bin;
+
+    if (!data.contains(0)) {
+        Error::readExceptions(data);
+        return;
+    }
+
     hash SyncChunk = data[0].value<hash>();
-    qDebug() << SyncChunk.keys();
 
     qint32 updateCount;
     qint32 chunkHighUSN;
@@ -86,15 +89,11 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
     lastChunk = (chunkHighUSN >= updateCount) || (chunkHighUSN == 0) || (updateCount == 0);
     afterUSN = chunkHighUSN;
 
-    qDebug() <<  SyncChunk[2].toInt();
-    qDebug() << EdamProtocol::GetInstance()->getSyncEngine()->getUSN() << updateCount;
-
     if (SyncChunk.contains(4)){
         list l = SyncChunk[4].toList();
         for (int i = 0; i< l.size(); i++){
-            qDebug() << "note ------------------";
+            LOG_INFO("Note received");
             hash n = l.at(i).value<hash>();
-            qDebug() << n.keys();
 
             Note *note = new Note(this);
 
@@ -107,7 +106,7 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 
             QList<int> modifiedFields = note->modifiedFields();
             if (!modifiedFields.isEmpty()) {
-                qDebug() << "CONFLICT!";
+                LOG_INFO("Note conflict");
                 
                 QDateTime updated = QDateTime::fromMSecsSinceEpoch(0);
                 if (n.contains(7))
@@ -122,15 +121,10 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 
                     if (contentHash.compare(note->getContentHash(), Qt::CaseInsensitive) != 0) {
                         Note::writeConflict(note->getGuid(), note->getContentHash(),note->getUpdated().toMSecsSinceEpoch());
-                        qDebug() << "Content!";
                     }
                     n.remove(7); // Updated
                     n.remove(8); // Deleted
                 }
-
-                qDebug() << "Updated" << updated;
-                qDebug() << "note->getUpdated()" << note->getUpdated();
-
 
                 if (updated < note->getUpdated()) {
 
@@ -263,7 +257,7 @@ QByteArray SyncGet::createGetSyncStatePost()
 
 void SyncGet::GetSyncState(qint64 &currentTime, qint64 &fullSyncBefore, qint32 &updateCount, qint64 &uploaded)
 {
-    qDebug() << "GetSyncState";
+    LOG_INFO("GetSyncState");
 
     bool ok;
     QByteArray result = EdamProtocol::GetInstance()->getNetworkManager()->postData(EdamProtocol::GetInstance()->getNoteStoreUri(), createGetSyncStatePost(), ok);
@@ -278,30 +272,15 @@ void SyncGet::GetSyncState(qint64 &currentTime, qint64 &fullSyncBefore, qint32 &
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "GetSyncState failed: unknown result";
+        LOG_ERROR("EDAM: 'GetSyncState' response failure.");
         return;
     }
-    qDebug() << name << messageType << seqid;
 
     hash data = bin->readField();
     delete bin;
 
     if (!data.contains(0)) {
-        qDebug() << "KLAIDA!" << data.keys();
-
-        if (data.contains(1)) {
-            data = data[1].value<hash>();
-            qDebug() << QString::fromUtf8(data[1].toByteArray()) << QString::fromUtf8(data[2].toByteArray());
-        }
-        if (data.contains(2)) {
-            data = data[2].value<hash>();
-            qDebug() << data[1].toInt() << QString::fromUtf8(data[2].toByteArray());
-        }
-        if (data.contains(3)) {
-            data = data[3].value<hash>();
-            qDebug() << QString::fromUtf8(data[1].toByteArray()) << QString::fromUtf8(data[2].toByteArray());
-        }
-
+        Error::readExceptions(data);
         return;
     }
 
@@ -315,7 +294,6 @@ void SyncGet::GetSyncState(qint64 &currentTime, qint64 &fullSyncBefore, qint32 &
 
 void SyncGet::sync()
 {
-    qDebug() << "SyncGet::sync()";
     canceled = false;
     qint64 LastFullSyncDate = sql::readSyncStatus("LastFullSyncDate", 0).toLongLong();
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();

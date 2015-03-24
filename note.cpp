@@ -2,13 +2,10 @@
 #include "resource.h"
 #include "edamprotocol.h"
 #include "Logger.h"
+#include "error.h"
 
-#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
-#include <QFile>
-#include <QSqlError>
-#include <QEventLoop>
 
 Note::Note(QObject *parent):
     QObject(parent)
@@ -167,6 +164,10 @@ void Note::fetchContent()
     }    
 
     hash data = bin->readField();
+
+    if (!data.contains(0))
+        Error::readExceptions(data);
+
     content = QString::fromUtf8(data[0].toByteArray());
 
     delete bin;
@@ -493,22 +494,8 @@ void Note::sync()
     hash data = bin->readField();
     delete bin;
 
-    if (!data.contains(0)) {
-        if (data.contains(1)) {
-            data = data[1].value<hash>();
-            qDebug() << QString::fromUtf8(data[1].toByteArray()) << QString::fromUtf8(data[2].toByteArray());
-        }
-        if (data.contains(2)) {
-            data = data[2].value<hash>();
-            qDebug() << data[1].toInt() << QString::fromUtf8(data[2].toByteArray());
-        }
-        if (data.contains(3)) {
-            data = data[3].value<hash>();
-            qDebug() << QString::fromUtf8(data[1].toByteArray()) << QString::fromUtf8(data[2].toByteArray());
-        }
-
-        return;
-    }
+    if (!data.contains(0))
+        Error::readExceptions(data);
 
     QString oldGuid = guid;
 
