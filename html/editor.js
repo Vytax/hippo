@@ -560,6 +560,7 @@ function loadEnCrypt(item, content) {
     var img = new Element('img', {'src': 'qrc:///img/encrypted_text_button.gif', 'hint': 'Encrypted content', 'class': 'cryptButton pointer'});
     setHintEvent(img);
     item.appendChild(img);
+    img.observe("dragstart", function(event) {event.preventDefault();});
 
     var data = new Element('div', {'class' : 'data'});
     data.hide();
