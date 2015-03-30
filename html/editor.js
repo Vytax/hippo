@@ -77,6 +77,10 @@ function setEditable(editable)
         else
             item.hide();
     });
+    items = $$('.pdfarea > .pdfico');
+    items.each(function(item) {
+        item.setAttribute('draggable', !editable);
+    });
 }
 function loadEnMedia(item)
 {
@@ -92,15 +96,16 @@ function loadEnMedia(item)
 }
 function loadPDF(item)
 {
-    jsB.debug('loadPDF');
-
     var id = item.readAttribute('hash');
     item.update();
 
     var pdfArea = new Element('div', {'class': 'pdfarea', 'contenteditable': 'false', 'id': id});
     item.appendChild(pdfArea);
 
-    pdfArea.appendChild(new Element('div', {'class': 'pdfico'}));
+    var pdfIco = new Element('div', {'class': 'pdfico'});
+    pdfIco.hash = id;
+    pdfArea.appendChild(pdfIco);
+    pdfIco.observe("dragstart", dragStart.bind(pdfIco));
 
     var fileName = jsB.getResourceFileName(id);
     title = '<b>Embedded PDF Document</b><br />';
@@ -219,21 +224,7 @@ function insertPDF(hash) {
     item.removeAttribute('id');
     loadPDF(item);
 }
-function encode() {
-    items = $$('en-media');
-    iteams.each(function(item) {
-        stopObserving(item);
-        item.update();
-    });
-}
-function stopObserving(element) {
-    Event.stopObserving(element);
-    items = element.childElements();
-    iteams.each(function(item) {
-        stopObserving(item);
-    });
-}
-function imgDragStart(evt) {
+function dragStart(evt) {
     evt.preventDefault();
     jsB.dragResource(this.hash);
 }
@@ -243,7 +234,7 @@ function loadImage(item) {
 
     var img = new Element('img', {'src': 'resource://' + id});
     img.hash = id;
-    img.observe("dragstart", imgDragStart.bind(img));
+    img.observe("dragstart", dragStart.bind(img));
 
     if (item.hasAttribute('width'))
         img.writeAttribute('width', item.readAttribute('width'));

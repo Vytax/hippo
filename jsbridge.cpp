@@ -257,6 +257,9 @@ QString jsBridge::getResourceFileName(QString hash)
 }
 
 void jsBridge::dragResource(QString hash) {
+
+    LOG_DEBUG("DRAG " + hash);
+
     Resource *res = Resource::fromHash(hash);
     if (res == NULL)
         return;
@@ -264,6 +267,15 @@ void jsBridge::dragResource(QString hash) {
     QString mime = res->mimeType();
     QString fileName = res->getFileName();
     QByteArray data = res->getData();
+
+    QPixmap pix;
+    if (res->isImage()) {
+        pix.loadFromData(data);
+
+    } else if (res->isPDF()) {
+        pix.load(":/img/application-pdf.png");
+    }
+
     delete res;
 
     if (fileName.isEmpty())
@@ -305,9 +317,8 @@ void jsBridge::dragResource(QString hash) {
 
     drag->setMimeData(mimeData);
 
-    QPixmap pix;
-    pix.loadFromData(data);
-    drag->setPixmap(pix.scaled(128,128, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if (!pix.isNull())
+        drag->setPixmap(pix.scaled(128,128, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     drag->exec(Qt::CopyAction | Qt::MoveAction);
 }

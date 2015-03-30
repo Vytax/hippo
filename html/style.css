@@ -52,7 +52,7 @@ img.cryptButton:hover {
     vertical-align:text-top;
     padding:3px;
 }
-.pdfico, .fileico {
+.pdfico {
     float:left;
     display: block;
     width: 64px;
