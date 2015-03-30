@@ -18,6 +18,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QApplication>
+#include <QDrag>
+#include <QMimeData>
 
 jsBridge::jsBridge(QObject *parent, pdfCache * pdfc) :
     QObject(parent), pdf(pdfc), webview(NULL)
@@ -252,6 +254,62 @@ QString jsBridge::getResourceFileName(QString hash)
     delete res;
 
     return filename;
+}
+
+void jsBridge::dragResource(QString hash) {
+    Resource *res = Resource::fromHash(hash);
+    if (res == NULL)
+        return;
+
+    QString mime = res->mimeType();
+    QString fileName = res->getFileName();
+    QByteArray data = res->getData();
+    delete res;
+
+    if (fileName.isEmpty())
+        fileName = hash;
+
+    if (mime == "application/pdf") {
+        if (!fileName.endsWith(".pdf", Qt::CaseInsensitive))
+            fileName += ".pdf";
+    } else if (mime == "image/jpeg") {
+        if (!fileName.endsWith(".jpg", Qt::CaseInsensitive) && !fileName.endsWith(".jpeg", Qt::CaseInsensitive))
+            fileName += ".jpg";
+    } else if (mime == "image/png") {
+        if (!fileName.endsWith(".png", Qt::CaseInsensitive))
+            fileName += ".png";
+    } else if (mime == "image/gif") {
+        if (!fileName.endsWith(".gif", Qt::CaseInsensitive))
+            fileName += ".gif";
+    }
+
+    QString tmpl = QDir::tempPath() + QDir::separator() + fileName;
+
+    QFile* f = new QFile(tmpl);
+
+    if (!f->open(QIODevice::WriteOnly))
+        return;
+
+    f->write(data);
+    f->close();
+    files.enqueue(f);
+
+    QTimer::singleShot(60000, this, SLOT(removeTmpFile()));
+
+    QDrag *drag = new QDrag(new QWidget());
+    QMimeData *mimeData = new QMimeData;
+
+    QFileInfo fileInfo(tmpl);
+    QUrl url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+    mimeData->setUrls(QList<QUrl>() << url);
+
+    drag->setMimeData(mimeData);
+
+    QPixmap pix;
+    pix.loadFromData(data);
+    drag->setPixmap(pix.scaled(128,128, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    drag->exec(Qt::CopyAction | Qt::MoveAction);
 }
 
 void jsBridge::deleteResource(QString hash, QString note)

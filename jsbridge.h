@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE QString selectedHtml();
     Q_INVOKABLE QVariantMap loadNote(QString guid);
 
+
 public slots:
     void saveAsResource(QString hash);
     void externalOpenResource(QString hash);
@@ -34,6 +35,7 @@ public slots:
     void deleteResource(QString hash, QString note);
     QString newNoteGuid();
     bool updateNote(QVariantMap json);
+    void dragResource(QString hash);
 
 
 signals:

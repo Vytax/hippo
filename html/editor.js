@@ -233,11 +233,17 @@ function stopObserving(element) {
         stopObserving(item);
     });
 }
+function imgDragStart(evt) {
+    evt.preventDefault();
+    jsB.dragResource(this.hash);
+}
 function loadImage(item) {
-    id = item.readAttribute('hash');
+    var id = item.readAttribute('hash');
     item.update();
 
-    img = new Element('img', {'src': 'resource://' + id});
+    var img = new Element('img', {'src': 'resource://' + id});
+    img.hash = id;
+    img.observe("dragstart", imgDragStart.bind(img));
 
     if (item.hasAttribute('width'))
         img.writeAttribute('width', item.readAttribute('width'));
