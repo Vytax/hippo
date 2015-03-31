@@ -77,7 +77,7 @@ function setEditable(editable)
         else
             item.hide();
     });
-    items = $$('.pdfarea > .pdfico');
+    items = $$('.draggable');
     items.each(function(item) {
         item.setAttribute('draggable', !editable);
     });
@@ -102,7 +102,7 @@ function loadPDF(item)
     var pdfArea = new Element('div', {'class': 'pdfarea', 'contenteditable': 'false', 'id': id});
     item.appendChild(pdfArea);
 
-    var pdfIco = new Element('div', {'class': 'pdfico'});
+    var pdfIco = new Element('div', {'class': 'pdfico draggable'});
     pdfIco.hash = id;
     pdfArea.appendChild(pdfIco);
     pdfIco.observe("dragstart", dragStart.bind(pdfIco));
@@ -145,46 +145,48 @@ function loadPDF(item)
     menu2.appendChild(del);
 }
 function loadFile(item) {
-    jsB.debug('loadFile');
 
-    id = item.readAttribute('hash');
+    var id = item.readAttribute('hash');
     item.update();
 
-    fileArea = new Element('div', {'class': 'filearea', 'contenteditable': 'false', 'id': id});
+    var fileArea = new Element('div', {'class': 'filearea', 'contenteditable': 'false', 'id': id});
     item.appendChild(fileArea);
 
-    fileArea.appendChild(new Element('div', {'class': 'fileico'}));
+    var fileico = new Element('div', {'class': 'fileico draggable'});
+    fileico.hash = id;
+    fileArea.appendChild(fileico);
+    fileico.observe("dragstart", dragStart.bind(fileico));
 
-    fileName = jsB.getResourceFileName(id);
-    title = '<b>Embedded File</b><br />';
+    var fileName = jsB.getResourceFileName(id);
+    var title = '<b>Embedded File</b><br />';
     if (!fileName.blank())
         title = title + ' (' + fileName + ')';
 
     fileArea.appendChild(new Element('div', {'class': 'filetitle'}).update(title));
 
-    menu = new Element('div', {'class': 'menu normal_mode'});
+    var menu = new Element('div', {'class': 'menu normal_mode'});
     fileArea.appendChild(menu);
     if (editMode)
         menu.hide();
 
     if (!fileName.empty()) {
-        open = new Element('span', {'hint': 'Open...', 'type': 'open'}).update('Open...');
+        var open = new Element('span', {'hint': 'Open...', 'type': 'open'}).update('Open...');
         setClickEvent(open);
         setHintEvent(open);
         menu.appendChild(open);
     }
 
-    saveas = new Element('span', {'hint': 'Save file to a disk', 'type': 'saveas'}).update('Save As...');
+    var saveas = new Element('span', {'hint': 'Save file to a disk', 'type': 'saveas'}).update('Save As...');
     setClickEvent(saveas);
     setHintEvent(saveas);
     menu.appendChild(saveas);
 
-    menu2 = new Element('div', {'class': 'menu edit_mode'});
+    var menu2 = new Element('div', {'class': 'menu edit_mode'});
     fileArea.appendChild(menu2);
     if (!editMode)
         menu2.hide();
 
-    del = new Element('span', {'hint': 'Delete file', 'type': 'delete'}).update('Delete');
+    var del = new Element('span', {'hint': 'Delete file', 'type': 'delete'}).update('Delete');
     setClickEvent(del);
     setHintEvent(del);
     menu2.appendChild(del);

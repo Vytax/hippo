@@ -258,8 +258,6 @@ QString jsBridge::getResourceFileName(QString hash)
 
 void jsBridge::dragResource(QString hash) {
 
-    LOG_DEBUG("DRAG " + hash);
-
     Resource *res = Resource::fromHash(hash);
     if (res == NULL)
         return;
@@ -274,6 +272,8 @@ void jsBridge::dragResource(QString hash) {
 
     } else if (res->isPDF()) {
         pix.load(":/img/application-pdf.png");
+    } else {
+        pix.load(":/img/application-octet-stream.png");
     }
 
     delete res;
