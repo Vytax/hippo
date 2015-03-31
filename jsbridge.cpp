@@ -269,7 +269,6 @@ void jsBridge::dragResource(QString hash) {
     QPixmap pix;
     if (res->isImage()) {
         pix.loadFromData(data);
-
     } else if (res->isPDF()) {
         pix.load(":/img/application-pdf.png");
     } else {

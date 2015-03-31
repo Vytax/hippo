@@ -340,12 +340,23 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(edam, SIGNAL(noteUpdated(QString)), searchIndex, SLOT(dropNoteIndex(QString)));
     connect(ui->searchInput, SIGNAL(returnPressed()), this, SLOT(search()));
 
+    QByteArray mainWindowGeometry = sql::readSyncStatus("mainWindowGeometry").toString().toLatin1();
+    if (!mainWindowGeometry.isEmpty())
+        restoreGeometry(QByteArray::fromBase64(mainWindowGeometry));
+
+    QByteArray mainWidgetsSplitterState = sql::readSyncStatus("mainWidgetsSplitterState").toString().toLatin1();
+    if (!mainWidgetsSplitterState.isEmpty())
+        ui->mainWidgetsSplitter->restoreState(QByteArray::fromBase64(mainWidgetsSplitterState));
+
     //showWindow();
     edam->init();
 }
 
 void MainWindow::closeWindow()
 {
+    sql::updateSyncStatus("mainWindowGeometry", QString::fromLatin1(saveGeometry().toBase64()));
+    sql::updateSyncStatus("mainWidgetsSplitterState", QString::fromLatin1(ui->mainWidgetsSplitter->saveState().toBase64()));
+
     ui->actionClose->setDisabled(true);
     disconnect(EdamProtocol::GetInstance(), SIGNAL(syncFinished()), this, SLOT(syncFinished()));
 
@@ -412,7 +423,7 @@ void MainWindow::showWindow()
     loadAboutInfo();
 
     show();
-    qApp->setQuitOnLastWindowClosed(true);    
+    qApp->setQuitOnLastWindowClosed(true);
 
 }
 
