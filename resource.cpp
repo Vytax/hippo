@@ -2,14 +2,15 @@
 #include "sql.h"
 #include "freedesktopmime.h"
 #include "edamprotocol.h"
+#include "Logger.h"
+#include "error.h"
 
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QCryptographicHash>
 #include <QImageReader>
 #include <QFile>
 #include <QDir>
-
-#include <QDebug>
 
 Resource::Resource(QObject *parent) :
     QObject(parent)
@@ -22,8 +23,6 @@ Resource::Resource(QObject *parent) :
 Resource::Resource(QObject *parent, hash data):
         QObject(parent)
 {
-    qDebug() << "Resource" << data.keys();
-
     if (data.contains(1))
         guid = QString::fromUtf8(data[1].toByteArray());
 
@@ -68,8 +67,6 @@ Resource::Resource(QObject *parent, hash data):
     isNew = false;
 
     toSQL();
-
-    qDebug() << size << mime;
 }
 
 Resource* Resource::fromGUID(QString id) {
@@ -94,7 +91,8 @@ bool Resource::loadGuid(QString id) {
     QSqlQuery query;
     query.prepare("SELECT noteGuid, bodyHash, width, height, new, updateSequenceNum, size, mime, fileName, sourceURL, attachment FROM resources WHERE guid=:guid");
     query.bindValue(":guid", id);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (!query.next())
          return false;
@@ -119,7 +117,8 @@ bool Resource::loadHash(QString hash) {
     QSqlQuery query;
     query.prepare("SELECT noteGuid, guid, width, height, new, updateSequenceNum, size, mime, fileName, sourceURL, attachment FROM resources WHERE bodyHash=:bodyHash");
     query.bindValue(":bodyHash", hash);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (!query.next())
          return false;
@@ -158,13 +157,13 @@ QByteArray Resource::createGetContentPost()
 }
 
 void Resource::getContent(){
-    qDebug() << "Resource::getContent()";
+    LOG_INFO(QString("Fetching Resource Data (%1)").arg(guid));
 
     bool ok;
     QByteArray result = EdamProtocol::GetInstance()->getNetworkManager()->postData(EdamProtocol::GetInstance()->getNoteStoreUri(), createGetContentPost(), ok);
 
     if (!ok) {
-        qDebug() << "Net Error";
+        LOG_ERROR("NET ERROR");
         return;
     }
 
@@ -175,27 +174,14 @@ void Resource::getContent(){
     qint32 seqid;
     bin->readMessageBegin(name, messageType, seqid);
     if (messageType == T_EXCEPTION){
-        qDebug() << "Error:" << "checkVersion failed: unknown result";
+        LOG_ERROR("EDAM: fetchContent failed: unknown result");
         return;
     }
-    qDebug() << name << messageType << seqid;
 
     hash d = bin->readField();
 
     if (!d.contains(0)) {
-        if (d.contains(1)) {
-            hash d2 = d[1].value<hash>();
-            qDebug() << QString::fromUtf8(d2[1].toByteArray()) << QString::fromUtf8(d2[2].toByteArray());
-        }
-        if (d.contains(2)) {
-            hash d2 = d[2].value<hash>();
-            qDebug() << d2[1].toInt() << QString::fromUtf8(d2[2].toByteArray()) << d2[3].toInt();
-        }
-        if (d.contains(3)) {
-            hash d2 = d[3].value<hash>();
-            qDebug() << QString::fromUtf8(d2[1].toByteArray()) << QString::fromUtf8(d2[2].toByteArray());
-        }
-
+        Error::readExceptions(d);
         return;
     }
 
@@ -214,7 +200,6 @@ void Resource::getContent(){
 
 void Resource::toSQL()
 {
-    qDebug() << "toSQL()";
     QSqlQuery query;
 
     QString q("REPLACE INTO resources (guid, noteGuid, bodyHash, width, height, new, updateSequenceNum, size, mime, fileName, sourceURL, attachment)");
@@ -233,7 +218,8 @@ void Resource::toSQL()
     query.bindValue(":mime", mime);
     query.bindValue(":sourceURL", sourceURL);
     query.bindValue(":attachment", attachment);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (updateSequenceNum > 0)
         EdamProtocol::GetInstance()->getSyncEngine()->updateUSN(updateSequenceNum);
@@ -241,7 +227,6 @@ void Resource::toSQL()
 
 void Resource::toSQLData()
 {
-    qDebug() << "toSQLData()";
     QSqlQuery query;
 
     QString q("REPLACE INTO resourcesData (hash, data) ");
@@ -251,7 +236,8 @@ void Resource::toSQLData()
     query.bindValue(":hash", bodyHash);
     query.bindValue(":data", data);
 
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 }
 
 bool Resource::hasData()
@@ -259,7 +245,8 @@ bool Resource::hasData()
     QSqlQuery query;
     query.prepare("SELECT COUNT(*) FROM resourcesData WHERE hash=:hash");
     query.bindValue(":hash", bodyHash);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (query.next())
         return query.value(0).toInt() > 0;
@@ -271,7 +258,8 @@ QByteArray Resource::getData() {
     QSqlQuery query;
     query.prepare("SELECT data FROM resourcesData WHERE hash=:hash");
     query.bindValue(":hash", bodyHash);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
 
     if (query.next())
         return query.value(0).toByteArray();
@@ -288,7 +276,7 @@ bool Resource::create(QString file)
     if (!file.startsWith(QDir::tempPath(), Qt::CaseInsensitive)) {
         QFileInfo info(f);
         fileName = info.fileName();
-        qDebug() << "fileName" << info.fileName();
+        LOG_INFO(QString("New resource from file (%1)").arg(fileName));
     }
 
     size = f.size();
@@ -296,6 +284,8 @@ bool Resource::create(QString file)
     if (size > 15000000) {
         f.close();
         return false;
+    } else {
+        LOG_ERROR("Resource is too large.");
     }
 
     data = f.readAll();
