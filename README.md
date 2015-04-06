@@ -25,5 +25,7 @@ $ cd hippo
 $ qmake
 $ make</pre>
 
+##Note
+Some disturbutions might refer to qmake as qmake-qt4
 
 
