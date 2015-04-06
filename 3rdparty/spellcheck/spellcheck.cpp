@@ -21,8 +21,6 @@
 #include "spellcheck.h"
 #include "speller.h"
 
-#include <QDebug>
-
 SpellCheck::SpellCheck()
     : QWebSpellChecker()
     , m_speller(0)
@@ -54,8 +52,6 @@ void SpellCheck::ignoreWordInSpellDocument(const QString& word)
 void SpellCheck::checkSpellingOfString(const QString& word,
                                        int* misspellingLocation, int* misspellingLength)
 {
-    qDebug() << "checkSpellingOfString() " << word;
-
     if (misspellingLocation == NULL || misspellingLength == NULL || !m_speller) {
         return;
     }

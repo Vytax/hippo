@@ -16,6 +16,7 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 #include "speller.h"
+#include "Logger.h"
 
 #include <QStringList>
 #include <QTextCodec>
@@ -24,7 +25,6 @@
 #include <QRegExp>
 #include <QDir>
 #include <QDirIterator>
-#include <QDebug>
 
 #include <hunspell/hunspell.hxx>
 
@@ -37,7 +37,6 @@ SpellSettings::SpellSettings(QObject *parent): QObject(parent) {
 
 Speller::Speller(QObject *parent): QObject(parent)
 {
-    qDebug() << "new Speller()";
     s_hunspell = NULL;
     s_codec = 0;
 
@@ -84,7 +83,7 @@ void Speller::loadLanguage(QString lang) {
     QString affPath = m_dictionaryPath + lang + ".aff";
 
     if (!QFile(dicPath).exists() || !QFile(affPath).exists()) {
-        qWarning() << "SpellCheck: Initialization failed!";
+        LOG_WARNING("SpellCheck: Initialization failed!");
         return;
     }
 
@@ -99,8 +98,6 @@ void Speller::loadLanguage(QString lang) {
 
     s_codec = QTextCodec::codecForName(s_hunspell->get_dic_encoding());
     s_language = lang;
-
-    qDebug() << "SpellCheck: Language =" << language();
 }
 
 void Speller::setLanguage(QString lang) {
