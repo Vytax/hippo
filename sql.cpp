@@ -80,6 +80,11 @@ sql::~sql()
     db.close();
 }
 
+bool sql::test() {
+    QSqlQuery query;
+    return query.exec("SELECT * FROM syncStatus");
+}
+
 void sql::dropTables()
 {
     db.exec("DROP TABLE notes");
@@ -99,7 +104,9 @@ void sql::updateSyncStatus(QString key, QVariant value)
     query.prepare("REPLACE INTO syncStatus (option, value) VALUES (:key, :value)");
     query.bindValue(":key", key);
     query.bindValue(":value", value);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
+
 }
 
 QVariant sql::readSyncStatus(QString key, QVariant defaultValue)
@@ -107,7 +114,9 @@ QVariant sql::readSyncStatus(QString key, QVariant defaultValue)
     QSqlQuery query;
     query.prepare("SELECT value FROM syncStatus WHERE option=:key");
     query.bindValue(":key", key);
-    query.exec();
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
+
     if (query.next())
         return query.value(0);
 

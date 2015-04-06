@@ -1,11 +1,12 @@
 #include "edamprotocol.h"
 #include "qblowfish.h"
 #include "networkproxyfactory.h"
+#include "Logger.h"
 #include <QEventLoop>
 #include <QState>
 #include <QFinalState>
 #include <QStateMachine>
-#include <QDebug>
+#include <QMessageBox>
 
 EdamProtocol* EdamProtocol::m_Instance = NULL;
 
@@ -26,7 +27,20 @@ EdamProtocol::EdamProtocol(QObject *parent):
     userStoreUri = QUrl(QString("https://%1/edam/user").arg(evernoteHost));
 
     database = new sql(this);
+
     database->checkTables();
+
+    if (!database->test()) {
+        QString msg("SQLite database load failed!");
+
+        QMessageBox msgBox;
+        msgBox.setText(msg);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+
+        LOG_FATAL(msg);
+        return;
+    }
 
     NetworkProxyFactory::GetInstance()->loadSettings();
     nm = new NetManager(this);
@@ -63,8 +77,6 @@ void EdamProtocol::deleteInstance()
 
 void EdamProtocol::init()
 {
-    qDebug() << "init()";
-
     QState *s1 = new QState();
     QState *s2 = new QState();
     QState *s3 = new QState();
