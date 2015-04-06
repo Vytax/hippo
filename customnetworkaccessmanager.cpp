@@ -5,8 +5,6 @@
 
 #include <QNetworkProxy>
 
-#include <QDebug>
-
 CustomNetworkAccessManager::CustomNetworkAccessManager(QNetworkAccessManager *manager, QObject *parent, pdfCache* pdfc) :
     QNetworkAccessManager(parent), pdf(pdfc)
 {

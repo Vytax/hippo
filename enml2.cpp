@@ -1,6 +1,5 @@
 #include "enml2.h"
 
-#include <QDebug>
 #include <QFile>
 
 enml2::enml2(QObject *parent) :

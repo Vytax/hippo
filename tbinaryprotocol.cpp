@@ -1,6 +1,6 @@
 #include "tbinaryprotocol.h"
+#include "Logger.h"
 #include <QFile>
-#include <QDebug>
 
 TBinaryProtocol::TBinaryProtocol()
 {
@@ -108,7 +108,7 @@ void TBinaryProtocol::readMessageBegin(QString &name, TMessageType &messageType,
     if (sz < 0) {
         qint32 version = sz & VERSION_MASK;
         if (version != VERSION_1) {
-            qDebug() << "Error:" << "Bad version identifier";
+            LOG_ERROR("Bad version identifier");
             return;
         }
         messageType = (TMessageType)(sz & 0x000000ff);
@@ -234,7 +234,7 @@ QVariant TBinaryProtocol::readVariant(TType fieldType)
         return QVariant(readList());
     }
     else {
-        qDebug() << "Unknown Tag:" << fieldType;
+        LOG_ERROR(QString("Unknown Tag: %1").arg(fieldType));
         return QVariant();
     }
 }

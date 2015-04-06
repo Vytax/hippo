@@ -3,7 +3,6 @@
 #include "resource.h"
 #include "customwebpage.h"
 
-#include <QDebug>
 #include <QWebFrame>
 #include <QtSingleApplication>
 #include <QDir>
@@ -30,7 +29,6 @@ void CustomWebView::dragMoveEvent(QDragMoveEvent *event) {
 
     if (JS("editMode").toBool()) {
         if (event->mimeData()->hasUrls()) {
-            qDebug() << event->mimeData()->urls();
             if (event->mimeData()->urls().size() == 1) {
                 QUrl url = event->mimeData()->urls().at(0);
                 if (url.isLocalFile()) {
@@ -55,7 +53,6 @@ void CustomWebView::dragMoveEvent(QDragMoveEvent *event) {
 void CustomWebView::dropEvent(QDropEvent * event) {
     if (JS("editMode").toBool()) {
         if (event->mimeData()->hasUrls()) {
-            qDebug() << event->mimeData()->urls();
             if (event->mimeData()->urls().size() == 1) {
                 QUrl url = event->mimeData()->urls().at(0);
                 if (url.isLocalFile()) {

@@ -2,7 +2,7 @@
 #include "sql.h"
 
 #include <QWebFrame>
-#include <QDebug>
+#include <QLocale>
 
 DBSpellSettings::DBSpellSettings(QObject *parent, QWebView *editor) : SpellSettings(parent), m_editor(editor)
 {
