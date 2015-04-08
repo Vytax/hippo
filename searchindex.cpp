@@ -40,8 +40,10 @@ QStringList SearchIndex::getUnindexedNotesList() {
 
     QStringList result;
     QSqlQuery query;
+    query.prepare("SELECT notes.guid FROM notes LEFT JOIN noteIndexGUIDs ON notes.guid = noteIndexGUIDs.guid WHERE notes.active=:active AND (noteIndexGUIDs.docid IS NULL OR noteIndexGUIDs.docid=0)");
+    query.bindValue(":active", true);
 
-    if (!query.exec("SELECT notes.guid FROM notes LEFT JOIN noteIndexGUIDs ON notes.guid = noteIndexGUIDs.guid WHERE notes.active='true' AND (noteIndexGUIDs.docid IS NULL OR noteIndexGUIDs.docid=0)"))
+    if (!query.exec())
         LOG_ERROR("SQL: " + query.lastError().text());
 
     while (query.next())

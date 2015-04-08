@@ -252,7 +252,9 @@ QStringList SearchQueryParser::getAllNotes() {
     QStringList guids;
 
     QSqlQuery sql;
-    if (!sql.exec("SELECT guid FROM notes WHERE active='true';"))
+    sql.prepare("SELECT guid FROM notes WHERE active=:active");
+    sql.bindValue(":active", true);
+    if (!sql.exec())
         LOG_ERROR("SQL: " + sql.lastError().text());
 
     while (sql.next())

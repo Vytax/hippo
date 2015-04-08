@@ -127,6 +127,8 @@ void sql::checkTables()
 {
     migrate();
 
+    QSqlQuery query;
+
     QString notesTable("CREATE TABLE notes ( ");
     notesTable +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
     notesTable +="title TEXT, ";
@@ -139,7 +141,8 @@ void sql::checkTables()
     notesTable +="notebookGuid VARCHAR(36) NOT NULL";
     notesTable +=")";
     if (!db.tables().contains("notes"))
-        db.exec(notesTable);
+        if (!query.exec(notesTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString conflictingNotes("CREATE TABLE conflictingNotes ( ");
     conflictingNotes +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
@@ -147,7 +150,8 @@ void sql::checkTables()
     conflictingNotes +="updated UNSIGNED BIG INT DEFAULT 0 ";
     conflictingNotes +=")";
     if (!db.tables().contains("conflictingNotes"))
-        db.exec(conflictingNotes);
+        if (!query.exec(conflictingNotes))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString notesContent("CREATE TABLE notesContent ( ");
     notesContent +="hash VARCHAR(32) NOT NULL PRIMARY KEY,";
@@ -155,7 +159,8 @@ void sql::checkTables()
     notesContent +="length INTEGER DEFAULT 0";
     notesContent +=")";
     if (!db.tables().contains("notesContent"))
-        db.exec(notesContent);
+        if (!query.exec(notesContent))
+                LOG_ERROR("SQL: " + query.lastError().text());
 
     QString notesTagsTable("CREATE TABLE notesTags ( ");
     notesTagsTable +="id INTEGER PRIMARY KEY AUTOINCREMENT, ";
@@ -163,7 +168,8 @@ void sql::checkTables()
     notesTagsTable +="guid VARCHAR(36) NOT NULL,";
     notesTagsTable +="UNIQUE(noteGuid, guid) ON CONFLICT REPLACE )";
     if (!db.tables().contains("notesTags"))
-        db.exec(notesTagsTable);
+        if (!query.exec(notesTagsTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString notebooksTable("CREATE TABLE notebooks ( ");
     notebooksTable +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
@@ -174,7 +180,8 @@ void sql::checkTables()
     notebooksTable +="serviceUpdated UNSIGNED BIG INT DEFAULT 0, ";
     notebooksTable +="stack TEXT )";
     if (!db.tables().contains("notebooks"))
-        db.exec(notebooksTable);
+        if (!query.exec(notebooksTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString tagsTable("CREATE TABLE tags ( ");
     tagsTable +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
@@ -182,7 +189,8 @@ void sql::checkTables()
     tagsTable +="parentGuid VARCHAR(36), ";
     tagsTable +="updateSequenceNum INTEGER DEFAULT -1 )";
     if (!db.tables().contains("tags"))
-        db.exec(tagsTable);
+        if (!query.exec(tagsTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString resourcesTable("CREATE TABLE resources ( ");
     resourcesTable +="guid VARCHAR(36) NOT NULL PRIMARY KEY, ";
@@ -199,19 +207,22 @@ void sql::checkTables()
     resourcesTable +="attachment BOOLEAN DEFAULT FALSE, ";
     resourcesTable +="UNIQUE(noteGuid, bodyHash) ON CONFLICT REPLACE )";
     if (!db.tables().contains("resources"))
-        db.exec(resourcesTable);
+        if (!query.exec(resourcesTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString dataTable("CREATE TABLE resourcesData ( ");
     dataTable +="hash VARCHAR(32) NOT NULL PRIMARY KEY, ";
     dataTable +="data BLOB)";
     if (!db.tables().contains("resourcesData"))
-        db.exec(dataTable);
+        if (!query.exec(dataTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString syncStatusTable("CREATE TABLE syncStatus ( ");
     syncStatusTable +="option TEXT NOT NULL PRIMARY KEY, ";
     syncStatusTable +="value UNSIGNED BIG INT DEFAULT 0 )";
     if (!db.tables().contains("syncStatus"))
-        db.exec(syncStatusTable);
+        if (!query.exec(syncStatusTable))
+            LOG_ERROR("SQL: " + query.lastError().text());
 
     QString noteUpdates("CREATE TABLE noteUpdates ( ");
     noteUpdates += "id INTEGER PRIMARY KEY AUTOINCREMENT, ";
@@ -219,7 +230,8 @@ void sql::checkTables()
     noteUpdates += "field INT DEFAULT 0,";
     noteUpdates += "UNIQUE(guid, field) ON CONFLICT REPLACE )";
     if (!db.tables().contains("noteUpdates")) {
-        db.exec(noteUpdates);
+        if (!query.exec(noteUpdates))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
     QString noteAttributes("CREATE TABLE noteAttributes ( ");
@@ -229,7 +241,8 @@ void sql::checkTables()
     noteAttributes += "value TEXT,";
     noteAttributes += "UNIQUE(noteGuid, field) ON CONFLICT REPLACE )";
     if (!db.tables().contains("noteAttributes")) {
-        db.exec(noteAttributes);
+        if (!query.exec(noteAttributes))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
     QString tagsUpdates("CREATE TABLE tagsUpdates ( ");
@@ -238,7 +251,8 @@ void sql::checkTables()
     tagsUpdates += "field INT DEFAULT 0,";
     tagsUpdates += "UNIQUE(guid, field) ON CONFLICT REPLACE )";
     if (!db.tables().contains("tagsUpdates")) {
-        db.exec(tagsUpdates);
+        if (!query.exec(tagsUpdates))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
     QString notebookUpdates("CREATE TABLE notebookUpdates ( ");
@@ -247,17 +261,20 @@ void sql::checkTables()
     notebookUpdates += "field INT DEFAULT 0,";
     notebookUpdates += "UNIQUE(guid, field) ON CONFLICT REPLACE )";
     if (!db.tables().contains("notebookUpdates")) {
-        db.exec(notebookUpdates);
+        if (!query.exec(notebookUpdates))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
     QString noteIndex("CREATE VIRTUAL TABLE noteIndex USING fts3(title, content, tags, notebook);");
     if (!db.tables().contains("noteIndex")) {
-        db.exec(noteIndex);
+        if (!query.exec(noteIndex))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
     QString noteIndexGUIDs("CREATE TABLE noteIndexGUIDs (docid INTEGER PRIMARY KEY, guid VARCHAR(36) NOT NULL);");
     if (!db.tables().contains("noteIndexGUIDs")) {
-        db.exec(noteIndexGUIDs);
+        if (!query.exec(noteIndexGUIDs))
+            LOG_ERROR("SQL: " + query.lastError().text());
     }
 
 }
