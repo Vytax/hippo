@@ -115,9 +115,10 @@ void EdamProtocol::readLoginData() {
     noteStoreUri = sql::readSyncStatus("edam_noteStoreUrl").toUrl();
     expiration = QDateTime::fromMSecsSinceEpoch(sql::readSyncStatus("edam_expires").toLongLong());
 
-    if (authenticated())
+    if (authenticated()) {
         emit p_logged_in();
-    else
+        LOG_INFO("Authenticating user: " + sql::readSyncStatus("user.username").toString());
+    } else
         emit p_need_login();
 }
 

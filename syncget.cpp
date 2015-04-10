@@ -91,8 +91,7 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 
     if (SyncChunk.contains(4)){
         list l = SyncChunk[4].toList();
-        for (int i = 0; i< l.size(); i++){
-            LOG_INFO("Note received");
+        for (int i = 0; i< l.size(); i++){           
             hash n = l.at(i).value<hash>();
 
             Note *note = new Note(this);
@@ -115,6 +114,7 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
                 qint32 usn = 0;                
                 if (n.contains(10))
                     usn = n[10].toInt();
+                Q_UNUSED(usn);
 
                 if (modifiedFields.contains(Note::T_CONTENT) && n.contains(4)) {
                     QString contentHash = n[4].toByteArray().toHex();
@@ -162,6 +162,9 @@ void SyncGet::GetSyncChunk(qint32 &afterUSN, bool &lastChunk)
 
             if (!n.isEmpty()){
                 note->loadFromData(n);
+                
+                LOG_INFO(QString("Updating local note \"%1\"").arg(note->getTitle()));
+                LOG_INFO(QString("* guid={%1}").arg(note->getGuid()));
 
                 note->writeSQL();
                 note->writeSQLtags();
@@ -317,10 +320,12 @@ void SyncGet::sync()
         fullSync = true;
     }
 
-    if ((EdamProtocol::GetInstance()->getSyncEngine()->getUSN() >= lastUpdateCount))
-        return;
-
     firstUSN = EdamProtocol::GetInstance()->getSyncEngine()->getUSN();
+
+    LOG_INFO(QString("Client updateCount=%1 server updateCount=%2").arg(firstUSN).arg(lastUpdateCount));
+
+    if (firstUSN >= lastUpdateCount)
+        return;
 
     updatesCount = lastUpdateCount - firstUSN;
 

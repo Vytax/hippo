@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     Logger::globalInstance()->registerAppender(fileAppender);
 
     LOG_INFO("Starting the application");
+    LOG_INFO("Qt Version: " + QString(qVersion()));
 
     if (app.isRunning())
              return 0;

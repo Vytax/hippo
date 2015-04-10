@@ -70,9 +70,13 @@ sql::sql(QObject *parent) :
         LOG_ERROR("DB driver load failed.");
         return;
     }
-    db.setDatabaseName(dataDir + QDir::separator() + "db.sql");
+
+    QString dbFile = dataDir + QDir::separator() + "db.sql";
+    db.setDatabaseName(dbFile);
     if (!db.open())
         LOG_ERROR("DB load failed.");
+
+    LOG_INFO("Opened database: " + dbFile);
 }
 
 sql::~sql()

@@ -16,8 +16,6 @@ jsB.insertToDo.connect(insertToDo);
 jsB.titleChanged.connect(modifyTitle);
 
 function setup() {
-    jsB.debug('setup()');
-
     $('body').observe('input', input);    
 }
 
