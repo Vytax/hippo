@@ -73,13 +73,62 @@ void Note::loadFromData(hash data)
 
 void Note::readAttributes(hash data)
 {
-    if (data.contains(13)) {
-        attributes["author"] = data[13].toString();
-    }
+    if (data.contains(1))
+        attributes["subjectDate"] = data[1];
 
-    if (data.contains(15)) {
-        attributes["sourceURL"] = data[15].toString();
-    }
+    if (data.contains(10))
+        attributes["latitude"] = data[10];
+
+    if (data.contains(11))
+        attributes["longitude"] = data[11];
+
+    if (data.contains(12))
+        attributes["altitude"] = data[12];
+
+    if (data.contains(13))
+        attributes["author"] = data[13];
+
+    if (data.contains(14))
+        attributes["sourceURL"] = data[14];
+
+    if (data.contains(15))
+        attributes["sourceURL"] = data[15];
+
+    if (data.contains(16))
+        attributes["sourceApplication"] = data[16];
+
+    if (data.contains(17))
+        attributes["shareDate"] = data[17];
+
+    if (data.contains(18))
+        attributes["reminderOrder"] = data[18];
+
+    if (data.contains(19))
+        attributes["reminderDoneTime"] = data[19];
+
+    if (data.contains(20))
+        attributes["reminderTime"] = data[20];
+
+    if (data.contains(21))
+        attributes["placeName"] = data[21];
+
+    if (data.contains(22))
+        attributes["contentClass"] = data[22];
+
+    if (data.contains(23))
+        attributes["applicationData"] = data[23];
+
+    if (data.contains(24))
+        attributes["lastEditedBy"] = data[24];
+
+    if (data.contains(25))
+        attributes["classifications"] = data[25];
+
+    if (data.contains(27))
+        attributes["creatorId"] = data[27];
+
+    if (data.contains(28))
+        attributes["lastEditorId"] = data[28];
 }
 
 bool Note::loadFromSQL(QString id)
