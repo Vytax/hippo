@@ -718,6 +718,7 @@ void MainWindow::loadSelectionState(bool selectNote) {
     array.append("selNotebook");
     array.append("selTag");
     array.append("selSearch");
+    array.append("selReminders");
     array.move(tab, array.size()-1);
 
     for (int i = 0; i< array.size(); i++) {
@@ -780,6 +781,8 @@ void MainWindow::changeTab(int index) {
         switchNotebook();
     else if (index == 1)
         switchTag();
+    else if (index == 3)
+        switchReminders();
 }
 
 void MainWindow::linkHovered(QString link, QString title, QString textContent) {
@@ -1399,4 +1402,24 @@ void MainWindow::search() {
 
     ui->NotesList->switchSearch(guids, getCurrentNoteGuid());
     ui->statusbar->showMessage(QString("%1 results found").arg(guids.count()), 5000);
+}
+
+void MainWindow::switchReminders() {
+
+    QSqlQuery query;
+    query.prepare("SELECT noteGuid FROM noteAttributes WHERE field=:field");
+    query.bindValue(":field", "reminderOrder");
+    if (!query.exec())
+        LOG_ERROR("SQL: " + query.lastError().text());
+
+    QStringList guids;
+
+    while (query.next()) {
+        guids.append(query.value(0).toString());
+    }
+
+    if (guids.isEmpty())
+        return;
+
+    ui->NotesList->switchSearch(guids, getCurrentNoteGuid());
 }

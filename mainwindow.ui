@@ -56,7 +56,7 @@
              <x>0</x>
              <y>0</y>
              <width>191</width>
-             <height>433</height>
+             <height>403</height>
             </rect>
            </property>
            <property name="dragEnabled">
@@ -83,7 +83,7 @@
              <x>0</x>
              <y>0</y>
              <width>191</width>
-             <height>433</height>
+             <height>403</height>
             </rect>
            </property>
            <property name="headerHidden">
@@ -104,7 +104,7 @@
              <x>0</x>
              <y>0</y>
              <width>191</width>
-             <height>433</height>
+             <height>403</height>
             </rect>
            </property>
            <attribute name="label">
@@ -135,6 +135,12 @@
              </spacer>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="reminders">
+           <attribute name="label">
+            <string>Reminders</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_3"></layout>
           </widget>
          </widget>
         </item>

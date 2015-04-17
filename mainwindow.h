@@ -104,6 +104,7 @@ private slots:
     void showOptions();
     void enableSystemTrayIcon(bool state);
     void search();
+    void switchReminders();
 
 signals:
     void editButtonsStateChanged(bool enabled);
