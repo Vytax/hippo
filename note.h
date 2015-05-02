@@ -198,6 +198,8 @@ public:
     void updateSourceURL(QString url);
     QString getAuthor();
     void updateAuthor(QString author);
+    QDateTime getReminderOrder();
+    void updateReminderOrder(QDateTime dateTime = QDateTime());
 
     enum NoteField {
         T_NEW = 0,

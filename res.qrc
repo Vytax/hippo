@@ -22,5 +22,6 @@
         <file>img/sync.png</file>
         <file>img/hippo.svg</file>
         <file>img/hippo64.png</file>
+        <file>img/reminder.png</file>
     </qresource>
 </RCC>

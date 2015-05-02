@@ -868,3 +868,31 @@ void Note::writeConflict(QString id, QString hash, qint64 updatedT) {
     if (!query.exec())
         LOG_ERROR("SQL: " + query.lastError().text());
 }
+
+QDateTime Note::getReminderOrder() {
+
+    if (attributes.isEmpty())
+        loadAttributesSQL();
+
+    if (attributes.contains("reminderOrder"))
+        return QDateTime::fromMSecsSinceEpoch(attributes["reminderOrder"].toLongLong());
+
+    return QDateTime();
+}
+
+void Note::updateReminderOrder(QDateTime dateTime) {
+    loadAttributesSQL();
+
+    qlonglong dtime = dateTime.toMSecsSinceEpoch();
+
+    if (attributes["reminderOrder"].toLongLong() == dtime)
+        return;
+
+    if (dateTime.isNull())
+        attributes.remove("reminderOrder");
+    else
+        attributes["reminderOrder"] = dtime;
+
+    editField(T_ATTRIBUTES);
+    writeSQLAttributes();
+}

@@ -5,6 +5,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QDateTimeEdit>
 
 class NoteInfoDialog : public QDialog
 {
@@ -23,6 +24,7 @@ private:
 
     QLineEdit *url;
     QLineEdit *author;
+    QDateTimeEdit *reminderEdit;
 
 };
 
