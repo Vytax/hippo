@@ -14,7 +14,7 @@ const QString EdamProtocol::consumerKey = QString("vmickus");
 const QString EdamProtocol::consumerSecret = QString("dbf6954858e2cd55");
 
 
-const QString EdamProtocol::evernoteHost = QString("www.evernote.com");
+const QString EdamProtocol::evernoteHost = QString(qgetenv("EVERNOTEHOST"));//"app.yinxiang.com");
 //const QString EdamProtocol::evernoteHost = QString("sandbox.evernote.com");
 const QString EdamProtocol::secret = QString("7e00dc7d49772ca771a844b4561b26a1");
 
