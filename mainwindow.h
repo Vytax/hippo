@@ -14,6 +14,9 @@
 #include "enml2.h"
 #include "taglabel.h"
 #include "searchindex.h"
+#include "logdialog.h"
+
+#include <SignalAppender.h>
 
 
 namespace Ui {
@@ -52,6 +55,8 @@ private:
     TagLabel *newTag;
     QIcon appIcon;
     SearchIndex *searchIndex;
+    LogDialog *logDialog;
+    SignalAppender *m_signal_appender;
 
 private slots:
     void closeWindow();
@@ -105,6 +110,7 @@ private slots:
     void enableSystemTrayIcon(bool state);
     void search();
     void switchReminders();
+    void viewLog();
 
 signals:
     void editButtonsStateChanged(bool enabled);

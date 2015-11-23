@@ -71,7 +71,8 @@ SOURCES += main.cpp \
     networkproxyfactory.cpp \
     searchindex.cpp \
     searchqueryparser.cpp \
-    error.cpp
+    error.cpp \
+    logdialog.cpp
 HEADERS += tbinaryprotocol.h \
     edamprotocol.h \
     notebook.h \
@@ -112,7 +113,8 @@ HEADERS += tbinaryprotocol.h \
     networkproxyfactory.h \
     searchindex.h \
     searchqueryparser.h \
-    error.h
+    error.h \
+    logdialog.h
 OBJECTS_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
@@ -122,7 +124,8 @@ FORMS += \
     mainwindow.ui \
     userinfo.ui \
     insertimage.ui \
-    optionsdialog.ui
+    optionsdialog.ui \
+    logdialog.ui
 
 RESOURCES += \
     res.qrc

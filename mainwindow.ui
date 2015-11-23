@@ -82,8 +82,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>191</width>
-             <height>403</height>
+             <width>83</width>
+             <height>76</height>
             </rect>
            </property>
            <property name="headerHidden">
@@ -103,8 +103,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>191</width>
-             <height>403</height>
+             <width>83</width>
+             <height>69</height>
             </rect>
            </property>
            <attribute name="label">
@@ -137,10 +137,18 @@
            </layout>
           </widget>
           <widget class="QWidget" name="reminders">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>100</width>
+             <height>30</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string>Reminders</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_3"></layout>
+           <layout class="QVBoxLayout" name="verticalLayout_3"/>
           </widget>
          </widget>
         </item>
@@ -285,6 +293,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_Abaut"/>
+    <addaction name="actionView_Log"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -427,6 +436,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionView_Log">
+   <property name="text">
+    <string>View Log</string>
    </property>
   </action>
  </widget>

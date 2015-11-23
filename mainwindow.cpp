@@ -49,9 +49,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    m_signal_appender = new SignalAppender();
+    m_signal_appender->setFormat(QLatin1String("%{time}{yyyy-MM-ddTHH:mm:ss.zzz} [%{type:-7}] <%{function}> %{message}"));
+    Logger::globalInstance()->registerAppender(m_signal_appender);
+
     EdamProtocol *edam = EdamProtocol::GetInstance();
 
     ui->setupUi(this);
+    logDialog = NULL;
 
     pdfCache * pdf = new pdfCache(this);
 
@@ -139,6 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportNote()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(this, SIGNAL(titleChanged(QString,QString)), jsB, SIGNAL(titleChanged(QString,QString)));
+    connect(ui->actionView_Log, SIGNAL(triggered()), this, SLOT(viewLog()));
 
 
     setWindowIcon(appIcon);
@@ -1422,4 +1429,14 @@ void MainWindow::switchReminders() {
         return;
 
     ui->NotesList->switchSearch(guids, getCurrentNoteGuid());
+}
+
+void MainWindow::viewLog() {
+
+    if (logDialog == NULL) {
+        logDialog = new LogDialog(this);
+        connect(m_signal_appender, SIGNAL(log_message(QString)), logDialog, SLOT(appendMessage(QString)));
+    }
+
+    logDialog->show();
 }
