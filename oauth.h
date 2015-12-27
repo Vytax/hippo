@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QUrl>
 #include <QWebView>
+#include <QProgressBar>
 
 typedef QHash<QString, QString> Arr;
 
@@ -20,6 +21,8 @@ public:
 signals:
     void p_oauth_verifier_received();
     void p_finished();
+    void p_setup_finished();
+    void p_restart();
 
 private:
     void parseReply(QString str);
@@ -28,11 +31,16 @@ private:
     NetDownloadState *get_oauth_token_state;
     NetDownloadState *get_credentials_state;
     QWebView *web;
+    QProgressBar *progres;
 
 private slots:
     void parse_outh_token();
     void parse_credentials();
     void urlChange(QUrl url);
+    void htmlLoaded();
+    void openURL(QUrl url);
+    void openNetworkSettings();
+    void setup_oauth();
 };
 
 #endif // OAUTH_H
