@@ -41,10 +41,10 @@ public:
     CustomNetworkAccessManager *getCNAM();
     bool authenticated();
     void setSyncInterval(int min);
+    static QString evernoteHost();
 
     static const QString consumerKey;
     static const QString consumerSecret;
-    static const QString evernoteHost;
     static const QString secret;
 
 public slots:

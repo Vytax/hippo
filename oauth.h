@@ -41,6 +41,7 @@ private slots:
     void openURL(QUrl url);
     void openNetworkSettings();
     void setup_oauth();
+    void changeServer(QString hostName);
 };
 
 #endif // OAUTH_H

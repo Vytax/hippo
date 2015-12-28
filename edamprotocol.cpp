@@ -12,19 +12,13 @@ EdamProtocol* EdamProtocol::m_Instance = NULL;
 
 const QString EdamProtocol::consumerKey = QString("vmickus");
 const QString EdamProtocol::consumerSecret = QString("dbf6954858e2cd55");
-
-
-const QString EdamProtocol::evernoteHost = QString("www.evernote.com");
-//const QString EdamProtocol::evernoteHost = QString("sandbox.evernote.com");
 const QString EdamProtocol::secret = QString("7e00dc7d49772ca771a844b4561b26a1");
 
 EdamProtocol::EdamProtocol(QObject *parent):
     QObject(parent)
 {
     login = NULL;
-    syncDisabled = false;
-
-    userStoreUri = QUrl(QString("https://%1/edam/user").arg(evernoteHost));
+    syncDisabled = false;    
 
     database = new sql(this);
 
@@ -41,6 +35,8 @@ EdamProtocol::EdamProtocol(QObject *parent):
         LOG_FATAL(msg);
         return;
     }
+
+    userStoreUri = QUrl(QString("https://%1/edam/user").arg(evernoteHost()));
 
     NetworkProxyFactory::GetInstance()->loadSettings();
     nm = new NetManager(this);
@@ -59,6 +55,12 @@ EdamProtocol::EdamProtocol(QObject *parent):
     connect(timer, SIGNAL(timeout()), this, SLOT(sync()));
     connect(s, SIGNAL(noteUpdated(QString)), this, SIGNAL(noteUpdated(QString)));
 }
+
+QString EdamProtocol::evernoteHost()
+{
+    return sql::readSyncStatus("evernoteServer", "www.evernote.com").toString();
+}
+
 
 EdamProtocol* EdamProtocol::GetInstance()
 {

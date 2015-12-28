@@ -5,12 +5,13 @@
 #include <Logger.h>
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QComboBox>
 #include <QEventLoop>
 #include <QWebFrame>
 #include <QTimer>
 #include <QState>
 #include <QFinalState>
-#include <QDialogButtonBox>
 #include <QApplication>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -47,10 +48,26 @@ oauth::oauth(QWidget *parent) :
     connect(web, SIGNAL(loadProgress(int)), progres, SLOT(setValue(int)));
     connect(web->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(openURL(QUrl)));
 
-    QDialogButtonBox *buttons = new QDialogButtonBox(this);
-    QPushButton *netSettings = buttons->addButton("Network Settings", QDialogButtonBox::ApplyRole);
+    layout->addStretch();
+
+    QHBoxLayout* buttonsLayout = new QHBoxLayout(this);
+    layout->addLayout(buttonsLayout);
+
+    QStringList servers;
+    servers << "www.evernote.com";
+    servers << "app.yinxiang.com";
+
+    QComboBox* server = new QComboBox(this);
+    server->addItems(servers);
+    server->setCurrentIndex(servers.indexOf(sql::readSyncStatus("evernoteServer", servers[0]).toString()));
+    buttonsLayout->addWidget(server);
+    connect(server, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeServer(QString)));
+
+    buttonsLayout->addStretch();
+
+    QPushButton *netSettings = new QPushButton("Network Settings", this);
     connect(netSettings, SIGNAL(clicked()), this, SLOT(openNetworkSettings()));
-    layout->addWidget(buttons);
+    buttonsLayout->addWidget(netSettings);
 
     get_oauth_token_state = new NetDownloadState();    
     get_credentials_state = new NetDownloadState();
@@ -101,7 +118,7 @@ void oauth::setup_oauth() {
     qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch();
     QString nounce = QString::number(qrand());
 
-    data["queryUrl"] = "https://" + EdamProtocol::evernoteHost + "/oauth?oauth_consumer_key=" + EdamProtocol::consumerKey
+    data["queryUrl"] = "https://" + EdamProtocol::evernoteHost() + "/oauth?oauth_consumer_key=" + EdamProtocol::consumerKey
             + "&oauth_signature=" + EdamProtocol::consumerSecret + "%26&oauth_signature_method=PLAINTEXT&oauth_timestamp="
             + QString::number(time) + "&oauth_nonce=" + nounce;
 
@@ -126,7 +143,7 @@ void oauth::parse_outh_token() {
     connect(web, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChange(QUrl)));
     connect(web, SIGNAL(loadFinished(bool)), this, SLOT(htmlLoaded()));
 
-    web->load(QUrl("https://" + EdamProtocol::evernoteHost + "/OAuth.action?oauth_token=" + data["oauth_token"]));
+    web->load(QUrl("https://" + EdamProtocol::evernoteHost() + "/OAuth.action?oauth_token=" + data["oauth_token"]));
 
 }
 
@@ -213,4 +230,9 @@ void oauth::openNetworkSettings() {
     dialog->selectTabByName("network");
     connect(dialog, SIGNAL(accepted()), this, SIGNAL(p_restart()));
     dialog->show();
+}
+
+void oauth::changeServer(QString hostName) {
+    sql::updateSyncStatus("evernoteServer", hostName);
+    emit p_restart();
 }
