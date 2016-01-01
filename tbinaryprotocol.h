@@ -83,6 +83,7 @@ private:
     double readDouble();
     list readList();
     QVariant readVariant(TType fieldType);
+    QMap<QString, QVariant> readMap();
 };
 
 #endif // TBINARYPROTOCOL_H

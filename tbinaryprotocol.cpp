@@ -233,6 +233,9 @@ QVariant TBinaryProtocol::readVariant(TType fieldType)
     else if (fieldType == T_SET) {
         return QVariant(readList());
     }
+    else if (fieldType == T_MAP) {
+        return QVariant(readMap());
+    }
     else {
         LOG_ERROR(QString("Unknown Tag: %1").arg(fieldType));
         return QVariant();
@@ -256,6 +259,25 @@ hash TBinaryProtocol::readField()
         else
             break;
     }    
+    return result;
+}
+
+QMap<QString, QVariant> TBinaryProtocol::readMap() {
+    QMap<QString, QVariant> result;
+
+    qint8 ktype, vtype;
+    *stream >> ktype;
+    *stream >> vtype;
+
+    qint32 size;
+    *stream >> size;
+
+    for (int i=0; i<size; i++) {
+        QVariant key = readVariant((TType)ktype);
+        QVariant val = readVariant((TType)vtype);
+        result[key.toString()] = val;
+    }
+
     return result;
 }
 
