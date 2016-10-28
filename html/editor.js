@@ -385,7 +385,13 @@ function insertToDo() {
     document.execCommand('insertHTML',false,'<input type="checkbox"/>');
 }
 function loadToDo(item, html) {
-    var value = item.getAttribute('checked').toLowerCase();
+    var value = item.getAttribute('checked');
+    // true, false or absent (the same as false)
+    if (value != null) {
+       value = value.toLowerCase();
+    } else {
+       value = 'false';
+    }
 
     var checkbox = new Element('input', {'type': 'checkbox'});
     if (value === 'true')
@@ -394,6 +400,7 @@ function loadToDo(item, html) {
         checkbox.writeAttribute('disabled', 'true');
 
     html.appendChild(checkbox);
+
     checkbox.observe('click', function(event){contentModified = true;});
 }
 function getWordAtPoint(elem, x, y) {
