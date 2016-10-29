@@ -180,18 +180,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->editBar->addWidget(fontSize);
 
     QAction *boldIco = ui->editor->pageAction(QWebPage::ToggleBold);
+    boldIco->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_B));
     boldIco->setIcon(QIcon::fromTheme("format-text-bold"));
     ui->editBar->addAction(boldIco);
 
     QAction *italicIco = ui->editor->pageAction(QWebPage::ToggleItalic);
+    italicIco->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
     italicIco->setIcon(QIcon::fromTheme("format-text-italic"));
     ui->editBar->addAction(italicIco);
 
     QAction *underlineIco = ui->editor->pageAction(QWebPage::ToggleUnderline);
+    underlineIco->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
     underlineIco->setIcon(QIcon::fromTheme("format-text-underline"));
     ui->editBar->addAction(underlineIco);
 
     QAction *strikethroughIco = ui->editor->pageAction(QWebPage::ToggleStrikethrough);
+    strikethroughIco->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
     strikethroughIco->setIcon(QIcon::fromTheme("format-text-strikethrough"));
     ui->editBar->addAction(strikethroughIco);
 
@@ -298,6 +302,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menu_Edit->addAction(insertUrlIco);
 
     QAction *todoIco = new QAction("Insert To-do Checkbox", this);
+    todoIco->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C));
     todoIco->setIcon(QIcon::fromTheme("checkbox"));
     todoIco->setDisabled(true);
     connect(this, SIGNAL(editButtonsStateChanged(bool)), todoIco, SLOT(setEnabled(bool)));
