@@ -484,7 +484,7 @@ function parseHTML(node) {
             enmlWritter.writeText(child.data);
         } else if (child.nodeType === 1) {
             var nodeName = child.tagName.toLowerCase();
-            if (nodeName === 'article')
+            if (nodeName === 'article' || nodeName === 'section')
                 nodeName = 'div';
 
             if ((nodeName == 'input') && (child.type == 'checkbox')) {
