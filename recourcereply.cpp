@@ -1,7 +1,7 @@
 #include "recourcereply.h"
 #include "resource.h"
 
-#include <QtConcurrentRun>
+#include <QMetaObject>
 
 #include <QDebug>
 
@@ -17,17 +17,19 @@ RecourceReply::RecourceReply(QObject* parent, const QNetworkRequest& request) :
     if (hash.isEmpty())
         return;
 
-    watcher = new QFutureWatcher<resource>(this);
-    connect(watcher, SIGNAL(finished()), SLOT(loadDone()));
-    QFuture<resource> future = QtConcurrent::run<resource>(load, hash);
-    watcher->setFuture(future);
-
+    Resource *res = Resource::fromHash(hash);
+    if (res != NULL) {
+        offset = 0;
+        m_buffer = res->getData();
+        setHeader(QNetworkRequest::ContentTypeHeader, res->mimeType());
+        setHeader(QNetworkRequest::ContentLengthHeader, m_buffer.size());
+    }
+    delete res;
+    QMetaObject::invokeMethod(this, "loadDone", Qt::QueuedConnection);
 }
 
 RecourceReply::~RecourceReply()
 {
-    watcher->cancel();
-    watcher->waitForFinished();
 }
 
 qint64 RecourceReply::bytesAvailable() const
@@ -52,28 +54,8 @@ void RecourceReply::abort()
     offset = 0;
 }
 
-resource RecourceReply::load(const QString hash)
-{
-    resource r;
-
-    Resource *res = Resource::fromHash(hash);
-
-    if (res != NULL) {
-        r.mime = res->mimeType();
-        r.data = res->getData();
-        delete res;
-    }
-    return r;
-}
-
 void RecourceReply::loadDone()
 {
-    offset = 0;
-    m_buffer = watcher->result().data;
-
-    setHeader(QNetworkRequest::ContentTypeHeader, watcher->result().mime);
-    setHeader(QNetworkRequest::ContentLengthHeader, m_buffer.size());
-
     emit readyRead();
     emit finished();
 }
